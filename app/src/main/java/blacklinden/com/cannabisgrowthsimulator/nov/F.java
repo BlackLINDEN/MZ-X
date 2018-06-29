@@ -39,7 +39,7 @@ public class F extends Növény {
     public void élet() {
 
         ép+=Kender.cukrozó(1f);
-        hossz();
+        hossz();//
         fejl();
     }
 
