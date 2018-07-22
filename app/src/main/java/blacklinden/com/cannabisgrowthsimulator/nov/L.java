@@ -30,7 +30,7 @@ public class L extends Növény {
 
     @Override
     public void élet() {
-        ép+=Kender.cukrozó(1);
+        ép+=Kender.getInstance().cukrozó(1);
         szín();
         szög();
         hossz();
@@ -40,7 +40,7 @@ public class L extends Növény {
 
     @Override
     public float vastagság() {
-        return 0;
+        return 9;
     }
 
     @Override
@@ -59,13 +59,13 @@ public class L extends Növény {
         if(p.getColor()== Color.YELLOW)
             hjl+=10;
         if(balra)
-            return Fény.irány-hjl;
-        else return Fény.irány+hjl;
+            return Kender.getInstance().FF.irány-hjl;
+        else return Kender.getInstance().FF.irány+hjl;
     }
 
     @Override
     public Paint szín() {
-        if(ép>300||!fényFelvétel()||ép<0||Kender.getRost()==0){
+        if(ép>300||!fényFelvétel()||ép<0||Kender.getInstance().getRost()==0){
             p.setStyle(Paint.Style.FILL);
             p.setAlpha(200);
             p.setColor(Color.YELLOW);
@@ -77,8 +77,8 @@ public class L extends Növény {
     }
 
     private boolean fényFelvétel(){
-        if((Fény.watt-szint)>=0) {
-            Kender.fény++;
+        if((Kender.getInstance().FF.watt-szint)>=0||p.getColor()==Color.GREEN) {
+            Kender.getInstance().fény++;
             return true;
         }else return false;
     }
@@ -90,7 +90,7 @@ public class L extends Növény {
 
     @Override
     public float vízigény() {
-        Kender.Szint();
+        Kender.getInstance().Szint();
         return 0;
     }
 
@@ -111,7 +111,7 @@ public class L extends Növény {
 
     @Override
     public float légz() {
-        Kender.CO2(10*szint);//(Lég.getCO2()*fényFelvétel())
+        Kender.getInstance().CO2(10*szint);//(Lég.getCO2()*fényFelvétel())
         return 0;
     }
 

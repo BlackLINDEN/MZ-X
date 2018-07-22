@@ -2,67 +2,73 @@ package blacklinden.com.cannabisgrowthsimulator.nov;
 
 
 import blacklinden.com.cannabisgrowthsimulator.Main2Activity;
+import blacklinden.com.cannabisgrowthsimulator.MainActivity;
 import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Fény;
 import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Lég;
 
-public class Kender {
+public final class Kender {
 
-    private static float co2;
+    private static volatile Kender instance = null;
 
-    private static String fajta;
+    private float co2;
 
+    private String fajta;
 
-
-    private static boolean auto_e;
-
-
-
-    private static float h2o;
-
-    private static int hő;
-
-    private static int szint;
-
-    public static void Szint(){
-        Kender.szint++;
-    }
-    public static int Szintet(){return szint;}
-    public static boolean Halott_e() {
-        return halott_e;
-    }
-
-    public static void setHalott_e(boolean halott_e) {
-        Kender.halott_e = halott_e;
-    }
-
-    private static boolean halott_e=false;
+    public Fény FF;
+    public Lég LL;
 
 
-    public static void setRost(float rost) {
-        Kender.rost = rost;
-    }
+    private boolean auto_e;
 
-    public static float getRost() {
+
+
+    private float h2o;
+
+    private int hő;
+
+    private int szint;
+
+
+    private boolean halott_e=false;
+
+
+
+    public float getRost() {
         return rost;
     }
 
-    private static float rost;
+    public void initRost(){this.rost=100;}
 
-    private static float cukor;
-    public static float fény=0;//százalék
+    private float rost;
 
-    public Kender() {
-        Kender.cukor=0;//1000000;
-        Kender.rost=100;
-        Kender.co2=10;
-        Kender.h2o=1;
-        Kender.szint=1;
-        Kender.auto_e=Main2Activity.auto_E;
-        Kender.fajta=Main2Activity.fajta;
-        new Fény();
+    private float cukor;
+    public float fény=0;//százalék
 
+    private Kender() {
+        //1000000;
+        initRost();
+        initCO2();
+
+        this.szint=1;
+        this.LL = new Lég();
+        initFény();
+        initVíz();
     }
-    public static void update(){
+
+    public void initFény(){
+        this.FF=new Fény("led");
+    }
+    public void initCukor(){
+        this.cukor=0;
+    }
+    public void initCO2(){
+        this.co2=10;
+    }
+    public void initVíz(){
+        this.h2o=1;
+    }
+    public void update(){
+
         calvinKör();
         rostbanCukorTárolás();
 
@@ -72,24 +78,30 @@ public class Kender {
             rost--;
         }else if(cukor<=0&&rost<=0) {
             cukor = 0;}
-        else if(Fény.irány<-5){
+        else if(FF.irány<-5){
             halott_e=true;
             }
 
         }
 
+    public static Kender getInstance() {
+        if (instance == null) {
+            synchronized(Kender.class) {
+                if (instance == null) {
+                    instance = new Kender();
+                }
+            }
+        }
+        return instance;
+    }
 
-
-
-
-    private static void calvinKör(){
+    private void calvinKör(){
 
         if (co2 > 6 && h2o > 6&&fény>0) {
-            co2 -= 0.006f;
-            //bődületes faszság
-            h2o=(h2o>=0)?h2o-=(Fény.hőmérséklet()+szint):0;
+
+            h2o-=szint*0.01;
             cukor+=10;
-            Lég._O2();
+            LL._O2();
         }
 
         if(h2o>5000)
@@ -97,16 +109,23 @@ public class Kender {
         else
             co2=10;
 
+        if(FF.hőmérséklet()>27&&h2o>0)
+            h2o--;
+        else if(h2o>0)
+            h2o-=0.1;
+        else
+            h2o=0;
+
     }
 
-    private static void rostbanCukorTárolás(){
+    private void rostbanCukorTárolás(){
         if(cukor>1000){
             rost++;
             cukor--;
         }
     }
 
-    public static float cukrozó(float levonás){
+    public float cukrozó(float levonás){
 
         if(cukor<levonás)
             return 0;
@@ -116,21 +135,29 @@ public class Kender {
         }
     }
 
-    public static void CO2(float co2PPM){
-        Kender.co2+=co2PPM;
+    public void CO2(float co2PPM){
+        co2+=co2PPM;
     }
-    public static void setH2o() {
+    public void setH2o() {
 
-        Kender.h2o+=10000;
+        h2o+=10000;
     }
 
-    public static float getH2o() {
+    public float getH2o() {
         return h2o;
     }
 
-    public static float getCukor() {
+    public float getCukor() {
         return cukor;
     }
+    public void Szint(){
+        szint++;
+    }
+    public int Szintet(){return szint;}
+    public boolean Halott_e() {
+        return halott_e;
+    }
+
 
 
 }

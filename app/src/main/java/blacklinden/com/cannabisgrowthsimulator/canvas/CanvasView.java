@@ -33,11 +33,13 @@ public class CanvasView extends View {
 
 
         private Bitmap mBitmap;
+        private figyi figyi;
         Context context;
         Teknős t;
 
         float delta_theta=0f;
-        public static int ism=1;
+        public int ism=1;
+        private float metrix;
         Paint paint;
         boolean stopIt=false;
 
@@ -47,13 +49,11 @@ public class CanvasView extends View {
         public CanvasView(Context c, AttributeSet attrs) {
             super(c, attrs);
             context = c;
-
-
+            this.figyi = null;
             paint = new Paint();
             paint.setColor(Color.BLACK);
             paint.setStyle(Paint.Style.STROKE);
             paint.setTextSize(40);
-            new Kender();
             F ff = new F();
             al.add(ff);
             al.add(new M());
@@ -64,6 +64,7 @@ public class CanvasView extends View {
             al.add(new M());
             al.add(new L(false,1));
             al.add(new T());
+
 
         }
 
@@ -78,7 +79,8 @@ public class CanvasView extends View {
             super.onDraw(canvas);
             if(!stopIt) {
                 T(canvas, al);
-                canvas.drawText("Aqua "+Kender.getH2o()+" Azúcar "+Kender.getCukor()+" Almidón "+Kender.getRost(),0,canvas.getHeight()*0.1f,paint);
+                //canvas.drawText("Aqua "+Kender.getInstance().getH2o()+" Azúcar "+Kender.getInstance().getCukor()+" Almidón "+Kender.getInstance().getRost(),0,canvas.getHeight()*0.1f,paint);
+
             }
             else
             canvas.drawText("Cosecha Fracasada!",canvas.getWidth()/2,canvas.getHeight()/2,paint);
@@ -87,21 +89,22 @@ public class CanvasView extends View {
 
 
         }
-        Handler handler = new Handler(Looper.myLooper());
+        public Handler handler = new Handler(Looper.myLooper());
         public Runnable oo = new Runnable() {
             @Override
             public void run() {
-
+                figyi.H2O(Kender.getInstance().getH2o());
+                figyi.NAP(ism);
                 invalidate();
                 if(ism==1000) {
                     handler.removeCallbacks(this);
 
 
                 }
-                else if(!Kender.Halott_e()){
+                else if(!Kender.getInstance().Halott_e()){
                     ism();
                     A(al,ism);
-                    handler.postDelayed(this, 500);
+                    handler.postDelayed(this, 100);
                 }
             }
         };
@@ -115,7 +118,7 @@ public class CanvasView extends View {
 
             if(ism<800){
                 for(Növény x:aa){
-                    Kender.update();
+                    Kender.getInstance().update();
                     x.élet();
                     if(Objects.equals(x.n, "F")&&x.fejl()==50){
                         a.add(x);
@@ -157,13 +160,13 @@ public class CanvasView extends View {
                 for (int i = aa.size()-1; i >=0; i--) {
 
 
-                    Kender.update();
+                    Kender.getInstance().update();
                     Növény y = aa.get(i);
                     y.élet();
 
                     if (Objects.equals(y.n, "F")&&y.szint()>2) {
 
-                        a.add(new Av(Kender.Szintet()%y.szint()));
+                        a.add(new Av(Kender.getInstance().Szintet()%y.szint()));
                         a.add(y);
                     } else if (Objects.equals(y.n, "AV")&&y.fejl()>1) {
 
@@ -203,8 +206,8 @@ public class CanvasView extends View {
 
         public void T(Canvas c,ArrayList<Növény> a){
 
-
-            t = new Teknős(c.getWidth()/2,c.getHeight()-200,90);
+            //
+            t = new Teknős(c.getWidth()/2,c.getHeight()-metrix,90);
 
 
 
@@ -220,42 +223,51 @@ public class CanvasView extends View {
 
                     case "L":
                         if(ch.szint()<2) {
+
                             c.rotate(ch.szög(), (float) t.x, (float) t.y);
-                            t.levElRajz(-ch.hossz(), c, ch.szín());
+                            t.levElRajz(ch.vastagság(),-ch.hossz(), c, ch.szín());
+
                         }else if(ch.szint()==2){
+
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög()-65, (float) t.x, (float) t.y);
-                            t.levElRajz(-ch.hossz()/3,c,ch.szín());
+                            t.levElRajz(ch.vastagság(),-ch.hossz()/3,c,ch.szín());
                             t.betöltés(c);
-                            t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
-                            c.rotate(ch.szög(), (float) t.x, (float) t.y);
-                            t.levElRajz(-ch.hossz(), c, ch.szín());
-                            t.betöltés(c);
+
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög()+65, (float) t.x, (float) t.y);
-                            t.levElRajz(-ch.hossz()/3, c, ch.szín());
+                            t.levElRajz(ch.vastagság(),-ch.hossz()/3, c, ch.szín());
+                            t.betöltés(c);
+
+                            t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
+                            c.rotate(ch.szög(), (float) t.x, (float) t.y);
+                            t.levElRajz(ch.vastagság(),-ch.hossz(), c, ch.szín());
                             t.betöltés(c);
 
                         }else {
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög()-130, (float) t.x, (float) t.y);
-                            t.levElRajz(-ch.hossz()/6,c,ch.szín());
+                            t.levElRajz(ch.vastagság(),-ch.hossz()/6,c,ch.szín());
                             t.betöltés(c);
-                            t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
-                            c.rotate(ch.szög()-65, (float) t.x, (float) t.y);
-                            t.levElRajz(-ch.hossz()/3, c, ch.szín());
-                            t.betöltés(c);
-                            t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
-                            c.rotate(ch.szög(), (float) t.x, (float) t.y);
-                            t.levElRajz(-ch.hossz(), c, ch.szín());
-                            t.betöltés(c);
-                            t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
-                            c.rotate(ch.szög()+65, (float) t.x, (float) t.y);
-                            t.levElRajz(-ch.hossz()/3,c,ch.szín());
-                            t.betöltés(c);
+
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög()+130, (float) t.x, (float) t.y);
-                            t.levElRajz(-ch.hossz()/6, c, ch.szín());
+                            t.levElRajz(ch.vastagság(),-ch.hossz()/6, c, ch.szín());
+                            t.betöltés(c);
+
+                            t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
+                            c.rotate(ch.szög()-65, (float) t.x, (float) t.y);
+                            t.levElRajz(ch.vastagság(),-ch.hossz()/3, c, ch.szín());
+                            t.betöltés(c);
+
+                            t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
+                            c.rotate(ch.szög()+65, (float) t.x, (float) t.y);
+                            t.levElRajz(ch.vastagság(),-ch.hossz()/3,c,ch.szín());
+                            t.betöltés(c);
+
+                            t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
+                            c.rotate(ch.szög(), (float) t.x, (float) t.y);
+                            t.levElRajz(ch.vastagság(),-ch.hossz(), c, ch.szín());
                             t.betöltés(c);
                         }
                         break;
@@ -279,7 +291,17 @@ public class CanvasView extends View {
             }
         }
 
+        public void metrix(float m){
+            metrix=m;
+        }
 
+public void setFigyi(figyi f){
+this.figyi=f;
+}
 
-
+public interface figyi{
+            public void init(String title);
+            void H2O(float h2o);
+            void NAP(int nap);
+}
 }

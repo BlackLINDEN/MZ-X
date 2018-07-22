@@ -14,7 +14,7 @@ public class A extends Növény {
 
     @Override
     public void élet() {
-        ép+=Kender.cukrozó(1);
+        ép+=Kender.getInstance().cukrozó(1);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class A extends Növény {
 
     @Override
     public float vízigény() {
-        Kender.Szint();
+        Kender.getInstance().Szint();
 
         return 0;
     }

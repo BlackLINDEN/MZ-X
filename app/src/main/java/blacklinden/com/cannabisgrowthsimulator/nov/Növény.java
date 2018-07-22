@@ -2,7 +2,10 @@ package blacklinden.com.cannabisgrowthsimulator.nov;
 
 import android.graphics.Paint;
 
-public abstract class Növény {
+
+import java.io.Serializable;
+
+public abstract class Növény implements Serializable {
     public String n;
 
     public Növény(String n){

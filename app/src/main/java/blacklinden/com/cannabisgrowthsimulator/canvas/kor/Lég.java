@@ -1,27 +1,26 @@
 package blacklinden.com.cannabisgrowthsimulator.canvas.kor;
 public class Lég {
     //ppm??
-    private static float CO2=4f;
-    private static float O2=21f;
+    private float CO2=1.5f;
 
 
 
-    public static void palack(){}
 
-    public static void légCsere(){}
+    public  void palack(){}
+
+    public void légCsere(){
+
+    }
 
 
-    public static float getCO2() {
+    public float getCO2() {
         return CO2;
     }
 
-    public static void setO2(float o2) {
-        O2 = o2;
-    }
 
-    public static void _O2() {
-        O2 += 0.06f;
-        CO2 -= 0.06f;
+    public void _O2() {
+        if(CO2>1)
+        CO2 -= 0.0001f;
     }
 
 

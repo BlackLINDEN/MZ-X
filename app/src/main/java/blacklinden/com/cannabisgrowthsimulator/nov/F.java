@@ -38,7 +38,7 @@ public class F extends Növény {
     @Override
     public void élet() {
 
-        ép+=Kender.cukrozó(1f);
+        ép+=Kender.getInstance().cukrozó(1f);
         hossz();//
         fejl();
     }
@@ -50,14 +50,14 @@ public class F extends Növény {
 
     private float rost() {
         float fix;
-        if (szint < 3 && Kender.getRost() < 500) {
-            fix = 0.001f;
+        if (szint < 3 && Kender.getInstance().getRost() < 500) {
+            fix = 0.01f;
         } else
-            fix = 0.0001f;
-        if (Kender.getRost() * fix > 10) {
+            fix = 0.0005f;
+        if (Kender.getInstance().getRost() * fix > 10) {
             return 10;
         } else
-            return Kender.getRost() * fix;
+            return Kender.getInstance().getRost() * fix;
     }
 
     @Override
@@ -71,8 +71,8 @@ public class F extends Növény {
 
     @Override
     public float szög() {
-        if(Kender.getRost()==0||vastagság()==-1) Fény.setIrány();
-        return Fény.irány;
+       // if(Kender.getInstance().getRost()==0||vastagság()==-1) Kender.getInstance().FF.setIrány();
+        return Kender.getInstance().FF.irány;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class F extends Növény {
 
     @Override
     public float vízigény() {
-        Kender.Szint();
+        Kender.getInstance().Szint();
         return 0;
     }
 
@@ -104,7 +104,7 @@ public class F extends Növény {
     @Override
     public float hőigény() {
         float hi=22.5f;
-        float lvns=(Math.abs(hi)-Math.abs(Fény.hőmérséklet()))/10;
+        float lvns=(Math.abs(hi)-Math.abs(Kender.getInstance().FF.hőmérséklet()))/10;
         ép-=lvns;
         return hi;
     }

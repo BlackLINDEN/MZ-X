@@ -1,19 +1,21 @@
 package blacklinden.com.cannabisgrowthsimulator.eszk;
 
-import android.annotation.SuppressLint;
+
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
 import android.os.Environment;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Random;
 import java.util.Stack;
+
+import blacklinden.com.cannabisgrowthsimulator.R;
 
 public class Teknős  {
     public double x, y;
@@ -41,7 +43,9 @@ public class Teknős  {
         levélKör = new Paint();
         levélKör.setColor(Color.BLACK);
         levélKör.setStyle(Paint.Style.STROKE);
-        levélKör.setStrokeWidth(7f);
+        levélKör.setStrokeCap(Paint.Cap.SQUARE);
+        levélKör.setStrokeWidth(1f);
+
 
     }
 
@@ -73,24 +77,22 @@ public class Teknős  {
         x += ((float)step)* Math.cos(Math.toRadians(angle));
         y +=((float)step)* Math.sin(Math.toRadians(angle));
 
-        canvas.drawOval(oldx - 10, (float) y - 50, (oldx + 10), oldy + 10, szín);
-        canvas.drawOval(oldx - 10, (float) y - 50, (oldx + 10), oldy + 10, levélKör);
+
 
     }
-
-    public void el(double step, Canvas canvas,Paint paint, int ism) {
+    public void levElRajz(float vast,double step, Canvas canvas, Paint szín) {
         float oldx =(float) x;
         float oldy =(float) y;
-        x += (float)step * Math.cos(Math.toRadians(angle));
-        y +=(float) step * Math.sin(Math.toRadians(angle));
-        levél.setStrokeWidth(ism*2);
+        x += ((float)step)* Math.cos(Math.toRadians(angle));
+        y +=((float)step)* Math.sin(Math.toRadians(angle));
 
-        canvas.drawArc(oldx,oldy,(float)(x+step),(float)(y+step),6f,12f,true,paint);
-
-
-
+        canvas.drawOval(oldx - vast, (float) y -50, (float)(x + vast), oldy, szín);
+        canvas.drawOval(oldx - vast, (float) y - 50, (float)(x + vast), oldy, levélKör);
 
     }
+
+
+
     public void előre(double step, Canvas c){
         x += (float)step * Math.cos(Math.toRadians(angle));
         y +=(float) step * Math.sin(Math.toRadians(angle));

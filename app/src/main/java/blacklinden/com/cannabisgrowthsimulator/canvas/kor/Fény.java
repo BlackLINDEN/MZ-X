@@ -3,46 +3,56 @@ package blacklinden.com.cannabisgrowthsimulator.canvas.kor;
 import blacklinden.com.cannabisgrowthsimulator.Main2Activity;
 
 public class Fény {
-    public static float irány=0f;
-    private static int lux;
-    public static int watt=500;
-    private static final float hőSötétben=25;
-    private static int kelvin;
-    private static float táv;
-    private static String fajta;
-    private static Égő égő;
-    private static final float wattVáltóSzám=0.00052656506684073f;
+    public float irány;
+    private int lux;
+    public int watt=500;
+    private final float hőSötétben=25;
+    private int kelvin;
+    private float táv;
+    private String fajta;
+    private Égő égő;
 
-    public Fény(){
+    public Fény(String fajta){
 
-     égő = Égő.CFL;
+    this.fajta=fajta;
 
-     Fény.irány=0;
+     this.irány=0;
 
     }
 
-    public static float hőmérséklet(){
-        Fény.fajta=Main2Activity.fajta;
+    public void setWatt(int watt){
+        this.watt=watt;
+    }
 
-        switch(Fény.fajta){
-            case "led":Fény.égő=Égő.LED;
+    public void setKelvin(int kelvin){
+        this.kelvin=kelvin;
+    }
+
+
+    public void fajtaVlt(String t){
+        this.fajta=t;
+    }
+
+    public float hőmérséklet(){
+
+
+        switch(fajta){
+            case "led":égő=Égő.LED;
                 break;
-            case "cfl":Fény.égő=Égő.CFL;
+            case "cfl":égő=Égő.CFL;
                 break;
-            case "hps":Fény.égő=Égő.HALOGEN;
+            case "hps":égő=Égő.HALOGEN;
                 break;
-            case "inc":Fény.égő=Égő.INCANDESCENT;
+            case "inc":égő=Égő.INCANDESCENT;
                 break;
         }
-        return (hőSötétben+(((watt*wattVáltóSzám)*Fény.égő.getHőszor_())));
+        return (hőSötétben+(watt*égő.getHőszor_()));
     }
 
-    public static void setIrány(float d){
-        irány=d;
-    }
 
-    public static void setIrány(){
-        irány++;
+
+    public void setIrány(){
+        this.irány++;
     }
 
 
@@ -51,8 +61,5 @@ public class Fény {
     }
 
 
-    public static void setFajta(String fajta) {
-        Fény.fajta = fajta;
-    }
 
 }

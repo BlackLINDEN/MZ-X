@@ -1,51 +1,276 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:orientation="vertical" >
+    android:background="@drawable/httr_vil"
+    android:orientation="vertical"
+    tools:layout_editor_absoluteY="81dp">
 
     <blacklinden.com.cannabisgrowthsimulator.canvas.CanvasView
         android:id="@+id/canvas"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColor="#FFFFFF" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/button1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
+
+    <ImageButton
+        android:id="@+id/gmb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txt"
-        />
-    <Button android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/gmb"
         android:layout_gravity="top|center"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="?android:selectableItemBackgroundBorderless"
         android:onClick="cl"
-        android:text="Nulláz"/>
+        android:rotation="180"
+        android:src="@drawable/ic_lightbulb_outline_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.100000024" />
+
+    <blacklinden.com.cannabisgrowthsimulator.eszk.AlsFiok
+        android:id="@+id/also"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/als_box"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/oldalsoJ"
+        app:layout_constraintStart_toStartOf="@+id/oldalsoB"
+        app:layout_constraintTop_toBottomOf="@+id/canvas"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+    <blacklinden.com.cannabisgrowthsimulator.eszk.FelsFiok
+        android:id="@+id/imageView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/oldalsoB"
+        android:layout_width="10dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:fadingEdgeLength="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/old_box" />
+
+    <ImageView
+        android:id="@+id/oldalsoJ"
+        android:layout_width="10dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/old_box" />
+
+    <blacklinden.com.cannabisgrowthsimulator.eszk.ThermoView
+        android:id="@+id/thermo"
+        android:layout_width="25dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center|end"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:padding="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <ImageView
+        android:id="@+id/waterIV"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|start"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button1"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/ventil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="?android:selectableItemBackgroundBorderless"
+        android:onClick="ventilator"
+        android:src="@drawable/ic_toys_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32" />
+
+
+
 
     <ImageButton
         android:id="@+id/locsol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/kanna"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="?android:selectableItemBackgroundBorderless"
         android:onClick="locsol"
-        android:background="?android:selectableItemBackgroundBorderless"/>
+        android:src="@drawable/kanna"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:visibility="gone">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lightsource Type" />
+            </TableRow>
+
+            <TableRow>
+
+                <RadioGroup
+                    android:id="@+id/b2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/Led"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="LED" />
+
+                    <RadioButton
+                        android:id="@+id/Inc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INC" />
+
+                    <RadioButton
+                        android:id="@+id/Cfl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CFL" />
+
+                    <RadioButton
+                        android:id="@+id/Hps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="HPS" />
+
+                </RadioGroup>
+            </TableRow>
+
+            <TableRow>
+
+                <SeekBar
+                    android:id="@+id/sb1watt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+            <TableRow>
+
+                <SeekBar
+                    android:id="@+id/sb2kelvin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+            <TableRow>
+
+                <Button
+                    android:id="@+id/g3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="exitCV"
+                    android:text="OK" />
+            </TableRow>
+
+        </TableLayout>
+    </android.support.v7.widget.CardView>
 
 
-
-    <Button
+    <ImageButton
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
-        android:onClick="clearCanvas"
-        android:text="Indít" />
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="?android:selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_cserep2"
+        app:layout_constraintBottom_toTopOf="@+id/also"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gmb"
+        app:layout_constraintVertical_bias="1.0" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/cukorrost"
             android:layout_width="wrap_content"
@@ -53,5 +278,4 @@
     </LinearLayout>
 
 
-
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

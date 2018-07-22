@@ -1,7 +1,7 @@
 package blacklinden.com.cannabisgrowthsimulator.canvas.kor;
 
 public enum Égő {
-    INCANDESCENT(0.41f),HALOGEN(0.13f),LED(0.05f),CFL(0.3f);
+    INCANDESCENT(0.0041f),HALOGEN(0.013f),LED(0.005f),CFL(0.003f);
 
     public float getHőszor_() {
         return hőszor_;

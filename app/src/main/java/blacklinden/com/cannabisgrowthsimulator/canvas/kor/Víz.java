@@ -10,8 +10,9 @@ public class Víz {
 
     }
 
-    public static float hetiVíz(){
+   /* public static float hetiVíz(){
         return ((vízMennyiség*hetiHányÖnt)-((vízMennyiség*hetiHányÖnt)*(0.05f*(Fény.hőmérséklet()/5))));
     }
+    */
 
 }

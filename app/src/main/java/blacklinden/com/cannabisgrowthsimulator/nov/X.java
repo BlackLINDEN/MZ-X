@@ -48,7 +48,7 @@ public class X extends Növény {
 
     @Override
     public void élet() {
-        ép+=Kender.cukrozó(1);
+        ép+=Kender.getInstance().cukrozó(1);
         hossz();
         //szög();
     }
@@ -76,9 +76,9 @@ public class X extends Növény {
         int g=rndm.nextInt(10-(-10))+(-10);
         if(ép<11) {
             if (bvj)
-                szög = Fény.irány - (vastagság()*210)+g;
+                szög = Kender.getInstance().FF.irány - (vastagság()*210)+g;
             else
-                szög = Fény.irány + (vastagság()*210)+g;
+                szög = Kender.getInstance().FF.irány + (vastagság()*210)+g;
         }
 
         return szög;
@@ -101,7 +101,7 @@ public class X extends Növény {
 
     @Override
     public float vízigény() {
-        Kender.Szint();
+        Kender.getInstance().Szint();
         return 0;
     }
 
@@ -113,7 +113,7 @@ public class X extends Növény {
     @Override
     public float hőigény() {
         float hi=22.5f;
-        float lvns=(Math.abs(hi)-Math.abs(Fény.hőmérséklet()))/10;
+        float lvns=(Math.abs(hi)-Math.abs(Kender.getInstance().FF.hőmérséklet()))/10;
         ép-=lvns;
         return hi;
     }
