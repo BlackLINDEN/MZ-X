@@ -17,8 +17,8 @@ public class X extends Növény {
     private int szint;
     private Random rndm;
     private float ép;
-    float x;
-    private Paint p;
+    public float x;
+    private int p;
 
     public X(boolean bvj, int szint){
         super("X");
@@ -27,8 +27,7 @@ public class X extends Növény {
         szög=0;
         this.bvj=bvj;
         this.szint=szint;
-        p = new Paint();
-        p.setStyle(Paint.Style.FILL);
+
         rndm=new Random();
         vízigény();
     }
@@ -39,35 +38,35 @@ public class X extends Növény {
         this.szög=szög;
         this.bvj=bvj;
         this.szint=szint;
-        p = new Paint();
-        p.setStyle(Paint.Style.FILL);
+
         rndm=new Random();
-        vízigény();
+
     }
 
 
     @Override
     public void élet() {
         ép+=Kender.getInstance().cukrozó(1);
-        hossz();
+        xHossz();
         //szög();
     }
 
     @Override
     public float vastagság() {
-        return hossz()*0.00005f;
+        return hossz()*0.00009f;
     }
 
+    private void xHossz(){
+        //ép-=0.002f;
+        if(szint>5)
+            x+=80f;
+        else
+            x+=100;
+    }
     @Override
     public float hossz() {
 
-        ép-=0.002f;
-        if(szint>5)
-            x+=64.5f;
-        else if(szint>2)
-            x+=72f;
-        else
-            x+=20;
+
         return x;
     }
 
@@ -76,21 +75,20 @@ public class X extends Növény {
         int g=rndm.nextInt(10-(-10))+(-10);
         if(ép<11) {
             if (bvj)
-                szög = Kender.getInstance().FF.irány - (vastagság()*210)+g;
+                szög = Kender.getInstance().FF.irány - (vastagság()*230)+g;
             else
-                szög = Kender.getInstance().FF.irány + (vastagság()*210)+g;
+                szög = Kender.getInstance().FF.irány + (vastagság()*230)+g;
         }
 
         return szög;
     }
 
     @Override
-    public Paint szín() {
+    public int szín() {
         if(szint>10)
-            p.setColor(Color.GREEN);
+            p=(Color.GREEN);
         else
-            p.setColor(Color.argb(255,133,79,0));
-
+            p=(Color.argb(255,133,79,0));
         return p;
     }
 
@@ -101,7 +99,7 @@ public class X extends Növény {
 
     @Override
     public float vízigény() {
-        Kender.getInstance().Szint();
+
         return 0;
     }
 

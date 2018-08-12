@@ -1,12 +1,21 @@
 package blacklinden.com.cannabisgrowthsimulator;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -16,13 +25,18 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.race604.drawable.wave.WaveDrawable;
+
+import java.lang.ref.WeakReference;
 
 import blacklinden.com.cannabisgrowthsimulator.canvas.CanvasView;
 import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Fény;
 import blacklinden.com.cannabisgrowthsimulator.eszk.ThermoView;
 import blacklinden.com.cannabisgrowthsimulator.nov.Kender;
+import blacklinden.com.cannabisgrowthsimulator.nov.L;
+import blacklinden.com.cannabisgrowthsimulator.serv.LService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
     SeekBar sb1,sb2;
     boolean ventilBE;
     TextView napTV;
+    private LService lService;
+    private boolean bounded_e =false;
+    Intent service;
+
 
 
 
@@ -48,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         float density = dm.densityDpi;
-        Kender.getInstance();
+
         napTV = findViewById(R.id.nap);
         ventilBE=false;
         canvasView = findViewById(R.id.canvas);
@@ -72,24 +90,19 @@ public class MainActivity extends AppCompatActivity {
 
         wIV.setImageDrawable(hullám);
 
-        h2oSzab();
+        service = new Intent(MainActivity.this, LService.class);
+        bindService(service,kapcsolat, Context.BIND_AUTO_CREATE);
+
         watt_kelvin();
         clearCanvas();
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        canvasView.handler.removeCallbacks(canvasView.oo);
-        thermoView.handler.removeCallbacks(thermoView.oo);
-    }
 
     @Override
     protected void onPause(){
         super.onPause();
-        canvasView.handler.removeCallbacks(canvasView.oo);
+
         thermoView.handler.removeCallbacks(thermoView.oo);
 
     }
@@ -98,16 +111,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
 
-        Kender.getInstance().initFény();
-        Kender.getInstance().initRost();
-        Kender.getInstance().initVíz();
-        Kender.getInstance().initCukor();
-        Kender.getInstance().initCO2();
-        canvasView.handler.post(canvasView.oo);
+
+
     }
 
     public void h2oSzab(){
-        canvasView.setFigyi(new CanvasView.figyi() {
+        lService.setFigyi(new LService.figyi() {
             @Override
             public void init(String title) {
 
@@ -115,14 +124,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void H2O(float h2o) {
-                hullám.setLevel((int)h2o);
+
             }
 
             @Override
-            public void NAP(int nap) { napTV.setText(String.valueOf(nap/6));}
+            public void NAP(int nap) {
+
+            }
         });
     }
-
 
     public void watt_kelvin(){
         //watt
@@ -132,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         sb1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if(b) Kender.getInstance().FF.setWatt(i);
+                //if(b) Kender.getInstance().FF.setWatt(i);
                 sb1.setProgress(i);
             }
 
@@ -153,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         sb2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if(b) Kender.getInstance().FF.setKelvin(i);
+                //if(b) Kender.getInstance().FF.setKelvin(i);
                 sb2.setProgress(i);
             }
 
@@ -170,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void clearCanvas() {
-                canvasView.oo.run();
                 thermoView.oo.run();
             }
             public void cl(View v) {
@@ -183,22 +192,22 @@ public class MainActivity extends AppCompatActivity {
 
                             switch (i) {
                                 case R.id.Led:
-                                    Kender.getInstance().FF.fajtaVlt("led");
+                                    //Kender.getInstance().FF.fajtaVlt("led");
                                     bulb.setImageResource(R.drawable.ic_launcher_foreground);
                                     break;
 
                                 case R.id.Cfl:
-                                    Kender.getInstance().FF.fajtaVlt("cfl");
+                                    //Kender.getInstance().FF.fajtaVlt("cfl");
                                     bulb.setImageResource(R.drawable.cflicon);
                                     break;
 
                                 case R.id.Inc:
-                                    Kender.getInstance().FF.fajtaVlt("inc");
+                                    //Kender.getInstance().FF.fajtaVlt("inc");
                                     bulb.setImageResource(R.drawable.ic_lightbulb_outline_black_24dp);
                                     break;
 
                                 case R.id.Hps:
-                                    Kender.getInstance().FF.fajtaVlt("hps");
+                                    //Kender.getInstance().FF.fajtaVlt("hps");
                                     bulb.setImageResource(R.drawable.kendericon);
                                     break;
                             }
@@ -212,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public void locsol(View v){
-                Kender.getInstance().setH2o();
+                Kender.getInstance().VV.locsol();
             }
 
             public void ventilator(View v) {
@@ -225,6 +234,51 @@ public class MainActivity extends AppCompatActivity {
                     ventilBE=false;
                 }
             }
+
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        thermoView.handler.removeCallbacks(thermoView.oo);
+        h.removeCallbacks(r);
+        unbindService(kapcsolat);
+    }
+
+
+
+
+
+    private ServiceConnection kapcsolat = new ServiceConnection() {
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            bounded_e = false;
+
+        }
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Toast.makeText(MainActivity.this,"onServiceConnected",Toast.LENGTH_SHORT).show();
+            LService.Binderem myBinder = (LService.Binderem) service;
+            lService = myBinder.getService();
+            bounded_e = true;
+            r.run();
+        }
+    };
+
+    Handler h = new Handler(Looper.myLooper());
+    Runnable r = new Runnable() {
+        @Override
+        public void run() {
+            canvasView.told(lService.al,lService.ism);
+            napTV.setText(String.valueOf(lService.ism/6));
+            hullám.setLevel(lService.hullám());
+            h.postDelayed(this,600);
+            if(lService.stopIt)finish();
+        }
+    };
+
+
 
 
         }

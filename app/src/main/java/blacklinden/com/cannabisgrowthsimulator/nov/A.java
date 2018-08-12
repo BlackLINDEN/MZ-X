@@ -33,8 +33,8 @@ public class A extends Növény {
     }
 
     @Override
-    public Paint szín() {
-        return new Paint();
+    public int szín() {
+        return 0;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class A extends Növény {
 
     @Override
     public float vízigény() {
-        Kender.getInstance().Szint();
+
 
         return 0;
     }

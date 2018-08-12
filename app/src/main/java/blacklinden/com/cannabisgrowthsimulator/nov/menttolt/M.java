@@ -33,8 +33,8 @@ public class M extends Növény {
     }
 
     @Override
-    public Paint szín() {
-        return new Paint();
+    public int szín() {
+        return 0;
     }
 
     @Override

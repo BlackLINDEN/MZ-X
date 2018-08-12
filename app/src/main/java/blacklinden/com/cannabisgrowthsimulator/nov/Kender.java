@@ -1,10 +1,13 @@
 package blacklinden.com.cannabisgrowthsimulator.nov;
 
 
+import android.widget.Toast;
+
 import blacklinden.com.cannabisgrowthsimulator.Main2Activity;
 import blacklinden.com.cannabisgrowthsimulator.MainActivity;
 import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Fény;
 import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Lég;
+import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Víz;
 
 public final class Kender {
 
@@ -16,7 +19,7 @@ public final class Kender {
 
     public Fény FF;
     public Lég LL;
-
+    public Víz VV;
 
     private boolean auto_e;
 
@@ -44,6 +47,7 @@ public final class Kender {
     private float cukor;
     public float fény=0;//százalék
 
+
     private Kender() {
         //1000000;
         initRost();
@@ -51,6 +55,7 @@ public final class Kender {
 
         this.szint=1;
         this.LL = new Lég();
+        this.VV = new Víz();
         initFény();
         initVíz();
     }
@@ -62,7 +67,7 @@ public final class Kender {
         this.cukor=0;
     }
     public void initCO2(){
-        this.co2=10;
+        this.co2=1;
     }
     public void initVíz(){
         this.h2o=1;
@@ -97,24 +102,19 @@ public final class Kender {
 
     private void calvinKör(){
 
-        if (co2 > 6 && h2o > 6&&fény>0) {
-
-            h2o-=szint*0.01;
-            cukor+=10;
-            LL._O2();
+        if(co2>0&&h2o>1&&h2o<200&&fény>0) {
+            System.out.println("CALVIN "+cukor);
+            cukor += fény/2;
+            co2--;
+            h2o--;
+            fény--;
         }
 
-        if(h2o>5000)
-            co2=5;
-        else
-            co2=10;
-
         if(FF.hőmérséklet()>27&&h2o>0)
-            h2o--;
+            h2o-=0.1f;
         else if(h2o>0)
-            h2o-=0.1;
-        else
-            h2o=0;
+            h2o-=0.01;
+
 
     }
 
@@ -138,9 +138,9 @@ public final class Kender {
     public void CO2(float co2PPM){
         co2+=co2PPM;
     }
-    public void setH2o() {
+    public void setH2o(float xx) {
 
-        h2o+=10000;
+        h2o+=xx;
     }
 
     public float getH2o() {

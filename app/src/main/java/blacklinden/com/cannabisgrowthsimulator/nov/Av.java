@@ -33,19 +33,20 @@ public class Av extends Növény {
     }
 
     @Override
-    public Paint szín() {
-        return new Paint();
+    public int szín() {
+        return 0;
     }
 
     @Override
     public float fejl() {
-        ép+=(1/szint);
+        ép+=szint;
+
         return ép;
     }
 
     @Override
     public float vízigény() {
-        Kender.getInstance().Szint();
+
         return 0;
     }
 

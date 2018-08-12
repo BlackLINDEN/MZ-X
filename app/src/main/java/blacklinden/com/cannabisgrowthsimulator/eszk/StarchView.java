@@ -82,7 +82,7 @@ public class StarchView extends View {
     }
 
     private void drawArm(Canvas c,double loc){
-        double angle=Math.PI*loc/30000+Math.PI/2;
+        double angle=Math.PI*loc/40000+Math.PI/2;
         int armRadius=radius-armTrunc;
         c.drawLine(w/2,h/2,
                 (float)(w/2+Math.cos(angle)*armRadius),

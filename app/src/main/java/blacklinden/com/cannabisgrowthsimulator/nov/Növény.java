@@ -12,6 +12,7 @@ public abstract class Növény implements Serializable {
         this.n=n;
     }
 
+
     public abstract void élet();
 
     public abstract float vastagság();
@@ -20,7 +21,7 @@ public abstract class Növény implements Serializable {
 
     public abstract float szög();
 
-    public abstract Paint szín();
+    public abstract int szín();
 
     public abstract float fejl();
 

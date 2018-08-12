@@ -8,26 +8,40 @@ import java.util.Random;
 public class V extends Növény {
 
     private int szint;
-    private Paint p;
+    private int p;
     private float ép;
     private float szög;
+    private float x;
     public V() {
         super("V");
-        p = new Paint();
-        p.setStyle(Paint.Style.FILL_AND_STROKE);
-        p.setStrokeWidth(2);
+
         vízigény();
+        x=5f;
+    }
+
+    public V(float v) {
+        super("V");
+
+        vízigény();
+        x=v;
     }
 
     @Override
     public void élet() {
         ép+=Kender.getInstance().cukrozó(1);
         szög();
+        xVast();
+    }
+
+    private void xVast(){
+        if(x<15.5f)
+        x+=ép+szint;
     }
 
     @Override
     public float vastagság() {
-        return 0;
+
+        return x;
     }
 
     @Override
@@ -44,15 +58,15 @@ public class V extends Növény {
     }
 
     @Override
-    public Paint szín() {
+    public int szín() {
 
-        p.setColor(Color.WHITE);
+        p=(Color.WHITE);
         return p;
     }
 
     @Override
     public float fejl() {
-        return 0;
+        return ép;
     }
 
     @Override

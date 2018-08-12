@@ -9,18 +9,16 @@ import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Fény;
 public class F extends Növény {
 
 
-    private float x=0.1f;
+    public float x=1f;
     private float ép;
 
     private int szint;
-    private Paint p;
+    private int szín;
     private final int hosszSzabályzó=50000;
 
     public F() {
         super("F");
-        p = new Paint();
-        p.setAntiAlias(true);
-        p.setStyle(Paint.Style.FILL_AND_STROKE);
+
         ép=0;
         vízigény();
     }
@@ -28,24 +26,24 @@ public class F extends Növény {
         super("F");
         ép=i;
         this.szint=i;
-        p = new Paint();
-        p.setAntiAlias(true);
-        p.setStyle(Paint.Style.FILL_AND_STROKE);
-        vízigény();
+
+
+        Kender.getInstance().Szint();
     }
 
 
     @Override
     public void élet() {
-
+        System.out.println("élet");
         ép+=Kender.getInstance().cukrozó(1f);
-        hossz();//
+        xHossz();//
         fejl();
     }
 
     @Override
     public float vastagság() {
-        return ép>0?(rost()):-1;
+        //nagyon kevés
+        return (x*0.0003f)-szint;
     }
 
     private float rost() {
@@ -60,12 +58,18 @@ public class F extends Növény {
             return Kender.getInstance().getRost() * fix;
     }
 
+    private void xHossz(){
+        if(x<hosszSzabályzó-szint) {
+            x += ép*2;
+            //ép -=1;
+        }
+        System.out.println("F hossza: "+x+" ÉP "+ép);
+    }
+
     @Override
     public float hossz() {
         //ép-=0.01f;
-        if(x<hosszSzabályzó)
-        x+=ép;
-        System.out.println("F hossza: "+x);
+
         return x;
     }
 
@@ -76,12 +80,9 @@ public class F extends Növény {
     }
 
     @Override
-    public Paint szín() {
-        if(ép<80)
-            p.setColor(Color.GREEN);
-        else
-            p.setColor(Color.argb(255,133,79,0));
-        return p;
+    public int szín() {
+            szín = Color.RED;
+        return szín;
     }
 
     @Override
@@ -92,7 +93,6 @@ public class F extends Növény {
 
     @Override
     public float vízigény() {
-        Kender.getInstance().Szint();
         return 0;
     }
 

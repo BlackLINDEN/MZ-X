@@ -7,47 +7,54 @@ import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Fény;
 
 public class L extends Növény {
 
-    float x;
+    public float x;
     private boolean balra;
     private int szint;
-    private Paint p;
+    private int p;
     private float ép;
+
 
     public L(boolean balra) {
         super("L");
         x=0.05f;
         this.balra=balra;
-        p=new Paint();
+
         vízigény();
     }
     public L(boolean balra,int szint){
         super("L");
+        x=0.05f;
         this.balra=balra;
         this.szint=szint;
-        p=new Paint();
+
         vízigény();
+
     }
 
     @Override
     public void élet() {
         ép+=Kender.getInstance().cukrozó(1);
         szín();
-        szög();
-        hossz();
+        //szög();
+        xHossz();
         légz();
         fényFelvétel();
     }
 
     @Override
     public float vastagság() {
-        return 9;
+        return 12;
     }
 
+
+    private void xHossz(){
+        if(x<110-szint)
+            x+=ép/3;
+    }
     @Override
     public float hossz() {
-        ép-=0.1f;
-        if(x<80)
-            x+=0.1f+(ép);
+        //ép-=0.1f;
+        System.out.println("L "+x);
 
         return x;
 
@@ -56,7 +63,7 @@ public class L extends Növény {
     @Override
     public float szög() {
         float hjl=60;
-        if(p.getColor()== Color.YELLOW)
+        if(p== Color.YELLOW)
             hjl+=10;
         if(balra)
             return Kender.getInstance().FF.irány-hjl;
@@ -64,20 +71,19 @@ public class L extends Növény {
     }
 
     @Override
-    public Paint szín() {
-        if(ép>300||!fényFelvétel()||ép<0||Kender.getInstance().getRost()==0){
-            p.setStyle(Paint.Style.FILL);
-            p.setAlpha(200);
-            p.setColor(Color.YELLOW);
+    public int szín() {
+        if(ép<0){
+
+            p=(Color.YELLOW);
         }else{
-            p.setStyle(Paint.Style.FILL);
-            p.setColor(Color.GREEN);
+
+            p=(Color.GREEN);
         }
         return p;
     }
 
     private boolean fényFelvétel(){
-        if((Kender.getInstance().FF.watt-szint)>=0||p.getColor()==Color.GREEN) {
+        if((Kender.getInstance().FF.watt-szint)>=0||p==Color.GREEN) {
             Kender.getInstance().fény++;
             return true;
         }else return false;
@@ -90,7 +96,7 @@ public class L extends Növény {
 
     @Override
     public float vízigény() {
-        Kender.getInstance().Szint();
+
         return 0;
     }
 
@@ -111,7 +117,7 @@ public class L extends Növény {
 
     @Override
     public float légz() {
-        Kender.getInstance().CO2(10*szint);//(Lég.getCO2()*fényFelvétel())
+        Kender.getInstance().CO2(Kender.getInstance().LL.getCO2()/2);//(Lég.getCO2()*fényFelvétel())
         return 0;
     }
 

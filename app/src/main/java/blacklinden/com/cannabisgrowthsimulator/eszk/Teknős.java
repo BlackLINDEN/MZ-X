@@ -1,13 +1,18 @@
 package blacklinden.com.cannabisgrowthsimulator.eszk;
 
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PathDashPathEffect;
+import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
 
 import java.io.File;
@@ -23,55 +28,101 @@ public class Teknős  {
     private Stack<S> stack = new Stack<>();
     private int sz=0;
     private int számláló;
-    private Paint levél;
+    private Paint virág,bibe;
     private Paint levélKör;
+    private Paint levél,szár;
     private Path path;
 
+    private Shader sSzr;
+    private Shader shader1;
+
+    public Teknős(Context context) {
 
 
-    public Teknős(double x0, double y0, double a0) {
-        x = x0;
-        y = y0;
-        angle = a0;
+        Bitmap bitmapA = BitmapFactory.decodeResource(
+                context.getResources(), R.drawable.kndr_szr);
+
+
+        sSzr = new BitmapShader(bitmapA,
+                Shader.TileMode.REPEAT
+                , Shader.TileMode.MIRROR);
+
+        shader1 = new BitmapShader(
+                BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.lvlrzt12),
+                Shader.TileMode.REPEAT,
+                Shader.TileMode.REPEAT);
+
         path = new Path();
         path.setFillType(Path.FillType.WINDING);
 
-        levél = new Paint();
-        levél.setARGB(255,133,235,93);
-        levél.setStyle(Paint.Style.FILL);
+        virág = new Paint();
+
+        virág.setStyle(Paint.Style.FILL);
+        virág.setColor(Color.GREEN);
+
+        bibe = new Paint();
+        bibe.setStrokeWidth(1f);
 
         levélKör = new Paint();
-        levélKör.setColor(Color.BLACK);
+        levélKör.setColor(Color.rgb(25,189,10));
         levélKör.setStyle(Paint.Style.STROKE);
-        levélKör.setStrokeCap(Paint.Cap.SQUARE);
-        levélKör.setStrokeWidth(1f);
+        levélKör.setStrokeCap(Paint.Cap.ROUND);
+        levélKör.setStrokeWidth(2f);
 
+       // lg = new LinearGradient(0,0,0,1,Color.BLACK,Color.WHITE, Shader.TileMode.MIRROR);
+
+        levélKör.setPathEffect(new PathDashPathEffect(
+                getTriangle(8),
+                10,
+                0.0f,
+                PathDashPathEffect.Style.ROTATE));
+
+        levél = new Paint();
+        levél.setAntiAlias(true);
+        levél.setStyle(Paint.Style.FILL_AND_STROKE);
+        levél.setShader(shader1);
+        szár = new Paint();
 
     }
 
-    public void előreRajz(float v, double step, Canvas canvas, Paint paint, int ism) {
+    public void orient(double x0, double y0, double a0){
+        x = x0;
+        y = y0;
+        angle = a0;
+    }
+
+    public void előreRajz(float v, double step, Canvas canvas, int paint, int ism) {
         float oldx =(float) x;
         float oldy =(float) y;
         x += ((float)step / ism)* Math.cos(Math.toRadians(angle));
         y +=((float)step / ism)* Math.sin(Math.toRadians(angle));
-        paint.setStrokeWidth(v);
-        canvas.drawLine(oldx, oldy, (float)x,(float)y,paint);
+        szár.reset();
+        szár.setStrokeWidth(v);
+        if(paint==Color.RED)
+        szár.setShader(sSzr);
+        else {
+            szár.setColor(paint);
+            szár.setStyle(Paint.Style.STROKE);
+        }
+        canvas.drawLine(oldx, oldy, (float)x,(float)y,szár);
 
     }
 
-    public void virágzás(Canvas canvas, Paint p){
+    public void virágzás(float v,Canvas canvas, int p){
         float oldx =(float) x;
         float oldy =(float) y;
-        x += (20)* Math.cos(Math.toRadians(angle));
-        y +=(20)* Math.sin(Math.toRadians(angle));
+        x += (5)* Math.cos(Math.toRadians(angle));
+        y +=(5)* Math.sin(Math.toRadians(angle));
 
-
-        canvas.drawCircle((float)x,(float)y,20,levél);
-        canvas.drawLine((float)x, (float)y, oldx,oldy,p);
+        bibe.setColor(p);
+        canvas.drawCircle((float)x,(float)y,v, virág);
+        canvas.drawLine((float)x, (float)y, oldx,oldy,bibe);
 
     }
 
-    public void levElRajz(double step, Canvas canvas, Paint szín) {
+    public void levElRajz(float vast, double step, Canvas canvas, Context context, int szín) {
+
         float oldx =(float) x;
         float oldy =(float) y;
         x += ((float)step)* Math.cos(Math.toRadians(angle));
@@ -79,23 +130,40 @@ public class Teknős  {
 
 
 
-    }
-    public void levElRajz(float vast,double step, Canvas canvas, Paint szín) {
-        float oldx =(float) x;
-        float oldy =(float) y;
-        x += ((float)step)* Math.cos(Math.toRadians(angle));
-        y +=((float)step)* Math.sin(Math.toRadians(angle));
 
-        canvas.drawOval(oldx - vast, (float) y -50, (float)(x + vast), oldy, szín);
+
+        canvas.drawOval(oldx - vast, (float) y -50, (float)(x + vast), oldy, levél);
         canvas.drawOval(oldx - vast, (float) y - 50, (float)(x + vast), oldy, levélKör);
 
     }
 
+    private Path getTriangle(float size) {
+        Path path = new Path();
+        float half = size / 2;
+        path.moveTo(-half, -half);
+        path.lineTo(-half, half);
+        path.lineTo(half, 0);
+        path.close();
+        return path;
+    }
+
+    public void levElRajz(float vast,double step, Canvas canvas, int szín) {
+        float oldx =(float) x;
+        float oldy =(float) y;
+        x += ((float)step)* Math.cos(Math.toRadians(angle));
+        y +=((float)step)* Math.sin(Math.toRadians(angle));
 
 
-    public void előre(double step, Canvas c){
-        x += (float)step * Math.cos(Math.toRadians(angle));
-        y +=(float) step * Math.sin(Math.toRadians(angle));
+        canvas.drawOval(oldx - vast, (float) y -vast, (float)(x + vast), oldy, levél);
+        canvas.drawOval(oldx - vast, (float) y - vast, (float)(x + vast), oldy, levélKör);
+
+    }
+
+
+
+    public void előre(float sz, double step, Canvas c){
+        x += (float)step * Math.cos(Math.toRadians(sz));
+        y +=(float) step * Math.sin(Math.toRadians(sz));
 
         c.translate((float)0,(float)step);
     }

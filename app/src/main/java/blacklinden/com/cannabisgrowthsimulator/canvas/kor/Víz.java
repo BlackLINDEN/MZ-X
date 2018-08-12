@@ -1,18 +1,38 @@
 package blacklinden.com.cannabisgrowthsimulator.canvas.kor;
 public class Víz {
 
-    static float cserépMéret;
-    static int hetiHányÖnt=2;
-    static float vízMennyiség=30;
+    private float PH;
 
+
+    public float getVÍZ_Mennyiség() {
+        return VÍZ_Mennyiség;
+    }
+
+    private float VÍZ_Mennyiség;
 
     public Víz(){
+        PH=5.5f;
+        VÍZ_Mennyiség=0;
+    }
+    public float setVÍZ_Mennyiség(int szint){
+        if(VÍZ_Mennyiség>=szint/3) {
+            VÍZ_Mennyiség -= szint / 3;
+            return szint/3;
+        }
+        else {
+            float wv=VÍZ_Mennyiség;
+            VÍZ_Mennyiség=0;
+            return wv;
+
+        }
 
     }
 
-   /* public static float hetiVíz(){
-        return ((vízMennyiség*hetiHányÖnt)-((vízMennyiség*hetiHányÖnt)*(0.05f*(Fény.hőmérséklet()/5))));
+    public void locsol(){
+        VÍZ_Mennyiség+=10;
     }
-    */
+    public float getPH(){
+        return PH;
+    }
 
 }
