@@ -67,8 +67,6 @@ public class CanvasView extends View {
 
                 //canvas.drawText("Aqua "+Kender.getInstance().getH2o()+" Azúcar "+Kender.getInstance().getCukor()+" Almidón "+Kender.getInstance().getRost(),0,canvas.getHeight()*0.1f,paint);
 
-
-
         }
 
 
@@ -88,25 +86,34 @@ public class CanvasView extends View {
                     case "X":
                         c.rotate(ch.szög(), (float) t.x, (float) t.y);
                         t.előreRajz(ch.vastagság(),-ch.hossz(), c, ch.szín(), ism);
+                        break;
 
+                    case "H":
+                        c.rotate(ch.szög());
+                        t.magRajz(c);
+                        break;
+
+                    case "C":
+                        c.rotate(ch.szög(), (float) t.x, (float) t.y);
+                        t.levElRajz(ch.vastagság(),-ch.hossz()/5,c);
                         break;
 
                     case "L":
-                        if(ch.szint()<2) {
+                      if(ch.szint()==1) {
 
                             c.rotate(ch.szög(), (float) t.x, (float) t.y);
-                            t.levElRajz(ch.vastagság(),-ch.hossz()/5,c,ch.szín());
+                            t.levElRajz(ch.vastagság(),-ch.hossz(),c,ch.szín());
 
-                        }else if(ch.szint()==2){
+                        }else if(ch.szint()<=3){
 
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög()-65, (float) t.x, (float) t.y);
-                            t.levElRajz(ch.vastagság(),-ch.hossz()/3,c,ch.szín());
+                            t.levElRajz(ch.vastagság(),-ch.hossz()/2,c,ch.szín());
                             t.betöltés(c);
 
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög()+65, (float) t.x, (float) t.y);
-                            t.levElRajz(ch.vastagság(),-ch.hossz()/3, c, ch.szín());
+                            t.levElRajz(ch.vastagság(),-ch.hossz()/2, c, ch.szín());
                             t.betöltés(c);
 
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
@@ -117,22 +124,22 @@ public class CanvasView extends View {
                         }else {
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög()-130, (float) t.x, (float) t.y);
-                            t.levElRajz(ch.vastagság(),-ch.hossz()/6,c,ch.szín());
+                            t.levElRajz(ch.vastagság(),-ch.hossz()/4,c,ch.szín());
                             t.betöltés(c);
 
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög()+130, (float) t.x, (float) t.y);
-                            t.levElRajz(ch.vastagság(),-ch.hossz()/6, c, ch.szín());
+                            t.levElRajz(ch.vastagság(),-ch.hossz()/4, c, ch.szín());
                             t.betöltés(c);
 
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög()-65, (float) t.x, (float) t.y);
-                            t.levElRajz(ch.vastagság(),-ch.hossz()/3, c, ch.szín());
+                            t.levElRajz(ch.vastagság(),-ch.hossz()/2, c, ch.szín());
                             t.betöltés(c);
 
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög()+65, (float) t.x, (float) t.y);
-                            t.levElRajz(ch.vastagság(),-ch.hossz()/3,c,ch.szín());
+                            t.levElRajz(ch.vastagság(),-ch.hossz()/2,c,ch.szín());
                             t.betöltés(c);
 
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
@@ -145,7 +152,7 @@ public class CanvasView extends View {
                     case "V":
                         t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                         //c.rotate(ch.szög(), (float) t.x, (float) t.y);
-                        t.előre(ch.szög(),ch.vastagság(),c);
+
                         t.virágzás(ch.vastagság(),c,ch.szín());
                         t.betöltés(c);
                         break;

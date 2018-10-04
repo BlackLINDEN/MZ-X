@@ -2,6 +2,7 @@ package blacklinden.com.cannabisgrowthsimulator.eszk;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
@@ -10,6 +11,9 @@ import android.widget.LinearLayout;
 import blacklinden.com.cannabisgrowthsimulator.R;
 
 public class AlsFiok extends LinearLayout {
+
+    StarchView starchView;
+
     public AlsFiok(Context context) {
         super(context);
         init(context);
@@ -31,5 +35,11 @@ public class AlsFiok extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.als_fiok, this);
+        starchView = findViewById(R.id.starchView);
+
+    }
+
+    public void flushIt(){
+        starchView.setPaint();
     }
 }

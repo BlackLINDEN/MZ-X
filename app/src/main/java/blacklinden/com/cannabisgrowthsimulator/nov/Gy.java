@@ -1,8 +1,10 @@
 package blacklinden.com.cannabisgrowthsimulator.nov;
 
-import android.graphics.Paint;
 
 public class Gy extends Növény {
+
+    private int counter=0;
+
     public Gy() {
         super("Gy");
 
@@ -12,6 +14,8 @@ public class Gy extends Növény {
     public void élet() {
         vízigény();
         légz();
+        counter++;
+        tápigény();
     }
 
     @Override
@@ -43,9 +47,9 @@ public class Gy extends Növény {
     public float vízigény() {
 
         Kender.getInstance().setH2o(
-                Kender.getInstance().VV.setVÍZ_Mennyiség(Kender.getInstance().Szintet())
+                Kender.getInstance().VV.fogyaszt(Kender.getInstance().Szintet())
         );
-        return 10;
+        return 0;
     }
 
     @Override
@@ -60,9 +64,11 @@ public class Gy extends Növény {
 
     @Override
     public float tápigény() {
-        if(Kender.getInstance().VV.getPH()>4.9f&&Kender.getInstance().VV.getPH()<6f)
-        return 1;
-        else
+        if(counter%2==0&&Kender.getInstance().VV.getVÍZ_Mennyiség()>10&&Math.abs(Kender.getInstance().VV.getPH()-Kender.getInstance().CC.föld.PH)<1) {
+            Kender.getInstance().nutes.N=Kender.getInstance().CC.föld.Nátrium;
+            Kender.getInstance().nutes.P=Kender.getInstance().CC.föld.Foszfor;
+            Kender.getInstance().nutes.K=Kender.getInstance().CC.föld.Kálium;
+        }
         return 0;
     }
 

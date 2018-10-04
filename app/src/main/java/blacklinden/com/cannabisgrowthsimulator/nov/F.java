@@ -1,15 +1,12 @@
 package blacklinden.com.cannabisgrowthsimulator.nov;
 
 import android.graphics.Color;
-import android.graphics.Paint;
-
-import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Fény;
 
 
 public class F extends Növény {
 
 
-    public float x=1f;
+    public float x=10f;
     private float ép;
 
     private int szint;
@@ -19,7 +16,7 @@ public class F extends Növény {
     public F() {
         super("F");
 
-        ép=0;
+        ép=1;
         vízigény();
     }
     public F(int i){
@@ -36,46 +33,39 @@ public class F extends Növény {
     public void élet() {
         System.out.println("élet");
         ép+=Kender.getInstance().cukrozó(1f);
+
+        //if(Kender.getInstance().getRost()<=0&&Kender.getInstance().getCukor()<=0) ép--;
+        //if(Kender.getInstance().nutrition.N>16&&Kender.getInstance().flowering) ép --;
+
+        if(ép==0)
+            Kender.getInstance().halottRészek++;
         xHossz();//
         fejl();
     }
 
     @Override
     public float vastagság() {
-        //nagyon kevés
         return (x*0.0003f)-szint;
+
     }
 
-    private float rost() {
-        float fix;
-        if (szint < 3 && Kender.getInstance().getRost() < 500) {
-            fix = 0.01f;
-        } else
-            fix = 0.0005f;
-        if (Kender.getInstance().getRost() * fix > 10) {
-            return 10;
-        } else
-            return Kender.getInstance().getRost() * fix;
-    }
+
 
     private void xHossz(){
-        if(x<hosszSzabályzó-szint) {
-            x += ép*2;
-            //ép -=1;
-        }
-        System.out.println("F hossza: "+x+" ÉP "+ép);
+
+                if (x < hosszSzabályzó - szint && ép > 0) {
+                    x += ép+Kender.getInstance().nutes.N;
+                }
     }
 
     @Override
     public float hossz() {
-        //ép-=0.01f;
 
         return x;
     }
 
     @Override
     public float szög() {
-       // if(Kender.getInstance().getRost()==0||vastagság()==-1) Kender.getInstance().FF.setIrány();
         return Kender.getInstance().FF.irány;
     }
 

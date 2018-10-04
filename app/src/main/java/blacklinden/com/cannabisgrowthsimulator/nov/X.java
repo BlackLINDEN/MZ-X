@@ -1,11 +1,8 @@
 package blacklinden.com.cannabisgrowthsimulator.nov;
 
 import android.graphics.Color;
-import android.graphics.Paint;
 
 import java.util.Random;
-
-import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Fény;
 
 
 public class X extends Növény {
@@ -23,7 +20,7 @@ public class X extends Növény {
     public X(boolean bvj, int szint){
         super("X");
         x=10;
-        ép=0;
+        ép=1;
         szög=0;
         this.bvj=bvj;
         this.szint=szint;
@@ -47,6 +44,8 @@ public class X extends Növény {
     @Override
     public void élet() {
         ép+=Kender.getInstance().cukrozó(1);
+        if(Kender.getInstance().getRost()<=0)
+            ép--;
         xHossz();
         //szög();
     }
@@ -56,12 +55,27 @@ public class X extends Növény {
         return hossz()*0.00009f;
     }
 
-    private void xHossz(){
+    private void xHossz() {
         //ép-=0.002f;
-        if(szint>5)
-            x+=80f;
-        else
-            x+=100;
+        switch (Kender.getInstance().getFajta()) {
+
+            case 1:
+               if (szint > 5)
+                x += 80f;
+            else
+                x += 100;
+
+                break;
+            case 2:
+
+                if (ép<szint&&szint > 8)
+                    x += 80f;
+                else
+                    x += 80+Kender.getInstance().nutes.N;
+
+
+                break;
+        }
     }
     @Override
     public float hossz() {
@@ -75,9 +89,9 @@ public class X extends Növény {
         int g=rndm.nextInt(10-(-10))+(-10);
         if(ép<11) {
             if (bvj)
-                szög = Kender.getInstance().FF.irány - (vastagság()*230)+g;
+                szög = Kender.getInstance().FF.irány - (15)+g;
             else
-                szög = Kender.getInstance().FF.irány + (vastagság()*230)+g;
+                szög = Kender.getInstance().FF.irány + (15)+g;
         }
 
         return szög;
@@ -112,7 +126,7 @@ public class X extends Növény {
     public float hőigény() {
         float hi=22.5f;
         float lvns=(Math.abs(hi)-Math.abs(Kender.getInstance().FF.hőmérséklet()))/10;
-        ép-=lvns;
+        if(ép>0)ép-=lvns;
         return hi;
     }
 

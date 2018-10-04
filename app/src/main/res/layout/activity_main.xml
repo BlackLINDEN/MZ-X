@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+<android.support.constraint.ConstraintLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,18 +15,49 @@
     android:orientation="vertical"
     tools:layout_editor_absoluteY="81dp">
 
+    <ImageButton
+        android:id="@+id/hamburger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="8dp"
+        android:background="?android:selectableItemBackgroundBorderless"
+        android:onClick="nyissMenut"
+        android:src="@drawable/ic_menu_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.0" />
+
+
     <blacklinden.com.cannabisgrowthsimulator.canvas.CanvasView
         android:id="@+id/canvas"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/button1"
+        app:layout_constraintBottom_toBottomOf="@+id/cserep"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/fatyol"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/httr_vill001"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/cserep"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/gmb"
+        app:layout_constraintVertical_bias="1.0" />
+
 
 
     <ImageButton
@@ -35,12 +72,26 @@
         android:background="?android:selectableItemBackgroundBorderless"
         android:onClick="cl"
         android:rotation="180"
-        android:src="@drawable/ic_lightbulb_outline_black_24dp"
+        android:src="@drawable/ic_rrr"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
         app:layout_constraintVertical_bias="0.100000024" />
+
+    <ImageView
+        android:id="@+id/bura"
+        android:layout_width="77dp"
+        android:layout_height="139dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/bura02"
+        app:layout_constraintBottom_toBottomOf="@+id/gmb"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
     <blacklinden.com.cannabisgrowthsimulator.eszk.AlsFiok
         android:id="@+id/also"
@@ -52,7 +103,6 @@
         app:layout_constraintStart_toStartOf="@+id/oldalsoB"
         app:layout_constraintTop_toBottomOf="@+id/canvas"
         app:layout_constraintVertical_bias="1.0" />
-
 
     <blacklinden.com.cannabisgrowthsimulator.eszk.FelsFiok
         android:id="@+id/imageView2"
@@ -105,46 +155,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-
-    <ImageView
-        android:id="@+id/waterIV"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom|start"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button1"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <ImageButton
+    <blacklinden.com.cannabisgrowthsimulator.eszk.Ventil
         android:id="@+id/ventil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="top|end"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="?android:selectableItemBackgroundBorderless"
         android:onClick="ventilator"
-        android:src="@drawable/ic_toys_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.32" />
-
-
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <ImageButton
@@ -152,13 +178,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="?android:selectableItemBackgroundBorderless"
-        android:onClick="locsol"
-        android:src="@drawable/kanna"
+        android:src="@drawable/kanna1"
+        android:tag="locsol"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -166,116 +191,83 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|center"
-        android:visibility="gone">
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TableRow>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Lightsource Type" />
-            </TableRow>
-
-            <TableRow>
-
-                <RadioGroup
-                    android:id="@+id/b2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:id="@+id/Led"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="LED" />
-
-                    <RadioButton
-                        android:id="@+id/Inc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="INC" />
-
-                    <RadioButton
-                        android:id="@+id/Cfl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="CFL" />
-
-                    <RadioButton
-                        android:id="@+id/Hps"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="HPS" />
-
-                </RadioGroup>
-            </TableRow>
-
-            <TableRow>
-
-                <SeekBar
-                    android:id="@+id/sb1watt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </TableRow>
-
-            <TableRow>
-
-                <SeekBar
-                    android:id="@+id/sb2kelvin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </TableRow>
-
-            <TableRow>
-
-                <Button
-                    android:id="@+id/g3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="exitCV"
-                    android:text="OK" />
-            </TableRow>
-
-        </TableLayout>
-    </android.support.v7.widget.CardView>
-
-
     <ImageButton
-        android:id="@+id/button1"
+        android:id="@+id/cserep"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:background="?android:selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_cserep2"
+        android:src="@drawable/rsz_cserep_old2"
         app:layout_constraintBottom_toTopOf="@+id/also"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gmb"
         app:layout_constraintVertical_bias="1.0" />
 
-    <LinearLayout
+    <ImageButton
+        android:id="@+id/tap1"
+        android:layout_width="49dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="?android:selectableItemBackgroundBorderless"
+        android:src="@drawable/nutri_flower"
+        android:tag="tap1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cserep" />
+
+
+    <ImageButton
+        android:id="@+id/daseed"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="?android:selectableItemBackgroundBorderless"
+        android:src="@drawable/seed"
+        android:tag="daseed"
+        app:layout_constraintBottom_toBottomOf="@+id/cserep"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/cukorrost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
+    <ImageButton
+        android:id="@+id/ollo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="?android:selectableItemBackgroundBorderless"
+        android:onClick="szüret"
+        android:src="@drawable/ollo"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.18"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/thermo" />
 
 </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@drawable/httr_vil"
+        app:menu="@menu/drawer_view"
+        android:fitsSystemWindows="true" />
+
+</android.support.v4.widget.DrawerLayout>

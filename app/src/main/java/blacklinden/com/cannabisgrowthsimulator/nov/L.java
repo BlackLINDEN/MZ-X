@@ -1,9 +1,6 @@
 package blacklinden.com.cannabisgrowthsimulator.nov;
 
 import android.graphics.Color;
-import android.graphics.Paint;
-
-import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Fény;
 
 public class L extends Növény {
 
@@ -11,8 +8,8 @@ public class L extends Növény {
     private boolean balra;
     private int szint;
     private int p;
-    private float ép;
-
+    private float ép=1;
+    private float hjl=60;
 
     public L(boolean balra) {
         super("L");
@@ -26,7 +23,7 @@ public class L extends Növény {
         x=0.05f;
         this.balra=balra;
         this.szint=szint;
-
+        p = Color.GREEN;
         vízigény();
 
     }
@@ -34,6 +31,19 @@ public class L extends Növény {
     @Override
     public void élet() {
         ép+=Kender.getInstance().cukrozó(1);
+        if(Kender.getInstance().flowering) {
+            if (Kender.getInstance().getRost() <= 0 || Kender.getInstance().nutes.N > Kender.getInstance().nutes.P ||
+                    Kender.getInstance().nutes.K > 9 || Kender.getInstance().nutes.P > 17)
+                ép--;
+        }else{
+            if(Kender.getInstance().getRost()<=0||
+                    Kender.getInstance().nutes.P>Kender.getInstance().nutes.N
+                    ||Kender.getInstance().nutes.K>9||Kender.getInstance().nutes.N>12){
+                ép--;
+            }
+        }
+        if(ép==0)
+            Kender.getInstance().halottRészek++;
         szín();
         //szög();
         xHossz();
@@ -43,13 +53,22 @@ public class L extends Növény {
 
     @Override
     public float vastagság() {
-        return 12;
+        int xxx;
+        switch(Kender.getInstance().getFajta()){
+            case 1:xxx=12;
+            break;
+            case 2:xxx=14;
+            break;
+            default:xxx=10;
+        }
+
+        return xxx;
     }
 
 
     private void xHossz(){
-        if(x<110-szint)
-            x+=ép/3;
+        if(x<110-szint&&ép>0)
+            x++;
     }
     @Override
     public float hossz() {
@@ -62,9 +81,11 @@ public class L extends Növény {
 
     @Override
     public float szög() {
-        float hjl=60;
-        if(p== Color.YELLOW)
+
+        if(p== Color.YELLOW&&hjl<90)
             hjl+=10;
+        else if(!Kender.getInstance().FF.beKapcs)
+            hjl=60;
         if(balra)
             return Kender.getInstance().FF.irány-hjl;
         else return Kender.getInstance().FF.irány+hjl;
@@ -72,18 +93,26 @@ public class L extends Növény {
 
     @Override
     public int szín() {
-        if(ép<0){
+        if(ép==0){
 
             p=(Color.YELLOW);
-        }else{
-
-            p=(Color.GREEN);
+        }else if(!Kender.getInstance().flowering
+                &&
+                Kender.getInstance().nutes.P>Kender.getInstance().nutes.N){
+            p=(Color.BLACK);
+            ép-=10;
         }
+
+        else if(Kender.getInstance().flowering&&Kender.getInstance().nutes.P>12){
+            p=(Color.YELLOW);
+            ép--;
+        }
+
         return p;
     }
 
     private boolean fényFelvétel(){
-        if((Kender.getInstance().FF.watt-szint)>=0||p==Color.GREEN) {
+        if(Kender.getInstance().FF.beKapcs&&(Kender.getInstance().FF.watt-szint)>=0&&p==Color.GREEN) {
             Kender.getInstance().fény++;
             return true;
         }else return false;
@@ -91,7 +120,7 @@ public class L extends Növény {
 
     @Override
     public float fejl() {
-        return 0;
+        return ép;
     }
 
     @Override
@@ -112,6 +141,7 @@ public class L extends Növény {
 
     @Override
     public float tápigény() {
+
         return 0;
     }
 
@@ -125,4 +155,6 @@ public class L extends Növény {
     public int szint() {
         return szint;
     }
+
+    
 }

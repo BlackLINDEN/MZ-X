@@ -20,6 +20,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
@@ -30,8 +31,10 @@ import blacklinden.com.cannabisgrowthsimulator.MainActivity;
 import blacklinden.com.cannabisgrowthsimulator.R;
 import blacklinden.com.cannabisgrowthsimulator.nov.A;
 import blacklinden.com.cannabisgrowthsimulator.nov.Av;
+import blacklinden.com.cannabisgrowthsimulator.nov.C;
 import blacklinden.com.cannabisgrowthsimulator.nov.F;
 import blacklinden.com.cannabisgrowthsimulator.nov.Gy;
+import blacklinden.com.cannabisgrowthsimulator.nov.H;
 import blacklinden.com.cannabisgrowthsimulator.nov.Kender;
 import blacklinden.com.cannabisgrowthsimulator.nov.L;
 import blacklinden.com.cannabisgrowthsimulator.nov.Növény;
@@ -43,38 +46,44 @@ import blacklinden.com.cannabisgrowthsimulator.nov.menttolt.T;
 public class LService extends Service {
 
 
+    public int ism = 6;
+    private int vég =800;
 
-    public int ism=6;
-
-    public figyi figyi;
-    public boolean stopIt=false;
+    public boolean stopIt = false;
     public ArrayList<Növény> al = new ArrayList<>();
     private IBinder binderem = new Binderem();
-    public static boolean IS_SERVICE_RUNNING = false;
+    public volatile boolean IS_SERVICE_RUNNING = false;
     private Notif notif;
+    public volatile boolean isOOrunning=false;
+    public boolean szüretelve=false;
 
-    public LService(){
-        if(!IS_SERVICE_RUNNING) {
+    public LService() {
+        if (!IS_SERVICE_RUNNING) {
             Kender.getInstance();
             Kender.getInstance().initFény();
             Kender.getInstance().initRost();
             Kender.getInstance().initVíz();
             Kender.getInstance().initCukor();
             Kender.getInstance().initCO2();
+
+
         }
     }
 
 
-
     @Override
     public void onCreate() {
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             notif = new Notif(this);
-            Toast.makeText(getApplicationContext(),"Ay Ricky dont Eat Them Oreos",Toast.LENGTH_SHORT).show();
-
+            Intent notificationIntent = new Intent(this, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                    notificationIntent, 0);
             Notification.Builder nb = notif.
-                    getAndroidChannelNotification("GROWBOX","chuppie");
-
+                    getAndroidChannelNotification("GROWBOX", "Grow Operation In-Progress");
+            nb.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.kendericon));
+            nb.setSmallIcon(R.mipmap.type_simbol);
+            nb.setContentIntent(pendingIntent);
             notif.getManager().notify(101, nb.build());
 
             startForeground(101,
@@ -82,48 +91,46 @@ public class LService extends Service {
 
         }
         IS_SERVICE_RUNNING = true;
-        if(al.isEmpty()) {
-            F ff = new F(1);
+
             al.add(new Gy());
-            al.add(ff);
+            al.add(new F(0));
             al.add(new M());
-            al.add(new L(true, 1));
-            al.add(new T());
-            al.add(new M());
-            al.add(new T());
-            al.add(new M());
-            al.add(new L(false, 1));
+            al.add(new H());
             al.add(new T());
 
-        }
+
 
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Toast.makeText(LService.this, "ON", Toast.LENGTH_SHORT).show();
 
-            oo.run();
 
-if(intent!=null) {
-    switch ((Objects.requireNonNull(intent.getAction()))) {
-        case Constants.ACTION.STARTFOREGROUND_ACTION:
-            Log.i("log ", "Received Start Foreground Intent ");
-            showNotification();
-            Toast.makeText(this, "Service Started!", Toast.LENGTH_SHORT).show();
 
-            break;
-        case Constants.ACTION.STOPFOREGROUND_ACTION:
-            Log.i("log ", "Received Stop Foreground Intent");
-            stopForeground(true);
-            //stopSelf();
-            break;
 
-    }
-}
+        if (intent != null) {
+            switch ((Objects.requireNonNull(intent.getAction()))) {
+                case Constants.ACTION.STARTFOREGROUND_ACTION:
+                    Log.i("log ", "Received Start Foreground Intent ");
+                    showNotification();
+
+
+                    break;
+                case Constants.ACTION.STOPFOREGROUND_ACTION:
+                    Log.i("log ", "Received Stop Foreground Intent");
+                    stopForeground(true);
+
+                    break;
+
+            }
+        }
 
         return START_STICKY;
+    }
+
+    public void startThread(){
+        oo.run();
     }
 
     private void showNotification() {
@@ -136,17 +143,17 @@ if(intent!=null) {
 
 
         Bitmap icon = BitmapFactory.decodeResource(getResources(),
-                R.drawable.ic_launcher_foreground);
+                R.drawable.kendericon);
 
 
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
 
 
             Notification notification = new Notification.Builder(this)
-                    .setContentTitle("FOrgroundTeszt")
-                    .setTicker("teszt")
-                    .setContentText("sor001")
-                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentTitle("GROWBOX")
+                    .setTicker("Grow Operation")
+                    .setContentText("In-Progress")
+                    .setSmallIcon(R.mipmap.type_simbol)
                     .setLargeIcon(icon)
                     .setContentIntent(pendingIntent)
                     .setOngoing(true)
@@ -158,26 +165,14 @@ if(intent!=null) {
         }
 
 
-
-
-
-
-
-
-
     }
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(LService.this,"Critical Overload. Battery Faileur Imminent!!!", Toast.LENGTH_SHORT).show();
-        Toast.makeText(LService.this,"Turn Off Device to prevent Core Melt-down.", Toast.LENGTH_SHORT).show();
-        Toast.makeText(LService.this,":D", Toast.LENGTH_LONG).show();
-        handler.removeCallbacks(oo);
+        al.clear();
     }
-
-
 
 
     public Handler handler = new Handler(Looper.myLooper());
@@ -187,131 +182,136 @@ if(intent!=null) {
             //figyi.H2O(Kender.getInstance().getH2o());
             //figyi.NAP(ism);
 
-
-                ism();
-                System.out.println("ISM "+ism);
-                A(al,ism);
-                handler.postDelayed(oo, 600);
+            isOOrunning=true;
+            ism();
+            System.out.println("ISM " + ism);
+            Kender.getInstance().update(ism);
+            A(al);
+            handler.postDelayed(oo, 12000);
 
         }
     };
-    private void ism(){
-        System.out.println("ISM "+ism);
+
+    private void ism() {
+        System.out.println("ISM " + ism);
         ism++;
 
     }
 
 
-
-    private void A(ArrayList<Növény> aa, int sm){
+    private void A(ArrayList<Növény> aa) {
         ArrayList<Növény> a = new ArrayList<>();
-        Kender.getInstance().update();
-        if(ism<500){
-            for(Növény x:aa){
+
+
+        if (!Kender.getInstance().halott_e&&!szüretelve&&ism<vég) {
+            for (Növény x : aa) {
 
                 x.élet();
-                if(Objects.equals(x.n, "F")&&x.fejl()==50){
-                    Toast.makeText(this,x.n,Toast.LENGTH_SHORT).show();
-                    a.add(x);
-                    a.add(new A(x.szint()));
-                }
-                else if(Objects.equals(x.n,"A")&&x.szint()<500){
-
-                    a.add(new M());
-                    a.add(new X(true,x.szint()));
-                    a.add(new L(true,x.szint()));
-                    a.add(new T());
-                    a.add(new M());
-                    a.add(new T());
-                    a.add(new M());
-                    a.add(new X(false,x.szint()));
-                    a.add(new L(false,x.szint()));
-                    a.add(new T());
-                    a.add(new F(x.szint()));
 
 
-                }else if(Objects.equals(x.n,"X")&&x.szint()==5){
-                    a.add(new F(x.szint()));
+                        if (Objects.equals(x.n, "F") && x.fejl() == 50) {
+                            a.add(x);
+                            a.add(new A(x.szint()));
+                        }else if(Objects.equals(x.n,"X")&&x.fejl()==300){
+                            a.add(new A(1));
+                            a.add(x);
+
+                        }else if (Objects.equals(x.n,"H")&&x.fejl()==10){
+                           a.add(new M());
+                           a.add(new C(true));
+                           a.add(new T());
+                           a.add(new M());
+                           a.add(new C(false));
+                           a.add(new T());
+                        }else if (Objects.equals(x.n, "A")&& x.szint() < 500) {
 
 
-                }else if(Objects.equals(x.n,"X")&&(int)x.fejl()==300){
+                            a.add(new M());
+                            a.add(new X(true, x.szint()));
+                            a.add(new L(true, x.szint()));
+                            a.add(new T());
+                            a.add(new M());
+                            a.add(new X(false, x.szint()));
+                            a.add(new L(false, x.szint()));
+                            a.add(new T());
+                            a.add(new F(x.szint()));
 
-                    a.add(new X(x.szög()<0,301,x.hossz()/2,x.szög(),3));
-                    a.add(new L(x.szög()<0,4));
-                    a.add(new X(x.szög()<0,301,x.hossz()/2,x.szög(),3));
-                }else if (Objects.equals(x.n, "F")&&x.szint()>8&&ism>300) {
 
-                    a.add(new Av(Kender.getInstance().Szintet()%x.szint()));
-                    a.add(x);
-                } else if (Objects.equals(x.n, "AV")&&x.fejl()>50) {
+                        }else if(Objects.equals(x.n,"C")&&x.fejl()==50){
 
-                    a.add(new V());
-                } else if(Objects.equals(x.n,"V")&&x.fejl()>100){
-                    a.add(x);
-                    a.add(new V());
-                }
-                else {
-                    a.add(x);
-                }
-            } al.clear();
-            al.addAll(a); }
+                            a.add(new A(1));
+                        }
 
-        else {
-            stopSelf();
-            stopForeground(true);
-            Toast.makeText(this,hányGrammLett(al)+" Gramm",Toast.LENGTH_SHORT).show();
-            handler.removeCallbacks(oo);
-            stopIt=true;
+                     else if (Objects.equals(x.n, "F") && Kender.getInstance().flowering) {
+                            a.add(x);
+                            a.add(new Av(x.szint()));
+
+                        } else if (Objects.equals(x.n, "AV") && x.fejl() > 50) {
+
+                            a.add(new V());
+                        } else if (Objects.equals(x.n, "V") && x.fejl() > 100) {
+                            a.add(x);
+                            a.add(new V());
+                        } else {
+                            a.add(x);
+                        }
+
+            }
+
+            al.clear();
+            al.addAll(a);
         }
 
-    }
+        else{
 
-    private float hányGrammLett(ArrayList<Növény> aaa){
-        float gramm=0;
-        for(Növény x:aaa){
-            if(Objects.equals(x.n,"V")){
-                gramm+=x.vastagság();
+                handler.removeCallbacks(oo);
+                stopIt = true;
+                stopForeground(true);
+                stopSelf();
+
+                //Toast.makeText(this, hányGrammLett(al) + " Gramm", Toast.LENGTH_SHORT).show();
+
+            }
+
+        }
+
+
+        public float hányGrammLett () {
+            float gramm=10;
+            for (Növény x : al) {
+                if (Objects.equals(x.n, "V")) {
+                    gramm += x.vastagság();
+                }
+            }
+            return gramm;
+        }
+
+        @Nullable
+        @Override
+        public IBinder onBind (Intent intent){
+            return binderem;
+        }
+
+        @Override
+        public boolean onUnbind (Intent intent){
+            return true;
+        }
+
+        @Override
+        public void onRebind (Intent intent){
+            super.onRebind(intent);
+        }
+
+
+
+        public class Binderem extends Binder {
+            public LService getService() {
+                return LService.this;
             }
         }
-        return gramm/100;
-    }
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return binderem;
-    }
-
-    @Override
-    public boolean onUnbind(Intent intent) {
-        return true;
-    }
-
-    @Override
-    public void onRebind(Intent intent) {
-        super.onRebind(intent);
-    }
-
-
-
-    public void setFigyi(figyi figyi) {
-        this.figyi=figyi;
-    }
-
-    public interface figyi{
-        void init(String title);
-        void H2O(float h2o);
-        void NAP(int nap);
-    }
-
-    public class Binderem extends Binder {
-        public LService getService() {
-            return LService.this;
+        public int hullám () {
+            return (int) Kender.getInstance().VV.getVÍZ_Mennyiség();
         }
-    }
 
-    public int hullám(){
-        return (int) Kender.getInstance().VV.getVÍZ_Mennyiség();
     }
-
-}

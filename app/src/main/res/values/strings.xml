@@ -1,3 +1,27 @@
 <resources>
-    <string name="app_name">CannabisGrowthSimulator</string>
+    <string name="app_name">GrowBox</string>
+
+    <string name="title_1">Skunk#1</string>
+
+    <string name="title_2">Haze</string>
+
+    <string name="title_3">FOX Ocean</string>
+
+    <string name="text_1">Hybrid strain created during the late 1970s.
+        Diverse genetics: Afghani, Acapulco Gold and Colombian Gold. </string>
+
+    <string name="text_2"> Haze is a sativa strain originally from Santa Cruz, California. Powerful and sturdy plant, with a lengthy flowering period.
+    </string>
+
+    <string name="text_3">100% Natural and Organic. FoxFarm Ocean Forest Soil is ready to use right out of the bag and provides
+        the ideal environment for young seedlings to become thriving plants. Lightweight and well-aerated,
+        it’s the perfect all-natural mix for container grown plants!</string>
+
+    <string name="kill">Kill Plant</string>
+
+    <string name="back">Main Menu</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="inventory">Inventory</string>
+
+
 </resources>

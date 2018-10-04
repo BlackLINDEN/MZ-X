@@ -1,7 +1,6 @@
 package blacklinden.com.cannabisgrowthsimulator.nov;
 
 import android.graphics.Color;
-import android.graphics.Paint;
 
 import java.util.Random;
 
@@ -14,7 +13,7 @@ public class V extends Növény {
     private float x;
     public V() {
         super("V");
-
+        p=Color.WHITE;
         vízigény();
         x=5f;
     }
@@ -30,12 +29,13 @@ public class V extends Növény {
     public void élet() {
         ép+=Kender.getInstance().cukrozó(1);
         szög();
+        szín();
         xVast();
     }
 
     private void xVast(){
-        if(x<15.5f)
-        x+=ép+szint;
+        if(x<20)
+        x+=ép/3+Kender.getInstance().nutes.P;
     }
 
     @Override
@@ -59,8 +59,16 @@ public class V extends Növény {
 
     @Override
     public int szín() {
-
-        p=(Color.WHITE);
+        switch (Kender.getInstance().getFajta()) {
+            case 1:
+            if (ép > 2)
+                p = Color.rgb(205, 133, 63);
+            break;
+            case 2:
+                if (ép > 4)
+                    p = Color.rgb(205, 133, 63);
+            break;
+        }
         return p;
     }
 
@@ -71,7 +79,6 @@ public class V extends Növény {
 
     @Override
     public float vízigény() {
-        Kender.getInstance().Szint();
         return 0;
     }
 

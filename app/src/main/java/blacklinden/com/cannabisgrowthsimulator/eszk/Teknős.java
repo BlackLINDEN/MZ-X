@@ -19,8 +19,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Random;
 import java.util.Stack;
+import java.util.concurrent.ThreadLocalRandom;
 
 import blacklinden.com.cannabisgrowthsimulator.R;
+import blacklinden.com.cannabisgrowthsimulator.nov.Kender;
 
 public class Teknős  {
     public double x, y;
@@ -31,10 +33,11 @@ public class Teknős  {
     private Paint virág,bibe;
     private Paint levélKör;
     private Paint levél,szár;
+    private Paint mag;
     private Path path;
 
     private Shader sSzr;
-    private Shader shader1;
+    private Shader shader1,shader2;
 
     public Teknős(Context context) {
 
@@ -42,30 +45,63 @@ public class Teknős  {
         Bitmap bitmapA = BitmapFactory.decodeResource(
                 context.getResources(), R.drawable.kndr_szr);
 
+        mag = new Paint();
+        mag.setColor(Color.rgb(222,184,135));
+        mag.setStyle(Paint.Style.FILL);
 
         sSzr = new BitmapShader(bitmapA,
                 Shader.TileMode.REPEAT
                 , Shader.TileMode.MIRROR);
-
-        shader1 = new BitmapShader(
-                BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.lvlrzt12),
-                Shader.TileMode.REPEAT,
-                Shader.TileMode.REPEAT);
-
+        shader2 = new BitmapShader(
+                BitmapFactory.decodeResource(
+                        context.getResources(),
+                        R.drawable.mag_def_final_blur),
+                Shader.TileMode.CLAMP,
+                Shader.TileMode.CLAMP
+        );
+        if(Kender.getInstance().getFajta()==1) {
+            shader1 = new BitmapShader(
+                    BitmapFactory.decodeResource(
+                            context.getResources(),
+                            R.drawable.slice5),
+                    Shader.TileMode.MIRROR,
+                    Shader.TileMode.MIRROR);
+        }else{
+            shader1 = new BitmapShader(
+                    BitmapFactory.decodeResource(
+                            context.getResources(),
+                            R.drawable.cueroverde),
+                    Shader.TileMode.MIRROR,
+                    Shader.TileMode.MIRROR);
+        }
         path = new Path();
         path.setFillType(Path.FillType.WINDING);
 
         virág = new Paint();
 
         virág.setStyle(Paint.Style.FILL);
-        virág.setColor(Color.GREEN);
+        virág.setShader(new BitmapShader(
+                BitmapFactory.decodeResource(
+                        context.getResources(),
+                        R.drawable.gambi24),
+                Shader.TileMode.MIRROR,
+                Shader.TileMode.MIRROR
+                )
+        );
 
         bibe = new Paint();
-        bibe.setStrokeWidth(1f);
+        bibe.setStrokeWidth(5f);
+        bibe.setStyle(Paint.Style.STROKE);
+        bibe.setStrokeCap(Paint.Cap.BUTT);
+        bibe.setPathEffect(new PathDashPathEffect(
+                getTriangle(8),
+                20,
+                1.0f,
+                PathDashPathEffect.Style.ROTATE));
+
 
         levélKör = new Paint();
-        levélKör.setColor(Color.rgb(25,189,10));
+
         levélKör.setStyle(Paint.Style.STROKE);
         levélKör.setStrokeCap(Paint.Cap.ROUND);
         levélKör.setStrokeWidth(2f);
@@ -112,29 +148,35 @@ public class Teknős  {
     public void virágzás(float v,Canvas canvas, int p){
         float oldx =(float) x;
         float oldy =(float) y;
-        x += (5)* Math.cos(Math.toRadians(angle));
-        y +=(5)* Math.sin(Math.toRadians(angle));
+        int rand = ThreadLocalRandom.current().nextInt(10, 20);
+        x += (rand)* Math.cos(Math.toRadians(angle));
+        y +=(rand)* Math.sin(Math.toRadians(angle));
 
         bibe.setColor(p);
-        canvas.drawCircle((float)x,(float)y,v, virág);
-        canvas.drawLine((float)x, (float)y, oldx,oldy,bibe);
+
+        canvas.drawCircle((float)x, (float)y, v, virág);
+        canvas.drawCircle((float)x, (float)y, v, bibe);
 
     }
 
-    public void levElRajz(float vast, double step, Canvas canvas, Context context, int szín) {
+    public void levElRajz(float vast, double step, Canvas canvas) {
 
         float oldx =(float) x;
         float oldy =(float) y;
         x += ((float)step)* Math.cos(Math.toRadians(angle));
         y +=((float)step)* Math.sin(Math.toRadians(angle));
 
+        canvas.drawOval(oldx - vast, (float) y - vast, (float)(x + vast), oldy, levél);
 
 
+    }
 
+    public void magRajz(Canvas canvas){
 
-        canvas.drawOval(oldx - vast, (float) y -50, (float)(x + vast), oldy, levél);
-        canvas.drawOval(oldx - vast, (float) y - 50, (float)(x + vast), oldy, levélKör);
+        x += ((float)10)* Math.cos(Math.toRadians(angle));
+        y +=((float)10)* Math.sin(Math.toRadians(angle));
 
+        canvas.drawCircle((float)x,(float)y,10, mag);;
     }
 
     private Path getTriangle(float size) {
@@ -147,26 +189,21 @@ public class Teknős  {
         return path;
     }
 
+
     public void levElRajz(float vast,double step, Canvas canvas, int szín) {
         float oldx =(float) x;
         float oldy =(float) y;
         x += ((float)step)* Math.cos(Math.toRadians(angle));
         y +=((float)step)* Math.sin(Math.toRadians(angle));
 
+        levélKör.setColor(szín);
+        if(szín==Color.BLACK||szín==Color.YELLOW) levél.setShader(shader2);
 
         canvas.drawOval(oldx - vast, (float) y -vast, (float)(x + vast), oldy, levél);
         canvas.drawOval(oldx - vast, (float) y - vast, (float)(x + vast), oldy, levélKör);
 
     }
 
-
-
-    public void előre(float sz, double step, Canvas c){
-        x += (float)step * Math.cos(Math.toRadians(sz));
-        y +=(float) step * Math.sin(Math.toRadians(sz));
-
-        c.translate((float)0,(float)step);
-    }
 
 
     public void mentés(Canvas c, int ix, int iy, int t){
@@ -204,7 +241,7 @@ public class Teknős  {
         Random generator = new Random();
         int n = 10000;
         n = generator.nextInt(n);
-        String fname = "Image-"+ n +".jpg";
+        String fname = "Plant-"+ n +".jpg";
         File file = new File (myDir, fname);
         if (file.exists ()) file.delete ();
         try {

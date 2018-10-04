@@ -1,9 +1,12 @@
 package blacklinden.com.cannabisgrowthsimulator.eszk;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
@@ -11,6 +14,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 
+import blacklinden.com.cannabisgrowthsimulator.R;
 import blacklinden.com.cannabisgrowthsimulator.nov.Kender;
 
 public class StarchView extends View {
@@ -22,6 +26,7 @@ public class StarchView extends View {
     private int fontSize;
     private int armTrunc;
     private boolean init_e=false;
+
 
     public StarchView(Context context) {
         super(context);
@@ -47,12 +52,16 @@ public class StarchView extends View {
         armTrunc=min/20;
         radius=(int)(min/2-padding);
         init_e=true;
+
+
+
     }
 
     @Override
     protected void onDraw(Canvas c){
         super.onDraw(c);
         if(!init_e)init();
+
         drawCircle(c);
         drawArms(c);
         postInvalidateDelayed(500);
@@ -62,14 +71,6 @@ public class StarchView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
     }
-
-    public Handler handler = new Handler(Looper.myLooper());
-    public Runnable oo = new Runnable() {
-        @Override
-        public void run() {
-
-        }
-    };
 
     private void drawCircle(Canvas c){
         paint.reset();
@@ -82,7 +83,7 @@ public class StarchView extends View {
     }
 
     private void drawArm(Canvas c,double loc){
-        double angle=Math.PI*loc/40000+Math.PI/2;
+        double angle=Math.PI*loc/1000+Math.PI/2;
         int armRadius=radius-armTrunc;
         c.drawLine(w/2,h/2,
                 (float)(w/2+Math.cos(angle)*armRadius),
@@ -92,8 +93,12 @@ public class StarchView extends View {
 
     private void drawArms(Canvas c){
 
-        drawArm(c, Kender.getInstance().getCukor());
+        drawArm(c, Kender.getInstance().VV.getVÍZ_Mennyiség());
 
+    }
+
+    public void setPaint(){
+        paint.setColor(Color.BLUE);
     }
 
 }
