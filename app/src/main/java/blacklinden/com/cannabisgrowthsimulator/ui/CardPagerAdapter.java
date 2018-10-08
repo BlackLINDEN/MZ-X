@@ -75,10 +75,18 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
 
     private void bind(CardItem item, View view) {
         TextView titleTextView = (TextView) view.findViewById(R.id.titleTextView);
-        TextView contentTextView = (TextView) view.findViewById(R.id.contentTextView);
+        TextView contentTextView = (TextView) view.findViewById(R.id.thc);
+        TextView yield = view.findViewById(R.id.yield);
+        TextView gender = view.findViewById(R.id.gender);
+        TextView strainType = view.findViewById(R.id.strainType);
+        TextView flower = view.findViewById(R.id.flower);
         ImageView imageView = view.findViewById(R.id.titleImage);
         titleTextView.setText(item.getTitle());
-        contentTextView.setText(item.getText());
+        contentTextView.setText(item.getThc());
+        yield.setText(item.getYield());
+        gender.setText(item.getGender());
+        strainType.setText(item.getStrainType());
+        flower.setText(item.getFlower());
         imageView.setImageResource(item.getPic());
     }
 

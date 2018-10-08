@@ -89,9 +89,9 @@ public class X extends Növény {
         int g=rndm.nextInt(10-(-10))+(-10);
         if(ép<11) {
             if (bvj)
-                szög = Kender.getInstance().FF.irány - (15)+g;
+                szög = Kender.getInstance().FF.irány - (40)-g;
             else
-                szög = Kender.getInstance().FF.irány + (15)+g;
+                szög = Kender.getInstance().FF.irány + (40)+g;
         }
 
         return szög;

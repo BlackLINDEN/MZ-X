@@ -54,7 +54,7 @@ public class F extends Növény {
     private void xHossz(){
 
                 if (x < hosszSzabályzó - szint && ép > 0) {
-                    x += ép+Kender.getInstance().nutes.N;
+                    x += ép*2+Kender.getInstance().nutes.N;
                 }
     }
 

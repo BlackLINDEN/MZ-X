@@ -62,8 +62,8 @@ public class ThermoView extends View {
         c.drawCircle(c.getWidth()/2,c.getHeight()-25,18,piros);
         c.drawLine(
                 c.getWidth()/2, c.getHeight()-25,
-                c.getWidth()/2+(float)(Math.cos(Math.PI/2)*(c.getWidth()*0.01)*fok),
-                (float)((c.getHeight()-25)-Math.sin(Math.PI/2)*(c.getHeight()*0.01)*fok), piros
+                c.getWidth()/2+(float)(Math.cos(Math.PI/2)*(c.getWidth()*0.008)*fok),
+                (float)((c.getHeight()-25)-Math.sin(Math.PI/2)*(c.getHeight()*0.008)*fok), piros
         );
 
     }
