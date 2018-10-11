@@ -19,7 +19,7 @@ public class Gy extends Növény {
                 Kender.getInstance().causeofdeath += "\n ROOT ROT";
                 Kender.getInstance().halott_e = true;
             }
-        }else if(szomj>24)
+        }else if(szomj>12)
             Kender.getInstance().causeofdeath += "\n DEHYDRATION";
         vízigény();
         légz();

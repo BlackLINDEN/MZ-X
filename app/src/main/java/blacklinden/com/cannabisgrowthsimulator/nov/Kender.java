@@ -43,7 +43,7 @@ public final class Kender {
         return rost;
     }
 
-    public void initRost(){this.rost=100;}
+    public void initRost(){this.rost=10;}
 
     private float rost;
 
