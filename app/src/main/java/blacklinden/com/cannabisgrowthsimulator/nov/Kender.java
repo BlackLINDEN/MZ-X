@@ -132,7 +132,7 @@ public final class Kender {
     private void calvinKör(){
 
         if(co2>0&&h2o>1&&h2o<200&&fény>0&&FF.beKapcs) {
-            int nutri=(nutes.N+ nutes.P+ nutes.K)/3;
+            int nutri=(nutes.N+ nutes.P+ nutes.K)/2;
             cukor += nutri+fény/6;
             nutes.N=0;
             nutes.P=0;

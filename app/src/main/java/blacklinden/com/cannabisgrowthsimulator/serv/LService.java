@@ -281,13 +281,16 @@ public class LService extends Service {
 
 
         public float hányGrammLett () {
-            float gramm=10;
+            float gramm=0;
             for (Növény x : al) {
                 if (Objects.equals(x.n, "V")) {
                     gramm += x.vastagság();
                 }
+
             }
-            return gramm;
+            if(gramm==0) return gramm;
+            else
+            return gramm/1000;
         }
 
         @Nullable
