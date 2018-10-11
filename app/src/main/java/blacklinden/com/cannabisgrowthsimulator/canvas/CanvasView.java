@@ -104,7 +104,7 @@ public class CanvasView extends View {
                             c.rotate(ch.szög(), (float) t.x, (float) t.y);
                             t.levElRajz(ch.vastagság(),-ch.hossz(),c,ch.szín());
 
-                        }else if(ch.szint()<=3){
+                        }else if(ch.szint()<=3&&ch.szint()>1){
 
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög()-65, (float) t.x, (float) t.y);

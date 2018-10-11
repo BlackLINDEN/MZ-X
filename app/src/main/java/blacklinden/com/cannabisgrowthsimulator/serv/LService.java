@@ -48,14 +48,14 @@ public class LService extends Service {
 
     public int ism = 6;
     private int vég =800;
-
     public boolean stopIt = false;
     public ArrayList<Növény> al = new ArrayList<>();
     private IBinder binderem = new Binderem();
-    public volatile boolean IS_SERVICE_RUNNING = false;
+    public static volatile boolean IS_SERVICE_RUNNING = false;
     private Notif notif;
     public volatile boolean isOOrunning=false;
     public boolean szüretelve=false;
+    public boolean halott;
 
     public LService() {
         if (!IS_SERVICE_RUNNING) {
@@ -172,6 +172,8 @@ public class LService extends Service {
     public void onDestroy() {
         super.onDestroy();
         al.clear();
+        Kender.getInstance().clear();
+        IS_SERVICE_RUNNING=false;
     }
 
 
@@ -209,11 +211,13 @@ public class LService extends Service {
                 x.élet();
 
 
-                        if (Objects.equals(x.n, "F") && x.fejl() == 50) {
+                        if (Objects.equals(x.n, "F") && x.fejl() == 20 && x.szint()>0) {
                             a.add(x);
                             a.add(new A(x.szint()));
-                        }else if(Objects.equals(x.n,"X")&&x.fejl()==300){
-                            a.add(new A(1));
+                        }else if(Objects.equals(x.n,"X")&&x.szint()>1&&x.fejl()==30){
+                            a.add(new M());
+                            a.add(new F(x.szög()));
+                            a.add(new T());
                             a.add(x);
 
                         }else if (Objects.equals(x.n,"H")&&x.fejl()==10){
@@ -223,6 +227,7 @@ public class LService extends Service {
                            a.add(new M());
                            a.add(new C(false));
                            a.add(new T());
+                           a.add(new A(0));
                         }else if (Objects.equals(x.n, "A")&& x.szint() < 500) {
 
 
@@ -237,17 +242,11 @@ public class LService extends Service {
                             a.add(new F(x.szint()));
 
 
-                        }else if(Objects.equals(x.n,"C")&&x.fejl()==50){
-
-                            a.add(new A(1));
-                        }
-
-                     else if (Objects.equals(x.n, "F") && Kender.getInstance().flowering) {
+                        }else if (Objects.equals(x.n, "F") && x.szint()>1 && Kender.getInstance().flowering) {
                             a.add(x);
                             a.add(new Av(x.szint()));
 
                         } else if (Objects.equals(x.n, "AV") && x.fejl() > 50) {
-
                             a.add(new V());
                         } else if (Objects.equals(x.n, "V") && x.fejl() > 100) {
                             a.add(x);
@@ -264,15 +263,20 @@ public class LService extends Service {
 
         else{
 
-                handler.removeCallbacks(oo);
-                stopIt = true;
-                stopForeground(true);
-                stopSelf();
+             vége();
 
                 //Toast.makeText(this, hányGrammLett(al) + " Gramm", Toast.LENGTH_SHORT).show();
 
             }
 
+        }
+
+        private void vége(){
+            handler.removeCallbacks(oo);
+            halott=Kender.getInstance().halott_e;
+            stopIt = true;
+            stopForeground(true);
+            stopSelf();
         }
 
 

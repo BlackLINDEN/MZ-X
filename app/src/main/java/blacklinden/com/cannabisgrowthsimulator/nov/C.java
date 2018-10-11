@@ -29,7 +29,7 @@ public class C extends Növény {
 
     @Override
     public float vastagság() {
-        return 5;
+        return 6;
     }
 
     @Override

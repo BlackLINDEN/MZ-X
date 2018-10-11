@@ -61,9 +61,9 @@ public class X extends Növény {
 
             case 1:
                if (szint > 5)
-                x += 80f;
-            else
-                x += 100;
+                x += szint*2f;
+            else if(szint>1)
+                x += 50;
 
                 break;
             case 2:

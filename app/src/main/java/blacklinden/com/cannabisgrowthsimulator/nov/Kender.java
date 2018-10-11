@@ -29,7 +29,7 @@ public final class Kender {
 
     private boolean auto_e;
 
-    public volatile boolean flowering;
+    public boolean flowering;
 
     private float h2o;
 
@@ -37,7 +37,7 @@ public final class Kender {
 
     private int szint;
 
-    public volatile boolean halott_e;
+    public boolean halott_e;
 
     public float getRost() {
         return rost;
@@ -49,7 +49,7 @@ public final class Kender {
 
     private float cukor;
     public float fény=0;//százalék
-
+    public volatile String causeofdeath="";
 
     private Kender() {
         //1000000;

@@ -8,16 +8,18 @@ public class F extends Növény {
 
     public float x=10f;
     private float ép;
-
+    private float szg;
+    private boolean oldHajt=false;
     private int szint;
     private int szín;
     private final int hosszSzabályzó=50000;
 
-    public F() {
+    public F(float szg) {
         super("F");
-
+        this.szg=szg;
         ép=1;
-        vízigény();
+        szint=1;
+        this.oldHajt=true;
     }
     public F(int i){
         super("F");
@@ -45,6 +47,9 @@ public class F extends Növény {
 
     @Override
     public float vastagság() {
+        if((x*0.0003f)-szint<5)
+            return 5;
+        else
         return (x*0.0003f)-szint;
 
     }
@@ -66,7 +71,12 @@ public class F extends Növény {
 
     @Override
     public float szög() {
-        return Kender.getInstance().FF.irány;
+        if(!oldHajt)
+            return Kender.getInstance().FF.irány;
+        else
+            return Kender.getInstance().FF.irány+szg/2;
+
+
     }
 
     @Override

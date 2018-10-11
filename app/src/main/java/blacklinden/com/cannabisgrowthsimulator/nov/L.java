@@ -8,21 +8,24 @@ public class L extends Növény {
     private boolean balra;
     private int szint;
     private int p;
-    private float ép=1;
-    private float hjl=60;
+    private float ép = 1;
+    private float hjl = 60;
+    private int sötétIdő = 0;
+    private String halál;
 
     public L(boolean balra) {
         super("L");
-        x=0.05f;
-        this.balra=balra;
+        x = 0.05f;
+        this.balra = balra;
 
         vízigény();
     }
-    public L(boolean balra,int szint){
+
+    public L(boolean balra, int szint) {
         super("L");
-        x=0.05f;
-        this.balra=balra;
-        this.szint=szint;
+        x = 0.05f;
+        this.balra = balra;
+        this.szint = szint;
         p = Color.GREEN;
         vízigény();
 
@@ -30,26 +33,49 @@ public class L extends Növény {
 
     @Override
     public void élet() {
-        ép+=Kender.getInstance().cukrozó(1);
-        if(Kender.getInstance().flowering) {
-            if (Kender.getInstance().getRost() <= 0 || Kender.getInstance().nutes.N > Kender.getInstance().nutes.P ||
-                    Kender.getInstance().nutes.K > 9 || Kender.getInstance().nutes.P > 17)
-                ép--;
-        }else{
-            if(Kender.getInstance().getRost()<=0||
-                    Kender.getInstance().nutes.P>Kender.getInstance().nutes.N
-                    ||Kender.getInstance().nutes.K>9||Kender.getInstance().nutes.N>12){
+
+
+        ép += Kender.getInstance().cukrozó(1);
+        if (Kender.getInstance().flowering){
+
+            if (Kender.getInstance().getRost() <= 0 ){
+            halál = "SUGAR STARVATION";
+            ép--;
+            }
+                else if(Kender.getInstance().nutes.N > Kender.getInstance().nutes.P){
+                halál = "NATRIUM BURN";
                 ép--;
             }
+
+                else if(Kender.getInstance().nutes.K > 9 ){
+                halál = "POTASSIUM BURN";
+                ép--;
+            }
+
+                    else if (Kender.getInstance().nutes.P > 20){
+                halál = "PHOSPHORUS BURN";
+                ép--;
+            }
+
+         }
+
+
+        if(sötétIdő>9){
+            halál ="LIGHT DEPRIVATION";
+            ép=0;
         }
-        if(ép==0)
-            Kender.getInstance().halottRészek++;
+        if(ép<=0) {
+            if(halál!=null&&!Kender.getInstance().causeofdeath.contains(halál))
+                Kender.getInstance().causeofdeath+="\n "+halál;
+                Kender.getInstance().halottRészek++;
+        }
         szín();
         //szög();
         xHossz();
         légz();
         fényFelvétel();
     }
+
 
     @Override
     public float vastagság() {
@@ -103,7 +129,7 @@ public class L extends Növény {
             ép-=10;
         }
 
-        else if(Kender.getInstance().flowering&&Kender.getInstance().nutes.P>12){
+        else if(Kender.getInstance().flowering&&Kender.getInstance().nutes.P>20){
             p=(Color.YELLOW);
             ép--;
         }
@@ -112,10 +138,13 @@ public class L extends Növény {
     }
 
     private boolean fényFelvétel(){
-        if(Kender.getInstance().FF.beKapcs&&(Kender.getInstance().FF.watt-szint)>=0&&p==Color.GREEN) {
+        if(Kender.getInstance().FF.beKapcs&&p==Color.GREEN) {
             Kender.getInstance().fény++;
             return true;
-        }else return false;
+        }else {
+            sötétIdő++;
+            return false;
+        }
     }
 
     @Override

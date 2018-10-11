@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         napTV = findViewById(R.id.nap);
         ventilBE = false;
         canvasView = findViewById(R.id.canvas);
-        final float cserepMagassag = 50;
+        final float cserepMagassag = 59;
         canvasView.metrix((density / 160) * cserepMagassag);
         thermoView = findViewById(R.id.thermo);
 
@@ -155,17 +155,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog);
+        dialog.setCanceledOnTouchOutside(false);
         Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lService.stopSelf();
-                Kender.getInstance().clear();
-
-
                 finish();
             }
         });
+
 
         if(Kender.getInstance().FF.beKapcs)
             fátyol.setVisibility(View.VISIBLE);
@@ -193,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     protected void onResume() {
         super.onResume();
         bulb.setImageDrawable(getDrawable(Kender.getInstance().FF.drawCode));
-
+        thermoView.handler.postDelayed(thermoView.oo,1000);
         kanna.setImageDrawable(getDrawable(Kender.getInstance().VV.drawCode));
         cserép.setImageDrawable(getDrawable(Kender.getInstance().CC.drawableCode));
     }
@@ -239,8 +237,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         thermoView.handler.removeCallbacks(thermoView.oo);
         unbindService(kapcsolat);
         h.removeCallbacks(r);
-        if(dialog.isShowing())
-        dialog.dismiss();
+        if(dialog.isShowing()) {
+
+            dialog.dismiss();
+        }
 
     }
 
@@ -275,12 +275,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             if (lService.stopIt) {
 
-                if(Kender.getInstance().halott_e){
+                if(lService.halott){
                     TextView text = dialog.findViewById(R.id.text);
-                    text.setText("Your Plant Died!\n Raw Yield Salvaged: "+lService.hányGrammLett()+" gr");
+                    text.setText("Your Plant Died!" +Kender.getInstance().causeofdeath+
+                            "\n Raw Yield Salvaged: "+lService.hányGrammLett()+" gr");
                     ImageView image = dialog.findViewById(R.id.image);
                     image.setImageResource(R.drawable.koponyacsont);
                     h.removeCallbacks(r);
+
                     dialog.show();
 
                 }else{
@@ -289,6 +291,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     ImageView image = dialog.findViewById(R.id.image);
                     image.setImageResource(R.drawable.koszoru);
                     h.removeCallbacks(r);
+
                     dialog.show();
                 }
 

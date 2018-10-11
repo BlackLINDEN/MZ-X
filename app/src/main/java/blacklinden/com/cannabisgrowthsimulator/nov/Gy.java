@@ -1,10 +1,12 @@
 package blacklinden.com.cannabisgrowthsimulator.nov;
 
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Gy extends Növény {
 
     private int counter=0;
-
+    private int fullad,szomj=0;
     public Gy() {
         super("Gy");
 
@@ -12,6 +14,13 @@ public class Gy extends Növény {
 
     @Override
     public void élet() {
+        if(fullad>400) {
+            if(ThreadLocalRandom.current().nextInt(1, 100)==50) {
+                Kender.getInstance().causeofdeath += "\n ROOT ROT";
+                Kender.getInstance().halott_e = true;
+            }
+        }else if(szomj>24)
+            Kender.getInstance().causeofdeath += "\n DEHYDRATION";
         vízigény();
         légz();
         counter++;
@@ -74,8 +83,12 @@ public class Gy extends Növény {
 
     @Override
     public float légz() {
-        if(Kender.getInstance().VV.getVÍZ_Mennyiség()<100)
+        if(Kender.getInstance().VV.getVÍZ_Mennyiség()+Kender.getInstance().CC.waterRunoff<100)
         Kender.getInstance().CO2(Kender.getInstance().LL.getCO2()/2);
+        else if(Kender.getInstance().VV.getVÍZ_Mennyiség()+Kender.getInstance().getH2o()<=0)
+            szomj++;
+        else
+            fullad++;
         return 0;
     }
 

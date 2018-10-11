@@ -28,10 +28,20 @@
             android:id="@+id/cardTypeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:background="@drawable/httr_gomb"
+            android:layout_margin="5dp"
             android:onClick="menuActivity"
             android:text="INVENTORY" />
+
+        <Button
+            android:id="@+id/tuto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/httr_gomb"
+            android:onClick="tutorialEvent"
+            android:text="TUTORIAL"
+            />
 
 
     </LinearLayout>

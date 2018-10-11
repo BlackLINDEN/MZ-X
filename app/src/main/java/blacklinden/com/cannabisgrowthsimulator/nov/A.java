@@ -5,11 +5,12 @@ import android.graphics.Paint;
 public class A extends Növény {
     private int szint;
     private float ép;
+
     public A(int szint) {
         super("A");
         this.szint=szint+1;
         ép=0;
-        vízigény();
+
     }
 
     @Override
