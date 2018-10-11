@@ -26,7 +26,7 @@ public class X extends Növény {
         this.szint=szint;
 
         rndm=new Random();
-        vízigény();
+
     }
     public X(boolean bvj,float ép,float x,float szög, int szint){
         super("X");

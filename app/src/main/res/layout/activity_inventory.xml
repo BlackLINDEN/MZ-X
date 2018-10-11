@@ -7,7 +7,7 @@
     android:baselineAligned="false"
     android:orientation="horizontal"
     tools:context=".InventoryActivity"
-    android:background="#ffffff">
+    android:background="#faab0d">
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tablayout"

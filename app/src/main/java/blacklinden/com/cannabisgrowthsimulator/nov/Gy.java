@@ -58,6 +58,9 @@ public class Gy extends Növény {
         Kender.getInstance().setH2o(
                 Kender.getInstance().VV.fogyaszt(Kender.getInstance().Szintet())
         );
+
+        if(Kender.getInstance().VV.getVÍZ_Mennyiség()+Kender.getInstance().getH2o()<=0)
+            szomj++;
         return 0;
     }
 
@@ -85,8 +88,7 @@ public class Gy extends Növény {
     public float légz() {
         if(Kender.getInstance().VV.getVÍZ_Mennyiség()+Kender.getInstance().CC.waterRunoff<100)
         Kender.getInstance().CO2(Kender.getInstance().LL.getCO2()/2);
-        else if(Kender.getInstance().VV.getVÍZ_Mennyiség()+Kender.getInstance().getH2o()<=0)
-            szomj++;
+
         else
             fullad++;
         return 0;

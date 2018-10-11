@@ -25,12 +25,14 @@ import android.support.v7.widget.CardView;
 import android.util.DisplayMetrics;
 import android.view.DragEvent;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -65,7 +67,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     Intent service,intent;
     private Dialog dialog;
     private MediaPlayer nutriGoo,loccs,gong;
-
+    private PopupWindow quickAction;
+    private boolean cserépGombKapcsoló=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,11 +127,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         seed = findViewById(R.id.daseed);
         cserép = findViewById(R.id.cserep);
         táp = findViewById(R.id.tap1);
-
+        bulb = findViewById(R.id.gmb);
 
         kanna.setImageDrawable(getDrawable(Kender.getInstance().VV.setDrawCode()));
         cserép.setImageDrawable(getDrawable(Kender.getInstance().CC.setDrawableCode()));
         táp.setImageDrawable(getDrawable(Kender.getInstance().nutes.setDrawCode()));
+        bulb.setImageDrawable(getDrawable(Kender.getInstance().FF.setDrawCode()));
 
         seed.setOnTouchListener(this);
         cserép.setOnDragListener(this);
@@ -144,8 +148,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         thermoView = findViewById(R.id.thermo);
 
 
-        bulb = findViewById(R.id.gmb);
-        bulb.setImageDrawable(getDrawable(Kender.getInstance().FF.setDrawCode()));
+
+
         fátyol = findViewById(R.id.fatyol);
         polc = findViewById(R.id.polc);
 
@@ -177,6 +181,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         clearCanvas();
 
+
+
+
     }
 
     @Override
@@ -190,10 +197,71 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     protected void onResume() {
         super.onResume();
-        bulb.setImageDrawable(getDrawable(Kender.getInstance().FF.drawCode));
+
         thermoView.handler.postDelayed(thermoView.oo,1000);
-        kanna.setImageDrawable(getDrawable(Kender.getInstance().VV.drawCode));
-        cserép.setImageDrawable(getDrawable(Kender.getInstance().CC.drawableCode));
+        kanna.setImageDrawable(getDrawable(Kender.getInstance().VV.setDrawCode()));
+        cserép.setImageDrawable(getDrawable(Kender.getInstance().CC.setDrawableCode()));
+        táp.setImageDrawable(getDrawable(Kender.getInstance().nutes.setDrawCode()));
+        bulb.setImageDrawable(getDrawable(Kender.getInstance().FF.setDrawCode()));
+    }
+
+    public void cserépGomb(View v){
+        if( quickAction==null) {
+            // Initialize a new instance of LayoutInflater service
+            LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+
+            // Inflate the custom layout/view
+            View customView = inflater.inflate(R.layout.quick_action
+                    , null);
+
+                /*
+                    public PopupWindow (View contentView, int width, int height)
+                        Create a new non focusable popup window which can display the contentView.
+                        The dimension of the window must be passed to this constructor.
+
+                        The popup does not provide any background. This should be handled by
+                        the content view.
+
+                    Parameters
+                        contentView : the popup's content
+                        width : the popup's width
+                        height : the popup's height
+                */
+            // Initialize a new instance of popup window
+            quickAction = new PopupWindow(
+                    customView,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT
+            );
+
+
+            quickAction.setElevation(5.0f);
+
+
+
+
+            TextView quickText = customView.findViewById(R.id.quick_tv);
+            quickText.setText(Float.toString(Kender.getInstance().VV.getVÍZ_Mennyiség()));
+                /*
+                    public void showAtLocation (View parent, int gravity, int x, int y)
+                        Display the content view in a popup window at the specified location. If the
+                        popup window cannot fit on screen, it will be clipped.
+                        Learn WindowManager.LayoutParams for more information on how gravity and the x
+                        and y parameters are related. Specifying a gravity of NO_GRAVITY is similar
+                        to specifying Gravity.LEFT | Gravity.TOP.
+
+                    Parameters
+                        parent : a parent view to get the getWindowToken() token from
+                        gravity : the gravity which controls the placement of the popup window
+                        x : the popup's x location offset
+                        y : the popup's y location offset
+                */
+
+            quickAction.showAtLocation(cserép, Gravity.BOTTOM, 0, 0);
+        }else {
+            quickAction.dismiss();
+            quickAction=null;
+        }
     }
 
 

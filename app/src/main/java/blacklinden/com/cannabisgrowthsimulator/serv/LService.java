@@ -214,7 +214,7 @@ public class LService extends Service {
                         if (Objects.equals(x.n, "F") && x.fejl() == 20 && x.szint()>0) {
                             a.add(x);
                             a.add(new A(x.szint()));
-                        }else if(Objects.equals(x.n,"X")&&x.szint()>1&&x.fejl()==30){
+                        }else if(Objects.equals(x.n,"X")&&x.szint()>1&&x.fejl()==10){
                             a.add(new M());
                             a.add(new F(x.szög()));
                             a.add(new T());

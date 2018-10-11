@@ -31,8 +31,7 @@ TabLayout tl;
     }
 
     public void backBack(View v){
-        Intent i = new Intent(this,Main2Activity.class);
-        startActivity(i);
+        finish();
     }
 
 

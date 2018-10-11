@@ -28,7 +28,7 @@
         <service android:name=".serv.LService" />
 
         <activity android:name=".InventoryActivity"
-        android:launchMode= "singleInstance"/>
+        android:launchMode="singleInstance"/>
     </application>
 
 </manifest>
