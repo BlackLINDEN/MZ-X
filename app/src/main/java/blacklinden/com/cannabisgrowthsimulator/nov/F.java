@@ -12,7 +12,7 @@ public class F extends Növény {
     private boolean oldHajt=false;
     private int szint;
     private int szín;
-    private final int hosszSzabályzó=50000;
+    private final int hosszSzabályzó=30000;
 
     public F(float szg) {
         super("F");

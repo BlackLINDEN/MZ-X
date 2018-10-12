@@ -214,7 +214,7 @@ public class LService extends Service {
                         if (Objects.equals(x.n, "F") && x.fejl() == 20 && x.szint()>0) {
                             a.add(x);
                             a.add(new A(x.szint()));
-                        }else if(Objects.equals(x.n,"X")&&x.szint()>1&&x.fejl()==10){
+                        }else if(Objects.equals(x.n,"X")&&x.szint()>1&&ism/6>21&&x.fejl()==15){
                             a.add(new M());
                             a.add(new F(x.szög()));
                             a.add(new T());
@@ -229,8 +229,7 @@ public class LService extends Service {
                            a.add(new T());
                            a.add(new A(0));
                         }else if (Objects.equals(x.n, "A")&& x.szint() < 500) {
-
-
+                            
                             a.add(new M());
                             a.add(new X(true, x.szint()));
                             a.add(new L(true, x.szint()));
@@ -239,7 +238,10 @@ public class LService extends Service {
                             a.add(new X(false, x.szint()));
                             a.add(new L(false, x.szint()));
                             a.add(new T());
+
+                            if(!Kender.getInstance().flowering)
                             a.add(new F(x.szint()));
+
 
 
                         }else if (Objects.equals(x.n, "F") && x.szint()>1 && Kender.getInstance().flowering) {

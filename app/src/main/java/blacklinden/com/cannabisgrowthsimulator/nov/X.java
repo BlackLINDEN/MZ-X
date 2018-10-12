@@ -146,7 +146,4 @@ public class X extends Növény {
     }
 
 
-    public boolean isBvj() {
-        return bvj;
-    }
 }
