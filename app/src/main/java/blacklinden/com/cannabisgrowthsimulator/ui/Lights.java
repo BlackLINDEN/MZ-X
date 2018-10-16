@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import blacklinden.com.cannabisgrowthsimulator.R;
 import blacklinden.com.cannabisgrowthsimulator.ui.medium.Elem;
@@ -44,13 +45,16 @@ public class Lights extends Fragment {
 
     private void createListData() {
 
-        Elem planet = new Elem("Feith Electric", 250, 3500, 13500, getResources().getDrawable(R.drawable.ic_jjj));
+        Elem planet = new Elem("Feith Electric", "LED", 250, 3500, 13500,R.drawable.blue_led,R.drawable.feher_csova, getResources().getDrawable(R.drawable.ic_jjj));
         lampArrayList.add(planet);
 
-        planet = new Elem("PRO STAR DUAL", 200, 6600, 11200,getResources().getDrawable(R.drawable.ic_rrr));
+        planet = new Elem("PRO STAR DUAL","LED", 200, 6600, 11200,R.drawable.fullspec_led,R.drawable.lila_csova,getResources().getDrawable(R.drawable.ic_rrr));
         lampArrayList.add(planet);
 
-        planet = new Elem("CFL Grow", 150, 2700, 7850,getResources().getDrawable(R.drawable.ic_light_bulb_technology_svgrepo_com));
+        planet = new Elem("CFL Grow","CFL", 150, 2700, 7850,R.drawable.cfl_yellow,R.drawable.httr_vill001,Objects.requireNonNull(getContext()).getDrawable(R.drawable.ic_light_bulb_technology_svgrepo_com));
+        lampArrayList.add(planet);
+
+        planet = new Elem("HPS Grow","HALOGEN",600,2500,10200,R.drawable.yellow_hps,R.drawable.narancs_csova,Objects.requireNonNull(getContext()).getDrawable(R.drawable.hps));
         lampArrayList.add(planet);
 
         adapter.notifyDataSetChanged();

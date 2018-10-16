@@ -4,7 +4,7 @@ import android.graphics.Color;
 
 public class L extends Növény {
 
-    public float x;
+    public float x,v;
     private boolean balra;
     private int szint;
     private int p;
@@ -24,11 +24,24 @@ public class L extends Növény {
     public L(boolean balra, int szint) {
         super("L");
         x = 0.05f;
+        v = 5f;
         this.balra = balra;
         this.szint = szint;
         p = Color.GREEN;
         vízigény();
 
+    }
+
+    private int vastSegéd(){
+      int xxx;
+        switch(Kender.getInstance().getFajta()){
+            case 1:xxx=12;
+                break;
+            case 2:xxx=14;
+                break;
+            default:xxx=10;
+        }
+        return xxx;
     }
 
     @Override
@@ -79,16 +92,9 @@ public class L extends Növény {
 
     @Override
     public float vastagság() {
-        int xxx;
-        switch(Kender.getInstance().getFajta()){
-            case 1:xxx=12;
-            break;
-            case 2:xxx=14;
-            break;
-            default:xxx=10;
-        }
-
-        return xxx;
+        if(v<vastSegéd())
+            v+=0.01f;
+        return v;
     }
 
 
@@ -99,7 +105,7 @@ public class L extends Növény {
     @Override
     public float hossz() {
         //ép-=0.1f;
-        System.out.println("L "+x);
+
 
         return x;
 
@@ -139,8 +145,15 @@ public class L extends Növény {
 
     private boolean fényFelvétel(){
         if(Kender.getInstance().FF.beKapcs&&p==Color.GREEN) {
+            if(Kender.getInstance().FF.getKelvin()>4500&&!Kender.getInstance().flowering)
+            Kender.getInstance().fény+=Kender.getInstance().FF.getLux()/1000;
+            else
             Kender.getInstance().fény++;
-            return true;
+            if(Kender.getInstance().FF.getKelvin()<4000&&Kender.getInstance().flowering)
+            Kender.getInstance().fény+=Kender.getInstance().FF.getLux()/1000;
+            else
+            Kender.getInstance().fény++;
+                return true;
         }else {
             sötétIdő++;
             return false;

@@ -27,7 +27,7 @@ public class V extends Növény {
 
     @Override
     public void élet() {
-        ép+=Kender.getInstance().cukrozó(1);
+        ép+=Kender.getInstance().cukrozó(500);
         szög();
         szín();
         xVast();
@@ -35,7 +35,9 @@ public class V extends Növény {
 
     private void xVast(){
         if(x<20)
-        x+=ép/3+Kender.getInstance().nutes.P;
+        x+=ép/300+Kender.getInstance().nutes.P;
+        else if(x<30)
+        x+=0.1f;
     }
 
     @Override
@@ -61,11 +63,11 @@ public class V extends Növény {
     public int szín() {
         switch (Kender.getInstance().getFajta()) {
             case 1:
-            if (ép > 2)
+            if (ép > 1500)
                 p = Color.rgb(205, 133, 63);
             break;
             case 2:
-                if (ép > 4)
+                if (ép > 3000)
                     p = Color.rgb(205, 133, 63);
             break;
         }

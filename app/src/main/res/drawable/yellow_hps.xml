@@ -1,0 +1,56 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_high_pressure_sodium_vapor_lamp" >
+
+    <target
+        android:animation="@animator/hps_bel"
+        android:name="l1"/>
+
+    <target
+        android:animation="@animator/hps_szal"
+        android:name="l2"/>
+
+
+    <target
+        android:animation="@animator/hps_szal"
+        android:name="l3"/>
+
+    <target
+        android:animation="@animator/hps_szal"
+        android:name="l4"/>
+
+    <target
+        android:animation="@animator/hps_szal"
+        android:name="l5"/>
+
+
+    <target
+        android:animation="@animator/hps_szal"
+        android:name="l6"/>
+
+    <target
+        android:animation="@animator/hps_szal"
+        android:name="l7"/>
+
+    <target
+        android:animation="@animator/hps_szal"
+        android:name="l8"/>
+
+    <target
+        android:animation="@animator/hps_szal"
+        android:name="l9"/>
+
+    <target
+        android:animation="@animator/hps_szal"
+        android:name="l10"/>
+
+
+    <target
+        android:animation="@animator/hps_szal"
+        android:name="l11"/>
+
+    <target
+        android:animation="@animator/hps_szal"
+        android:name="l12"/>
+
+
+</animated-vector>

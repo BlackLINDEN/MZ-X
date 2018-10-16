@@ -1,0 +1,14 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_light_bulb_technology_svgrepo_com" >
+
+    <target
+        android:animation="@animator/cfl"
+        android:name="l1"/>
+    <target
+        android:animation="@animator/cfl"
+        android:name="l2"/>
+    <target
+        android:animation="@animator/cfl"
+        android:name="l3"/>
+
+</animated-vector>

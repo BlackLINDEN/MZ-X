@@ -15,7 +15,7 @@ public final class Kender {
 
     private static volatile Kender instance = null;
 
-    private float co2;
+    private int co2;
 
     private int fajta;
 
@@ -23,7 +23,7 @@ public final class Kender {
     public Lég LL;
     public Víz VV;
     public Cserép CC;
-
+    private float metrix;
     public Nutes nutes;
     public int halottRészek=0;
 
@@ -77,7 +77,7 @@ public final class Kender {
         this.FF=new Fény(Mentés.getInstance().getString(Mentés.Key.SAMPLE_STR,"Advanced Star PRO STAR DUAL"));
     }
     public void initCukor(){
-        this.cukor=0;
+        this.cukor=1;
     }
     public void initCO2(){
         this.co2=1;
@@ -88,7 +88,7 @@ public final class Kender {
 
 
     public void update(int ism){
-
+        System.out.println("Szint: "+szint);
         calvinKör();
         rostbanCukorTárolás();
         switch (fajta) {
@@ -132,32 +132,34 @@ public final class Kender {
     private void calvinKör(){
 
         if(co2>0&&h2o>1&&h2o<200&&fény>0&&FF.beKapcs) {
-            int nutri=(nutes.N+ nutes.P+ nutes.K)/2;
-            cukor += nutri+fény/6;
-            nutes.N=0;
-            nutes.P=0;
-            nutes.K=0;
+            int nutri=(nutes.N+ nutes.P+ nutes.K);
+            cukor +=  nutri+fény+co2;
+
+                if(nutes.N>0) nutes.N--;
+                if(nutes.P>0) nutes.P--;
+                if(nutes.K>0) nutes.K--;
+
             co2--;
             h2o--;
             fény--;
         }
 
         if(FF.hőmérséklet()>27&&h2o>0)
-            h2o-=1.2f;
-        else if(h2o>0)
-            h2o-=0.01f;
+            h2o-=2f;
+        else
+            h2o-=1f;
 
 
     }
 
     private void rostbanCukorTárolás(){
         if(cukor>1000){
-            rost++;
-            cukor--;
+            rost+=10;
+            cukor-=10;
         }
     }
 
-    public float cukrozó(float levonás){
+    public float cukrozó(int levonás){
 
         if(cukor<levonás)
             return 0;
@@ -185,6 +187,10 @@ public final class Kender {
         szint++;
     }
     public int Szintet(){return szint;}
+
+    public void metrix(float metrix){
+        this.metrix=metrix;
+    }
     public boolean Halott_e() {
         return halott_e;
     }

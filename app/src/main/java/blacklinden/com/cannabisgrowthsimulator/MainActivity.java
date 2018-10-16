@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -69,15 +71,18 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private MediaPlayer nutriGoo,loccs,gong;
     private PopupWindow quickAction;
     private boolean cserépGombKapcsoló=false;
-
+    private TypedValue outValue;
+    private AnimatedVectorDrawable vectorDrawable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         intent = new Intent(this,Main2Activity.class);
         drawerLayout = findViewById(R.id.drawer_layout);
-
+        outValue = new TypedValue();
+        this.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
         alsFiok = findViewById(R.id.also);
+
 
         nutriGoo = MediaPlayer.create(this,R.raw.nutri);
         loccs = MediaPlayer.create(this,R.raw.loccs);
@@ -96,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                             case R.id.killit:
                                 lService.stopForeground(true);
                                 lService.stopSelf();
+                                LService.IS_SERVICE_RUNNING=false;
                                 Kender.getInstance().clear();
                                 if(isTaskRoot())
                                     startActivity(intent);
@@ -132,7 +138,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         kanna.setImageDrawable(getDrawable(Kender.getInstance().VV.setDrawCode()));
         cserép.setImageDrawable(getDrawable(Kender.getInstance().CC.setDrawableCode()));
         táp.setImageDrawable(getDrawable(Kender.getInstance().nutes.setDrawCode()));
-        bulb.setImageDrawable(getDrawable(Kender.getInstance().FF.setDrawCode()));
+        vectorDrawable =(AnimatedVectorDrawable) getDrawable(Kender.getInstance().FF.setDrawCode());
+        if(Kender.getInstance().FF.setDrawCode()==R.drawable.yellow_hps)
+            bulb.setRotation(90);
+        else bulb.setRotation(180);
+        bulb.setImageDrawable(vectorDrawable);
 
         seed.setOnTouchListener(this);
         cserép.setOnDragListener(this);
@@ -145,12 +155,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         canvasView = findViewById(R.id.canvas);
         final float cserepMagassag = 59;
         canvasView.metrix((density / 160) * cserepMagassag);
+        Kender.getInstance().metrix(dm.heightPixels/density);
         thermoView = findViewById(R.id.thermo);
 
 
 
 
         fátyol = findViewById(R.id.fatyol);
+        fátyol.setImageDrawable(getDrawable(Kender.getInstance().FF.setDrawCode(1)));
         polc = findViewById(R.id.polc);
 
         ventilObj = findViewById(R.id.ventil);
@@ -198,11 +210,17 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     protected void onResume() {
         super.onResume();
 
+        fátyol.setImageDrawable(getDrawable(Kender.getInstance().FF.setDrawCode(1)));
         thermoView.handler.postDelayed(thermoView.oo,1000);
         kanna.setImageDrawable(getDrawable(Kender.getInstance().VV.setDrawCode()));
         cserép.setImageDrawable(getDrawable(Kender.getInstance().CC.setDrawableCode()));
         táp.setImageDrawable(getDrawable(Kender.getInstance().nutes.setDrawCode()));
-        bulb.setImageDrawable(getDrawable(Kender.getInstance().FF.setDrawCode()));
+        vectorDrawable =(AnimatedVectorDrawable) getDrawable(Kender.getInstance().FF.setDrawCode("a"));
+        if(Kender.getInstance().FF.beKapcs) vectorDrawable.start();
+        if(Kender.getInstance().FF.setDrawCode("a")==R.drawable.yellow_hps)
+        bulb.setRotation(90);
+        else bulb.setRotation(180);
+        bulb.setImageDrawable(vectorDrawable);
     }
 
     public void cserépGomb(View v){
@@ -241,7 +259,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
 
             TextView quickText = customView.findViewById(R.id.quick_tv);
-            quickText.setText(Float.toString(Kender.getInstance().VV.getVÍZ_Mennyiség()));
+            quickText.setText("water "+Kender.getInstance().VV.getVÍZ_Mennyiség()
+                    +"\nSugar "+Kender.getInstance().getCukor()+"\nStarch"+Kender.getInstance().getRost()
+                    +"\nNatrium "+Kender.getInstance().nutes.N+"\nPhosphorus "+
+                     Kender.getInstance().nutes.P
+                    +"\nPotassium "+Kender.getInstance().nutes.K);
                 /*
                     public void showAtLocation (View parent, int gravity, int x, int y)
                         Display the content view in a popup window at the specified location. If the
@@ -257,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                         y : the popup's y location offset
                 */
 
-            quickAction.showAtLocation(cserép, Gravity.BOTTOM, 0, 0);
+            quickAction.showAtLocation(cserép, Gravity.CENTER, 0, 0);
         }else {
             quickAction.dismiss();
             quickAction=null;
@@ -274,15 +296,24 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     public void cl(View v) {
 
         if(fátyol.getVisibility()==View.GONE){
+
             fátyol.setVisibility(View.VISIBLE);
+            bulb.setBackground(getDrawable(R.drawable.feny60));
+            vectorDrawable.start();
+            findViewById(R.id.main).setBackgroundResource(R.drawable.httr_vil);
             Kender.getInstance().FF.beKapcs=true;
             polc.setElevation(5);
             polc.setCardElevation(60);
-        }else if(fátyol.getVisibility()==View.VISIBLE){
+            Toast.makeText(this,"lámpa "+Kender.getInstance().FF.beKapcs,Toast.LENGTH_SHORT).show();
+        }else if(fátyol.getVisibility()==View.VISIBLE&&!vectorDrawable.isRunning()){
             fátyol.setVisibility(View.GONE);
+            vectorDrawable.reset();
+            findViewById(R.id.main).setBackgroundResource(R.drawable.httr_stt);
+            bulb.setBackgroundResource(outValue.resourceId);
             Kender.getInstance().FF.beKapcs=false;
             polc.setCardElevation(5);
             polc.setElevation(20);
+            Toast.makeText(this,"lámpa "+Kender.getInstance().FF.beKapcs,Toast.LENGTH_SHORT).show();
         }
 
     }

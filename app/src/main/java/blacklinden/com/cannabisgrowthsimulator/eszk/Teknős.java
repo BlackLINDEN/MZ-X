@@ -35,13 +35,13 @@ public class Teknős  {
     private Paint levél,szár;
     private Paint mag;
     private Path path;
-
+    private float metrix;
     private Shader sSzr;
     private Shader shader1,shader2;
 
-    public Teknős(Context context) {
+    public Teknős(Context context,float metrix) {
 
-
+        this.metrix=metrix;
         Bitmap bitmapA = BitmapFactory.decodeResource(
                 context.getResources(), R.drawable.kndr_szr);
 
@@ -109,7 +109,7 @@ public class Teknős  {
        // lg = new LinearGradient(0,0,0,1,Color.BLACK,Color.WHITE, Shader.TileMode.MIRROR);
 
         levélKör.setPathEffect(new PathDashPathEffect(
-                getTriangle(8),
+                getTriangle(4),
                 10,
                 0.0f,
                 PathDashPathEffect.Style.ROTATE));
@@ -128,11 +128,17 @@ public class Teknős  {
         angle = a0;
     }
 
+
     public void előreRajz(float v, double step, Canvas canvas, int paint, int ism) {
         float oldx =(float) x;
         float oldy =(float) y;
-        x += ((float)step / ism)* Math.cos(Math.toRadians(angle));
-        y +=((float)step / ism)* Math.sin(Math.toRadians(angle));
+        if(ism<180) {
+            x += ((float) step / ism) * Math.cos(Math.toRadians(angle));
+            y += ((float) step / ism) * Math.sin(Math.toRadians(angle));
+        }else{
+            x += ((float) step / 180) * Math.cos(Math.toRadians(angle));
+            y += ((float) step / 180) * Math.sin(Math.toRadians(angle));
+        }
         szár.reset();
         szár.setStrokeWidth(v);
         if(paint==Color.RED)

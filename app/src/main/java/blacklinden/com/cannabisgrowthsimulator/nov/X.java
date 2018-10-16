@@ -126,7 +126,7 @@ public class X extends Növény {
     public float hőigény() {
         float hi=22.5f;
         float lvns=(Math.abs(hi)-Math.abs(Kender.getInstance().FF.hőmérséklet()))/10;
-        if(ép>0)ép-=lvns;
+        //if(ép>0)ép-=lvns;
         return hi;
     }
 

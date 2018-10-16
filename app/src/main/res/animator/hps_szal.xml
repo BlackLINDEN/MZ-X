@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <objectAnimator
+        android:duration="600"
+        android:propertyName="strokeColor"
+        android:repeatCount="0"
+        android:interpolator="@android:interpolator/linear_out_slow_in"
+        android:repeatMode="reverse"
+        android:valueFrom="#000000"
+        android:valueTo="#ff0000"
+        android:valueType="colorType"
+        />
+</set>

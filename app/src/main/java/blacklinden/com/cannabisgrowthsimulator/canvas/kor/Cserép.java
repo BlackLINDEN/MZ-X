@@ -19,7 +19,7 @@ public Cserép(float potSize,float waterRunoff,String soilType){
 
 public int setDrawableCode(){
     switch (Mentés.getInstance().getString(Mentés.Key.SAMPLE_POT,"Quadra Pot")){
-        case "Vintage Geranium":drawableCode=R.drawable.rsz_cserep_old2;
+        case "Stiegl":drawableCode=R.drawable.cserep10;
             potSize=800;
             waterRunoff=-1.2f;
             break;
@@ -53,12 +53,12 @@ public int setDrawableCode(){
             waterRunoff=-1.2f;
             break;
 
-        case "Top Hat": drawableCode=R.drawable.cserep5;
+        case "Blumentopf": drawableCode=R.drawable.cserep8;
             potSize=700;
             waterRunoff=-1;
             break;
 
-        case "Dark Ceramic": drawableCode=R.drawable.cserep3;
+        case "Seghettata": drawableCode=R.drawable.cserep9;
             potSize=500;
             waterRunoff=-1;
             break;

@@ -84,6 +84,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         mViewPager.setAdapter(mCardAdapter);
         mViewPager.setPageTransformer(false, mCardShadowTransformer);
 
+        mViewPager.setCurrentItem(2);
 
 
 

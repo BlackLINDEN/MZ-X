@@ -5,6 +5,10 @@ import android.content.SharedPreferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+
+import java.lang.reflect.Type;
+
 /*
  * A Singleton for managing your SharedPreferences.
  *
@@ -31,6 +35,7 @@ public class Mentés {
     private static final String SETTINGS_NAME = "default_settings";
     private static Mentés sSharedPrefs;
     private SharedPreferences mPref;
+    private Gson gson;
     private SharedPreferences.Editor mEditor;
     private boolean mBulkUpdate = false;
 
@@ -46,6 +51,7 @@ public class Mentés {
          *
          * String: SAMPLE_KEY, SAMPLE_STR or just SAMPLE
          */
+        TESZT_OBJ,
         SAMPLE_STR,
         SAMPLE_CAN,
         SAMPLE_INT,
@@ -55,6 +61,7 @@ public class Mentés {
 
     private Mentés(Context context) {
         mPref = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE);
+        gson = new Gson();
     }
 
 
@@ -101,6 +108,14 @@ public class Mentés {
         doEdit();
         mEditor.putFloat(key.name(), val);
         doCommit();
+    }
+
+    public String gsonra(Object o){
+        return gson.toJson(o);
+    }
+
+    public Object javara(String s, Class o){
+        return gson.fromJson(s,o);
     }
 
     /**

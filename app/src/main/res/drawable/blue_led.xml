@@ -1,0 +1,14 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_jjj" >
+
+    <target
+    android:animation="@animator/blue2"
+    android:name="l1"/>
+    <target
+        android:animation="@animator/blue1"
+        android:name="l2"/>
+    <target
+        android:animation="@animator/blue"
+        android:name="l3"/>
+
+</animated-vector>

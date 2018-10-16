@@ -12,29 +12,31 @@ public class F extends Növény {
     private boolean oldHajt=false;
     private int szint;
     private int szín;
-    private final int hosszSzabályzó=30000;
+    private final float hosszSzabályzó=25000;
 
     public F(float szg) {
         super("F");
+        //hosszSzabályzó=Kender.getInstance().metrix;
         this.szg=szg;
         ép=1;
         szint=1;
         this.oldHajt=true;
+        Kender.getInstance().Szint();
     }
     public F(int i){
         super("F");
         ép=i;
         this.szint=i;
 
-
         Kender.getInstance().Szint();
+        System.out.println("szint");
     }
 
 
     @Override
     public void élet() {
-        System.out.println("élet");
-        ép+=Kender.getInstance().cukrozó(1f);
+
+        ép+=Kender.getInstance().cukrozó(1);
 
         //if(Kender.getInstance().getRost()<=0&&Kender.getInstance().getCukor()<=0) ép--;
         //if(Kender.getInstance().nutrition.N>16&&Kender.getInstance().flowering) ép --;
@@ -58,7 +60,7 @@ public class F extends Növény {
 
     private void xHossz(){
 
-                if (x < hosszSzabályzó - szint && ép > 0) {
+                if (x < hosszSzabályzó - szint && ép > 0&&ép<200) {
                     x += ép*2+Kender.getInstance().nutes.N;
                 }
     }
@@ -105,7 +107,7 @@ public class F extends Növény {
     public float hőigény() {
         float hi=22.5f;
         float lvns=(Math.abs(hi)-Math.abs(Kender.getInstance().FF.hőmérséklet()))/10;
-        ép-=lvns;
+        //ép-=lvns;
         return hi;
     }
 

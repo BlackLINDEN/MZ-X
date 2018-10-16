@@ -10,6 +10,7 @@ import java.util.Locale;
 
 import blacklinden.com.cannabisgrowthsimulator.R;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
+import blacklinden.com.cannabisgrowthsimulator.pojo.Lamps;
 
 public class ElemHolder extends RecyclerView.ViewHolder {
     private TextView txtName, txtDistance, txtGravity, txtDiameter;
@@ -34,7 +35,13 @@ public class ElemHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Lamps lamps = new Lamps(elem.getName(),elem.getType(),elem.getConsumption(),elem.getSpectrum(),
+                        elem.getLumen(),elem.getAnimDrawCode(),elem.getFatyolDrawCode());
+                System.out.println("lamps");
+                String s = Mentés.getInstance().gsonra(lamps);
+                System.out.println("gsonra");
+                Mentés.getInstance().put(Mentés.Key.TESZT_OBJ,s);
+                System.out.println("mentés");
                 Mentés.getInstance().put(Mentés.Key.SAMPLE_STR,elem.getName());
 
 Toast.makeText(itemView.getContext(),"ITEM"+elem.getName(),Toast.LENGTH_SHORT).show();

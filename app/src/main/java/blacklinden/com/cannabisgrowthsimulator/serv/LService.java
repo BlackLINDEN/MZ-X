@@ -172,6 +172,8 @@ public class LService extends Service {
     public void onDestroy() {
         super.onDestroy();
         al.clear();
+        handler.removeCallbacks(oo);
+        ism=6;
         Kender.getInstance().clear();
         IS_SERVICE_RUNNING=false;
     }
@@ -187,7 +189,7 @@ public class LService extends Service {
             isOOrunning=true;
             ism();
             System.out.println("ISM " + ism);
-            Kender.getInstance().update(ism);
+
             A(al);
             handler.postDelayed(oo, 12000);
 
@@ -203,7 +205,7 @@ public class LService extends Service {
 
     private void A(ArrayList<Növény> aa) {
         ArrayList<Növény> a = new ArrayList<>();
-
+        Kender.getInstance().update(ism);
 
         if (!Kender.getInstance().halott_e&&!szüretelve&&ism<vég) {
             for (Növény x : aa) {
@@ -211,16 +213,14 @@ public class LService extends Service {
                 x.élet();
 
 
-                        if (Objects.equals(x.n, "F") && x.fejl() == 20 && x.szint()>0) {
-                            a.add(x);
-                            a.add(new A(x.szint()));
-                        }else if(Objects.equals(x.n,"X")&&x.szint()>1&&ism/6>21&&x.fejl()==15){
+
+                        if(Objects.equals(x.n,"X")&&Kender.getInstance().Szintet()>3&&x.fejl()==10){
                             a.add(new M());
                             a.add(new F(x.szög()));
                             a.add(new T());
                             a.add(x);
 
-                        }else if (Objects.equals(x.n,"H")&&x.fejl()==10){
+                        } else if (Objects.equals(x.n,"H")&&x.fejl()==10){
                            a.add(new M());
                            a.add(new C(true));
                            a.add(new T());
@@ -228,8 +228,8 @@ public class LService extends Service {
                            a.add(new C(false));
                            a.add(new T());
                            a.add(new A(0));
-                        }else if (Objects.equals(x.n, "A")&& x.szint() < 500) {
-                            
+                        } else if (Objects.equals(x.n, "A")&& x.szint() < 500) {
+
                             a.add(new M());
                             a.add(new X(true, x.szint()));
                             a.add(new L(true, x.szint()));
@@ -239,15 +239,18 @@ public class LService extends Service {
                             a.add(new L(false, x.szint()));
                             a.add(new T());
 
-                            if(!Kender.getInstance().flowering)
+                            if(!Kender.getInstance().flowering&&Kender.getInstance().Szintet()<60)
                             a.add(new F(x.szint()));
 
 
 
-                        }else if (Objects.equals(x.n, "F") && x.szint()>1 && Kender.getInstance().flowering) {
+                        } else if (Objects.equals(x.n, "F") && x.szint()>1 && Kender.getInstance().flowering) {
                             a.add(x);
                             a.add(new Av(x.szint()));
 
+                        } else if (Objects.equals(x.n, "F") && x.fejl() == 20 && x.szint()>0) {
+                            a.add(x);
+                            a.add(new A(x.szint()));
                         } else if (Objects.equals(x.n, "AV") && x.fejl() > 50) {
                             a.add(new V());
                         } else if (Objects.equals(x.n, "V") && x.fejl() > 100) {

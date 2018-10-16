@@ -1,0 +1,118 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_rrr" >
+
+    <target
+        android:name="l1"
+        android:animation="@animator/led" />
+    <target
+        android:name="l2"
+        android:animation="@animator/led" />
+    <target
+        android:name="l3"
+        android:animation="@animator/led" />
+    <target
+        android:name="l4"
+        android:animation="@animator/led" />
+    <target
+        android:name="l5"
+        android:animation="@animator/led" />
+    <target
+        android:name="l6"
+        android:animation="@animator/led" />
+    <target
+        android:name="l7"
+        android:animation="@animator/led" />
+    <target
+        android:name="l8"
+        android:animation="@animator/led" />
+    <target
+        android:name="l9"
+        android:animation="@animator/led" />
+    <target
+        android:name="l10"
+        android:animation="@animator/led" />
+    <target
+        android:name="l11"
+        android:animation="@animator/led" />
+    <target
+        android:name="l12"
+        android:animation="@animator/led" />
+    <target
+        android:name="l13"
+        android:animation="@animator/led" />
+    <target
+        android:name="l14"
+        android:animation="@animator/led" />
+    <target
+        android:name="l15"
+        android:animation="@animator/led" />
+    <target
+        android:name="l16"
+        android:animation="@animator/led" />
+    <target
+        android:name="l17"
+        android:animation="@animator/led" />
+    <target
+        android:name="l18"
+        android:animation="@animator/led" />
+    <target
+        android:name="l19"
+        android:animation="@animator/led" />
+    <target
+        android:name="l20"
+        android:animation="@animator/led" />
+    <target
+        android:name="l21"
+        android:animation="@animator/led" />
+    <target
+        android:name="l22"
+        android:animation="@animator/led" />
+    <target
+        android:name="l23"
+        android:animation="@animator/led" />
+    <target
+        android:name="l24"
+        android:animation="@animator/led" />
+    <target
+        android:name="l25"
+        android:animation="@animator/led" />
+    <target
+        android:name="l26"
+        android:animation="@animator/led" />
+    <target
+        android:name="l27"
+        android:animation="@animator/led" />
+    <target
+        android:name="l28"
+        android:animation="@animator/led" />
+    <target
+        android:name="l29"
+        android:animation="@animator/led" />
+    <target
+        android:name="l30"
+        android:animation="@animator/led" />
+
+    <target
+        android:name="l31"
+        android:animation="@animator/led" />
+
+    <target
+        android:name="l32"
+        android:animation="@animator/led" />
+
+    <target
+        android:name="l33"
+        android:animation="@animator/led" />
+    <target
+        android:name="l34"
+        android:animation="@animator/led" />
+    <target
+        android:name="l35"
+        android:animation="@animator/led" />
+    <target
+        android:name="l36"
+        android:animation="@animator/led" />
+
+
+
+</animated-vector>

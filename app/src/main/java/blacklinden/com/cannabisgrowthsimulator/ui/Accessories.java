@@ -42,7 +42,7 @@ public class Accessories extends Fragment {
     }
 
     private void createListData() {
-        Elem planet = new Elem("Vintage Geranium", 8,"Slow","Rare", getResources().getDrawable(R.drawable.cserep_old2));
+        Elem planet = new Elem("Stiegl", 8,"Slow","Specialized", getResources().getDrawable(R.drawable.cserep10));
         planetArrayList.add(planet);
 
         planet = new Elem("Geranium Pot", 8,"Slow","Common", getResources().getDrawable(R.drawable.cserep4));
@@ -66,10 +66,10 @@ public class Accessories extends Fragment {
         planet = new Elem("Cast Bronze Pot", 12f,"Steady","Rare", getResources().getDrawable(R.drawable.cserep6));
         planetArrayList.add(planet);
 
-        planet = new Elem("Top Hat", 7f,"Steady","Common", getResources().getDrawable(R.drawable.cserep5));
+        planet = new Elem("Blumentopf", 7f,"Steady","Common", getResources().getDrawable(R.drawable.cserep8));
         planetArrayList.add(planet);
 
-        planet = new Elem("Dark Ceramic", 12f,"Steady","Common", getResources().getDrawable(R.drawable.cserep3));
+        planet = new Elem("Seghettata", 12f,"Steady","Common", getResources().getDrawable(R.drawable.cserep9));
         planetArrayList.add(planet);
 
         planet = new Elem("Concentric Geranium", 12f,"Fast","Common", getResources().getDrawable(R.drawable.cserep7));

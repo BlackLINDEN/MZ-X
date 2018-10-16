@@ -50,7 +50,8 @@ public class CanvasView extends View {
             paint.setStyle(Paint.Style.STROKE);
             paint.setTextSize(40);
             AL = new ArrayList<>();
-            t = new Teknős(getContext());
+            t = new Teknős(getContext(),metrix/59);
+
         }
 
         @Override

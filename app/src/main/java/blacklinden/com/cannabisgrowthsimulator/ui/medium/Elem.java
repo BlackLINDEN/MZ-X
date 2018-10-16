@@ -9,13 +9,19 @@ public class Elem {
     private float volume;
     private int spectrum;
     private String drain;
+    private String type;
     private String rarity;
     private int lumen;
     private Drawable drawable;
+    private int animDrawCode;
+    private int fatyolDrawCode;
 
-    public Elem(String name, int consumption, int spectrum, int lumen,Drawable drawable) {
+    public Elem(String name,String type, int consumption, int spectrum, int lumen,int animDrawCode, int fatyolDrawCode, Drawable drawable) {
         this.drawable = drawable;
         this.name = name;
+        this.animDrawCode = animDrawCode;
+        this.fatyolDrawCode = fatyolDrawCode;
+        this.type=type;
         this.consumption = consumption;
         this.spectrum = spectrum;
         this.lumen = lumen;
@@ -53,6 +59,10 @@ public class Elem {
         return spectrum;
     }
 
+    public int getAnimDrawCode(){return animDrawCode;}
+
+    public int getFatyolDrawCode(){return fatyolDrawCode;}
+
     public void setSpectrum(int spectrum) {
         this.spectrum = spectrum;
     }
@@ -65,6 +75,9 @@ public class Elem {
         this.lumen = lumen;
     }
 
+    public String getType(){
+        return type;
+    }
 
     public float getVolume() {
         return volume;
