@@ -12,6 +12,7 @@
         <activity
             android:name=".Main2Activity"
             android:launchMode= "singleInstance"
+            android:resizeableActivity="false"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,9 +24,11 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:launchMode= "singleInstance"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
-        <service android:name=".serv.LService" />
+        <service android:name=".serv.LService"
+           />
 
         <activity android:name=".InventoryActivity"
         android:launchMode="singleInstance"/>

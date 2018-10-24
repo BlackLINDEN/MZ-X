@@ -51,6 +51,7 @@ public class Mentés {
          *
          * String: SAMPLE_KEY, SAMPLE_STR or just SAMPLE
          */
+        TRMS_LST,
         TESZT_OBJ,
         SAMPLE_STR,
         SAMPLE_CAN,

@@ -57,7 +57,7 @@ public class CanvasView extends View {
         @Override
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
-            mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+
 
         }
         @Override
@@ -174,7 +174,7 @@ public class CanvasView extends View {
         this.ism=ism;
         this.AL.clear();
         this.AL.addAll(yyy);
-        invalidate();
+        postInvalidate();
     }
 
         public void metrix(float m){

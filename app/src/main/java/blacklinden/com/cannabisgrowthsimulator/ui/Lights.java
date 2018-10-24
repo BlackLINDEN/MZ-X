@@ -54,7 +54,10 @@ public class Lights extends Fragment {
         planet = new Elem("CFL Grow","CFL", 150, 2700, 7850,R.drawable.cfl_yellow,R.drawable.httr_vill001,Objects.requireNonNull(getContext()).getDrawable(R.drawable.ic_light_bulb_technology_svgrepo_com));
         lampArrayList.add(planet);
 
-        planet = new Elem("HPS Grow","HALOGEN",600,2500,10200,R.drawable.yellow_hps,R.drawable.narancs_csova,Objects.requireNonNull(getContext()).getDrawable(R.drawable.hps));
+        planet = new Elem("HPS Grow","HALOGEN",600,2500,10200,R.drawable.avd_anim,R.drawable.narancs_csova,Objects.requireNonNull(getContext()).getDrawable(R.drawable.hps));
+        lampArrayList.add(planet);
+
+        planet = new Elem("Desk Bulb","CFL",60,4700,1200,R.drawable.cflkek,R.drawable.feher_csova,Objects.requireNonNull(getContext()).getDrawable(R.drawable.ic_ggg));
         lampArrayList.add(planet);
 
         adapter.notifyDataSetChanged();

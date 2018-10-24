@@ -1,6 +1,8 @@
 package blacklinden.com.cannabisgrowthsimulator.canvas.kor;
 
 
+import android.graphics.drawable.Drawable;
+
 import blacklinden.com.cannabisgrowthsimulator.R;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
 import blacklinden.com.cannabisgrowthsimulator.pojo.Lamps;
@@ -64,6 +66,15 @@ public class Fény {
                 kelvin = 2500;
                 lux = 10200;
                 break;
+
+            case "Desk Bulb":
+                drawCode = R.drawable.cflkek;
+                fatyolCode = R.drawable.feher_csova;
+                égő=Égő.CFL;
+                watt = 60;
+                kelvin = 4700;
+                lux = 1200;
+                break;
         }
         return drawCode;
     }
@@ -115,6 +126,15 @@ public class Fény {
                 watt = 600;
                 kelvin = 2500;
                 lux = 10200;
+                break;
+
+            case "Desk Bulb":
+                drawCode = R.drawable.cflkek;
+                fatyolCode = R.drawable.feher_csova;
+                égő=Égő.CFL;
+                watt = 60;
+                kelvin = 4700;
+                lux = 1200;
                 break;
         }
         return fatyolCode;

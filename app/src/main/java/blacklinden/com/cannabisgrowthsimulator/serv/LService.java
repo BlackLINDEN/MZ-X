@@ -8,56 +8,64 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Binder;
-import android.os.Build;
+
 import android.os.Handler;
-import android.os.HandlerThread;
+
 import android.os.IBinder;
 import android.os.Looper;
-import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-import android.widget.Toast;
 
-import java.net.URISyntaxException;
+import android.util.Log;
+
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+
 import java.util.ArrayList;
-import java.util.Collections;
+
+import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 
 
-import blacklinden.com.cannabisgrowthsimulator.BuildConfig;
+
 import blacklinden.com.cannabisgrowthsimulator.MainActivity;
 import blacklinden.com.cannabisgrowthsimulator.R;
-import blacklinden.com.cannabisgrowthsimulator.nov.A;
-import blacklinden.com.cannabisgrowthsimulator.nov.Av;
+import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
+
 import blacklinden.com.cannabisgrowthsimulator.nov.C;
 import blacklinden.com.cannabisgrowthsimulator.nov.F;
 import blacklinden.com.cannabisgrowthsimulator.nov.Gy;
 import blacklinden.com.cannabisgrowthsimulator.nov.H;
 import blacklinden.com.cannabisgrowthsimulator.nov.Kender;
-import blacklinden.com.cannabisgrowthsimulator.nov.L;
+
 import blacklinden.com.cannabisgrowthsimulator.nov.Növény;
-import blacklinden.com.cannabisgrowthsimulator.nov.V;
-import blacklinden.com.cannabisgrowthsimulator.nov.X;
+
 import blacklinden.com.cannabisgrowthsimulator.nov.menttolt.M;
 import blacklinden.com.cannabisgrowthsimulator.nov.menttolt.T;
+import blacklinden.com.cannabisgrowthsimulator.pojo.Termény;
 
 public class LService extends Service {
 
 
     public int ism = 6;
-    private int vég =800;
+    private static final int vég =800;
     public boolean stopIt = false;
-    public ArrayList<Növény> al = new ArrayList<>();
+    public volatile ArrayList<Növény> al = new ArrayList<>();
     private IBinder binderem = new Binderem();
     public static volatile boolean IS_SERVICE_RUNNING = false;
     private Notif notif;
-    public volatile boolean isOOrunning=false;
-    public boolean szüretelve=false;
-    public boolean halott;
+
+    public volatile boolean szüretelve=false;
+    public volatile boolean halott;
+    private Thread lthread;
+    private C bC,jC;
+    private ArrayList<Növény> a;
 
     public LService() {
+
         if (!IS_SERVICE_RUNNING) {
             Kender.getInstance();
             Kender.getInstance().initFény();
@@ -65,7 +73,7 @@ public class LService extends Service {
             Kender.getInstance().initVíz();
             Kender.getInstance().initCukor();
             Kender.getInstance().initCO2();
-
+            a = new ArrayList<>();
 
         }
     }
@@ -84,27 +92,33 @@ public class LService extends Service {
             nb.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.kendericon));
             nb.setSmallIcon(R.mipmap.type_simbol);
             nb.setContentIntent(pendingIntent);
+
             notif.getManager().notify(101, nb.build());
 
             startForeground(101,
                     nb.build());
 
         }
-        IS_SERVICE_RUNNING = true;
+
 
             al.add(new Gy());
-            al.add(new F(0));
+            al.add(new F().init(0));
             al.add(new M());
             al.add(new H());
             al.add(new T());
 
+        bC = new C(true);
+        jC = new C(false);
+
+        lthread = new Thread(oo);
+        lthread.setDaemon(true);
 
 
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
+        //Mentés.getInstance(this);
 
 
 
@@ -130,7 +144,9 @@ public class LService extends Service {
     }
 
     public void startThread(){
-        oo.run();
+        IS_SERVICE_RUNNING = true;
+        lthread.start();
+
     }
 
     private void showNotification() {
@@ -151,6 +167,7 @@ public class LService extends Service {
 
             Notification notification = new Notification.Builder(this)
                     .setContentTitle("GROWBOX")
+
                     .setTicker("Grow Operation")
                     .setContentText("In-Progress")
                     .setSmallIcon(R.mipmap.type_simbol)
@@ -171,11 +188,14 @@ public class LService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        al.clear();
+
         handler.removeCallbacks(oo);
         ism=6;
+        saveWeed();
+        al.clear();
         Kender.getInstance().clear();
         IS_SERVICE_RUNNING=false;
+
     }
 
 
@@ -186,13 +206,13 @@ public class LService extends Service {
             //figyi.H2O(Kender.getInstance().getH2o());
             //figyi.NAP(ism);
 
-            isOOrunning=true;
-            ism();
-            System.out.println("ISM " + ism);
 
-            A(al);
-            handler.postDelayed(oo, 12000);
+                ism();
+                System.out.println("ISM " + ism);
 
+                A(al);
+
+                handler.postDelayed(oo, 85714);
         }
     };
 
@@ -204,66 +224,79 @@ public class LService extends Service {
 
 
     private void A(ArrayList<Növény> aa) {
-        ArrayList<Növény> a = new ArrayList<>();
+       a.clear();
         Kender.getInstance().update(ism);
 
         if (!Kender.getInstance().halott_e&&!szüretelve&&ism<vég) {
-            for (Növény x : aa) {
 
-                x.élet();
-
+            for(Növény x:al) {
 
 
-                        if(Objects.equals(x.n,"X")&&Kender.getInstance().Szintet()>3&&x.fejl()==10){
-                            a.add(new M());
-                            a.add(new F(x.szög()));
-                            a.add(new T());
+
+
+
+                        //oldalhajtás
+                        if(Objects.equals(x.n,"X")&&Kender.getInstance().Szintet()>3&&Kender.getInstance().Szintet()<100&&x.fejl()==20
+                                &&!Kender.getInstance().verem.f.empty()&&!Kender.getInstance().verem.üreseMT()){
+                            a.add(Kender.getInstance().verem.m.pop());
+                            a.add(Kender.getInstance().verem.f.pop().init(x.szög(),x.szint()));
+                            a.add(Kender.getInstance().verem.t.pop());
                             a.add(x);
+
 
                         } else if (Objects.equals(x.n,"H")&&x.fejl()==10){
-                           a.add(new M());
-                           a.add(new C(true));
-                           a.add(new T());
-                           a.add(new M());
-                           a.add(new C(false));
-                           a.add(new T());
-                           a.add(new A(0));
-                        } else if (Objects.equals(x.n, "A")&& x.szint() < 500) {
-
-                            a.add(new M());
-                            a.add(new X(true, x.szint()));
-                            a.add(new L(true, x.szint()));
-                            a.add(new T());
-                            a.add(new M());
-                            a.add(new X(false, x.szint()));
-                            a.add(new L(false, x.szint()));
-                            a.add(new T());
-
-                            if(!Kender.getInstance().flowering&&Kender.getInstance().Szintet()<60)
-                            a.add(new F(x.szint()));
+                           a.add(Kender.getInstance().verem.m.pop());
+                           a.add(bC);
+                           a.add(Kender.getInstance().verem.t.pop());
+                           a.add(Kender.getInstance().verem.m.pop());
+                           a.add(jC);
+                           a.add(Kender.getInstance().verem.t.pop());
+                           a.add(Kender.getInstance().verem.a.pop().init(0));
+                        } else if (Objects.equals(x.n, "A")&& x.szint() < 500&&
+                                !Kender.getInstance().verem.üreseValami()) {
 
 
+                            a.add(Kender.getInstance().verem.m.pop());
+                            a.add(Kender.getInstance().verem.x.pop().init(true,x.szint()));
+                            a.add(Kender.getInstance().verem.l.pop().init(true, x.szint()));
+                            a.add(Kender.getInstance().verem.t.pop());
+                            a.add(Kender.getInstance().verem.m.pop());
+                            a.add(Kender.getInstance().verem.x.pop().init(false,x.szint()));
+                            a.add(Kender.getInstance().verem.l.pop().init(false, x.szint()));
+                            a.add(Kender.getInstance().verem.t.pop());
 
-                        } else if (Objects.equals(x.n, "F") && x.szint()>1 && Kender.getInstance().flowering) {
+                            if(!Kender.getInstance().flowering&&Kender.getInstance().Szintet()<30)
+                            a.add(Kender.getInstance().verem.f.pop().init(x.szint()));
+
+
+
+                        } else if (Objects.equals(x.n, "F") && x.szint()>1 && Kender.getInstance().flowering
+                                &&!Kender.getInstance().verem.av.empty()) {
                             a.add(x);
-                            a.add(new Av(x.szint()));
+                            a.add(Kender.getInstance().verem.av.pop().init(x.szint()));
 
-                        } else if (Objects.equals(x.n, "F") && x.fejl() == 20 && x.szint()>0) {
+                        } else if (Objects.equals(x.n, "F") && x.fejl() == 20 && x.szint()>0&&Kender.getInstance().Szintet()<100&&
+                                !Kender.getInstance().verem.a.empty()) {
                             a.add(x);
-                            a.add(new A(x.szint()));
-                        } else if (Objects.equals(x.n, "AV") && x.fejl() > 50) {
-                            a.add(new V());
-                        } else if (Objects.equals(x.n, "V") && x.fejl() > 100) {
+                            a.add(Kender.getInstance().verem.a.pop().init(x.szint()));
+                        } else if (Objects.equals(x.n, "AV") && x.fejl() > 50&&
+                                !Kender.getInstance().verem.v.empty()) {
+                            a.add(Kender.getInstance().verem.v.pop());
+                        } else if (Objects.equals(x.n, "V") && x.fejl() > 100&&Kender.getInstance().Szintet()<100
+                                &&!Kender.getInstance().verem.v.empty()) {
                             a.add(x);
-                            a.add(new V());
+                            a.add(Kender.getInstance().verem.v.pop());
                         } else {
                             a.add(x);
                         }
 
-            }
+                x.élet();
 
-            al.clear();
-            al.addAll(a);
+            }
+            if(!a.isEmpty()) {
+                al.clear();
+                al.addAll(a);
+            }
         }
 
         else{
@@ -278,10 +311,24 @@ public class LService extends Service {
 
         private void vége(){
             handler.removeCallbacks(oo);
+
+
+            System.out.println("<<<<<<||::.VÉGE.::||>>>>>>");
+
             halott=Kender.getInstance().halott_e;
             stopIt = true;
+
             stopForeground(true);
             stopSelf();
+        }
+
+        private void saveWeed(){
+            Gson gson = new Gson();
+            Type tList = new TypeToken<ArrayList<Termény>>(){}.getType();
+            List<Termény> termenyList = gson.fromJson(Mentés.getInstance().getString(Mentés.Key.TRMS_LST),tList);
+            termenyList.add(new Termény(hányGrammLett(),"Skunk#1",15,1));
+            String ment = Mentés.getInstance().gsonra(termenyList);
+            Mentés.getInstance().put(Mentés.Key.TRMS_LST,ment);
         }
 
 

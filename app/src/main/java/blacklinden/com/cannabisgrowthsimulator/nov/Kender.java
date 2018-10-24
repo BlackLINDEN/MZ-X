@@ -4,9 +4,12 @@ package blacklinden.com.cannabisgrowthsimulator.nov;
 
 
 
+import android.content.Context;
+
 import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Cserép;
 import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Fény;
 import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Lég;
+import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Verem;
 import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Víz;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Nutes;
@@ -46,13 +49,15 @@ public final class Kender {
     public void initRost(){this.rost=10;}
 
     private float rost;
-
+    private Context context;
+    public Verem verem;
     private float cukor;
     public float fény=0;//százalék
     public volatile String causeofdeath="";
 
     private Kender() {
         //1000000;
+        verem = new Verem();
         initRost();
         initCO2();
         this.flowering=false;
@@ -194,6 +199,8 @@ public final class Kender {
     public boolean Halott_e() {
         return halott_e;
     }
+    public void setContext(Context c){context=c;}
+    public Context getContext(){return context;}
 
 
 

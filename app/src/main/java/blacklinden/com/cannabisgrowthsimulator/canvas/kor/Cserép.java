@@ -44,7 +44,7 @@ public int setDrawableCode(){
             break;
 
         case "Plain Ceramic Pot": drawableCode=R.drawable.plain_ceramic_pot;
-            potSize=80;
+            potSize=800;
             waterRunoff=-1.2f;
             break;
 

@@ -6,11 +6,16 @@ public class A extends Növény {
     private int szint;
     private float ép;
 
-    public A(int szint) {
+    public A() {
         super("A");
-        this.szint=szint+1;
+
         ép=0;
 
+    }
+
+    public A init(int szint){
+        this.szint=szint+1;
+        return this;
     }
 
     @Override

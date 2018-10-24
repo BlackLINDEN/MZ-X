@@ -17,13 +17,12 @@ public class X extends Növény {
     public float x;
     private int p;
 
-    public X(boolean bvj, int szint){
+    public X(){
         super("X");
         x=10;
         ép=1;
         szög=0;
-        this.bvj=bvj;
-        this.szint=szint;
+
 
         rndm=new Random();
 
@@ -38,6 +37,12 @@ public class X extends Növény {
 
         rndm=new Random();
 
+    }
+
+    public X init(boolean bvj,int szint){
+        this.bvj=bvj;
+        this.szint=szint;
+        return this;
     }
 
 
@@ -60,18 +65,17 @@ public class X extends Növény {
         switch (Kender.getInstance().getFajta()) {
 
             case 1:
-               if (szint > 5)
-                x += szint*2f;
-            else if(szint>1)
-                x += 50;
 
+            if(szint>1&&szint<5)
+                x += 5;
+            else x += 3;
                 break;
             case 2:
 
                 if (ép<szint&&szint > 8)
-                    x += 80f;
+                    x += 8f;
                 else
-                    x += 80+Kender.getInstance().nutes.N;
+                    x += 8+Kender.getInstance().nutes.N;
 
 
                 break;
@@ -89,9 +93,9 @@ public class X extends Növény {
         int g=rndm.nextInt(10-(-10))+(-10);
         if(ép<11) {
             if (bvj)
-                szög = Kender.getInstance().FF.irány - (40)-g;
+                szög = Kender.getInstance().FF.irány - (50)-g;
             else
-                szög = Kender.getInstance().FF.irány + (40)+g;
+                szög = Kender.getInstance().FF.irány + (50)+g;
         }
 
         return szög;

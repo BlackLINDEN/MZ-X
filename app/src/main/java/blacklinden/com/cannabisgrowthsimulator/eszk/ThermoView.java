@@ -56,10 +56,10 @@ public class ThermoView extends View {
     protected void onDraw(Canvas c) {
         super.onDraw(c);
                c.drawRoundRect(c.getWidth()/4,c.getHeight(),(c.getWidth()/4)*3,0,15,15,fekete);
-        c.drawLine(((c.getWidth()/4)*2),c.getHeight()/2,(c.getWidth()/4)*3,c.getHeight()/2,fekete);
+        c.drawLine(((getWidth()/4)*2),getHeight()/2,(getWidth()/4)*3,c.getHeight()/2,fekete);
         c.drawLine(((c.getWidth()/4)*2),c.getHeight()/3,(c.getWidth()/4)*3,c.getHeight()/3,fekete);
         c.drawLine(((c.getWidth()/4)*2),(c.getHeight()/3)*2,(c.getWidth()/4)*3,(c.getHeight()/3)*2,fekete);
-        c.drawCircle(c.getWidth()/2,c.getHeight()-25,18,piros);
+        c.drawCircle(getWidth()/2,getHeight()-25,25,piros);
         c.drawLine(
                 c.getWidth()/2, c.getHeight()-25,
                 c.getWidth()/2+(float)(Math.cos(Math.PI/2)*(c.getWidth()*0.008)*fok),

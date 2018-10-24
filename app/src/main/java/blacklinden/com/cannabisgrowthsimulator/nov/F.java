@@ -12,24 +12,30 @@ public class F extends Növény {
     private boolean oldHajt=false;
     private int szint;
     private int szín;
-    private final float hosszSzabályzó=25000;
+    private final float hosszSzabályzó=12500;
 
-    public F(float szg) {
+
+    public F(){
         super("F");
-        //hosszSzabályzó=Kender.getInstance().metrix;
+
+
+
+        System.out.println("szint");
+    }
+
+    public F init(float szg,int i){
         this.szg=szg;
         ép=1;
-        szint=1;
+        szint=i;
         this.oldHajt=true;
-        Kender.getInstance().Szint();
+        return this;
     }
-    public F(int i){
-        super("F");
+
+    public F init(int i){
         ép=i;
         this.szint=i;
-
         Kender.getInstance().Szint();
-        System.out.println("szint");
+        return this;
     }
 
 
@@ -60,7 +66,7 @@ public class F extends Növény {
 
     private void xHossz(){
 
-                if (x < hosszSzabályzó - szint && ép > 0&&ép<200) {
+                if (Kender.getInstance().Szintet()<30||x < hosszSzabályzó - szint && ép > 0&&ép<200) {
                     x += ép*2+Kender.getInstance().nutes.N;
                 }
     }

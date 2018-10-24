@@ -70,7 +70,7 @@ public class Teknős  {
             shader1 = new BitmapShader(
                     BitmapFactory.decodeResource(
                             context.getResources(),
-                            R.drawable.cueroverde),
+                            R.drawable.psyfra),
                     Shader.TileMode.MIRROR,
                     Shader.TileMode.MIRROR);
         }
@@ -109,7 +109,7 @@ public class Teknős  {
        // lg = new LinearGradient(0,0,0,1,Color.BLACK,Color.WHITE, Shader.TileMode.MIRROR);
 
         levélKör.setPathEffect(new PathDashPathEffect(
-                getTriangle(4),
+                getTriangle(8),
                 10,
                 0.0f,
                 PathDashPathEffect.Style.ROTATE));
@@ -147,6 +147,7 @@ public class Teknős  {
             szár.setColor(paint);
             szár.setStyle(Paint.Style.STROKE);
         }
+        if(y>canvas.getHeight()/4)
         canvas.drawLine(oldx, oldy, (float)x,(float)y,szár);
 
     }

@@ -5,21 +5,22 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Gy extends Növény {
 
-    private int counter=0;
-    private int fullad,szomj=0;
+    private int counter;
+    private int fullad,szomj;
     public Gy() {
         super("Gy");
-
+        szomj=0;
+        counter=0;
     }
 
     @Override
     public void élet() {
         if(fullad>400) {
-            if(ThreadLocalRandom.current().nextInt(1, 100)==50) {
+            if(ThreadLocalRandom.current().nextInt(1, 100)>50) {
                 Kender.getInstance().causeofdeath += "\n ROOT ROT";
                 Kender.getInstance().halott_e = true;
             }
-        }else if(szomj>12)
+        }else if(szomj>60&&!Kender.getInstance().causeofdeath.contains("\n DEHYDRATION"))
             Kender.getInstance().causeofdeath += "\n DEHYDRATION";
         vízigény();
         légz();
@@ -56,12 +57,19 @@ public class Gy extends Növény {
     public float vízigény() {
 
         Kender.getInstance().setH2o(
-                Kender.getInstance().VV.fogyaszt(Kender.getInstance().Szintet())
+                Kender.getInstance().VV.fogyaszt(
+                        (int)(szigmoid(Kender.getInstance().Szintet())*(5))
+                )
         );
 
-        if(Kender.getInstance().VV.getVÍZ_Mennyiség()+Kender.getInstance().getH2o()<=0)
+        if(Kender.getInstance().VV.getVÍZ_Mennyiség()<=0)
             szomj++;
+        else if(Kender.getInstance().VV.getVÍZ_Mennyiség()>20) szomj=0;
         return 0;
+    }
+
+    private double szigmoid(double x) {
+        return (1/( 1 + Math.pow(Math.E,(-1*x))));
     }
 
     @Override

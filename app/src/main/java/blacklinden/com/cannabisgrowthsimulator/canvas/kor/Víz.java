@@ -2,6 +2,7 @@ package blacklinden.com.cannabisgrowthsimulator.canvas.kor;
 
 import blacklinden.com.cannabisgrowthsimulator.R;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
+import blacklinden.com.cannabisgrowthsimulator.nov.Kender;
 
 public class Víz {
 
@@ -22,6 +23,7 @@ public class Víz {
     }
 
     public int setDrawCode(){
+        //Mentés.getInst Context
         switch (Mentés.getInstance().getString(Mentés.Key.SAMPLE_CAN,"Tinman")){
             case "Hipster Pipe":drawCode= R.drawable.kanna1;
                 break;

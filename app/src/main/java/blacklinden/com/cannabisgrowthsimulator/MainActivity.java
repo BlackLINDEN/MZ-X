@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -58,36 +59,37 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     AlsFiok alsFiok;
 
     CardView polc;
-    ImageButton bulb, seed, cserép, táp,kanna,ollo;
+    ImageButton bulb, seed, cserép, táp, kanna, ollo;
     Ventil ventilObj;
     ImageView fátyol;
     private DrawerLayout drawerLayout;
-    SeekBar sb1, sb2;
     boolean ventilBE;
     TextView napTV;
     private LService lService;
-    Intent service,intent;
+    Intent service, intent;
     private Dialog dialog;
-    private MediaPlayer nutriGoo,loccs,gong;
+    private MediaPlayer nutriGoo, loccs, gong;
     private PopupWindow quickAction;
-    private boolean cserépGombKapcsoló=false;
+
     private TypedValue outValue;
     private AnimatedVectorDrawable vectorDrawable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        intent = new Intent(this,Main2Activity.class);
+        Mentés.getInstance(this);
+        intent = new Intent(this, Main2Activity.class);
         drawerLayout = findViewById(R.id.drawer_layout);
         outValue = new TypedValue();
         this.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
         alsFiok = findViewById(R.id.also);
 
 
-        nutriGoo = MediaPlayer.create(this,R.raw.nutri);
-        loccs = MediaPlayer.create(this,R.raw.loccs);
-        gong = MediaPlayer.create(this,R.raw.gong);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        nutriGoo = MediaPlayer.create(this, R.raw.nutri);
+        loccs = MediaPlayer.create(this, R.raw.loccs);
+        gong = MediaPlayer.create(this, R.raw.gong);
+        final NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -97,28 +99,30 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                         // close drawer when item is tapped
                         drawerLayout.closeDrawers();
 
-                        switch (menuItem.getItemId()){
+                        switch (menuItem.getItemId()) {
                             case R.id.killit:
                                 lService.stopForeground(true);
                                 lService.stopSelf();
-                                LService.IS_SERVICE_RUNNING=false;
+
                                 Kender.getInstance().clear();
-                                if(isTaskRoot())
-                                    startActivity(intent);
-                                else
+
                                     finish();
+                                navigationView.destroyDrawingCache();
                                 break;
 
                             case R.id.back:
-                                if(isTaskRoot())
+                                if (isTaskRoot())
                                     startActivity(intent);
+
                                 else
                                     finish();
+                                navigationView.destroyDrawingCache();
                                 break;
 
                             case R.id.inventory:
-                                Intent i = new Intent(MainActivity.this,InventoryActivity.class);
+                                Intent i = new Intent(MainActivity.this, InventoryActivity.class);
                                 startActivity(i);
+                                navigationView.destroyDrawingCache();
                         }
 
                         return true;
@@ -138,8 +142,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         kanna.setImageDrawable(getDrawable(Kender.getInstance().VV.setDrawCode()));
         cserép.setImageDrawable(getDrawable(Kender.getInstance().CC.setDrawableCode()));
         táp.setImageDrawable(getDrawable(Kender.getInstance().nutes.setDrawCode()));
-        vectorDrawable =(AnimatedVectorDrawable) getDrawable(Kender.getInstance().FF.setDrawCode());
-        if(Kender.getInstance().FF.setDrawCode()==R.drawable.yellow_hps)
+        vectorDrawable = (AnimatedVectorDrawable) getDrawable(Kender.getInstance().FF.setDrawCode());
+        if (Kender.getInstance().FF.setDrawCode() == R.drawable.yellow_hps)
             bulb.setRotation(90);
         else bulb.setRotation(180);
         bulb.setImageDrawable(vectorDrawable);
@@ -155,10 +159,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         canvasView = findViewById(R.id.canvas);
         final float cserepMagassag = 59;
         canvasView.metrix((density / 160) * cserepMagassag);
-        Kender.getInstance().metrix(dm.heightPixels/density);
+        Kender.getInstance().metrix(dm.heightPixels / density);
         thermoView = findViewById(R.id.thermo);
-
-
 
 
         fátyol = findViewById(R.id.fatyol);
@@ -166,7 +168,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         polc = findViewById(R.id.polc);
 
         ventilObj = findViewById(R.id.ventil);
-
 
 
         dialog = new Dialog(this);
@@ -181,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         });
 
 
-        if(Kender.getInstance().FF.beKapcs)
+        if (Kender.getInstance().FF.beKapcs)
             fátyol.setVisibility(View.VISIBLE);
         else
             fátyol.setVisibility(View.GONE);
@@ -192,7 +193,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
 
         clearCanvas();
-
 
 
 
@@ -211,20 +211,25 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         super.onResume();
 
         fátyol.setImageDrawable(getDrawable(Kender.getInstance().FF.setDrawCode(1)));
-        thermoView.handler.postDelayed(thermoView.oo,1000);
+        thermoView.handler.postDelayed(thermoView.oo, 1000);
         kanna.setImageDrawable(getDrawable(Kender.getInstance().VV.setDrawCode()));
         cserép.setImageDrawable(getDrawable(Kender.getInstance().CC.setDrawableCode()));
         táp.setImageDrawable(getDrawable(Kender.getInstance().nutes.setDrawCode()));
-        vectorDrawable =(AnimatedVectorDrawable) getDrawable(Kender.getInstance().FF.setDrawCode("a"));
-        if(Kender.getInstance().FF.beKapcs) vectorDrawable.start();
-        if(Kender.getInstance().FF.setDrawCode("a")==R.drawable.yellow_hps)
-        bulb.setRotation(90);
+        vectorDrawable = (AnimatedVectorDrawable) getDrawable(Kender.getInstance().FF.setDrawCode("a"));
+        if (Kender.getInstance().FF.beKapcs) {
+            vectorDrawable.start();
+            findViewById(R.id.main).getBackground().setColorFilter(this.getColor(R.color.fny), PorterDuff.Mode.MULTIPLY);
+
+        } else
+            findViewById(R.id.main).getBackground().setColorFilter(this.getColor(R.color.cardview_dark_background), PorterDuff.Mode.MULTIPLY);
+        if (Kender.getInstance().FF.setDrawCode("a") == R.drawable.avd_anim)
+            bulb.setRotation(90);
         else bulb.setRotation(180);
         bulb.setImageDrawable(vectorDrawable);
     }
 
-    public void cserépGomb(View v){
-        if( quickAction==null) {
+    public void cserépGomb(View v) {
+        if (quickAction == null) {
             // Initialize a new instance of LayoutInflater service
             LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
 
@@ -256,14 +261,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             quickAction.setElevation(5.0f);
 
 
-
-
             TextView quickText = customView.findViewById(R.id.quick_tv);
-            quickText.setText("water "+Kender.getInstance().VV.getVÍZ_Mennyiség()
-                    +"\nSugar "+Kender.getInstance().getCukor()+"\nStarch"+Kender.getInstance().getRost()
-                    +"\nNatrium "+Kender.getInstance().nutes.N+"\nPhosphorus "+
-                     Kender.getInstance().nutes.P
-                    +"\nPotassium "+Kender.getInstance().nutes.K);
+            quickText.setText("water " + Kender.getInstance().VV.getVÍZ_Mennyiség()
+                    + "\nSugar " + Kender.getInstance().getCukor() + "\nStarch" + Kender.getInstance().getRost()
+                    + "\nNatrium " + Kender.getInstance().nutes.N + "\nPhosphorus " +
+                    Kender.getInstance().nutes.P
+                    + "\nPotassium " + Kender.getInstance().nutes.K);
                 /*
                     public void showAtLocation (View parent, int gravity, int x, int y)
                         Display the content view in a popup window at the specified location. If the
@@ -280,12 +283,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 */
 
             quickAction.showAtLocation(cserép, Gravity.CENTER, 0, 0);
-        }else {
+        } else {
             quickAction.dismiss();
-            quickAction=null;
+            quickAction = null;
         }
     }
-
 
 
     private void clearCanvas() {
@@ -295,25 +297,25 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     //
     public void cl(View v) {
 
-        if(fátyol.getVisibility()==View.GONE){
+        if (fátyol.getVisibility() == View.GONE) {
 
             fátyol.setVisibility(View.VISIBLE);
             bulb.setBackground(getDrawable(R.drawable.feny60));
             vectorDrawable.start();
-            findViewById(R.id.main).setBackgroundResource(R.drawable.httr_vil);
-            Kender.getInstance().FF.beKapcs=true;
+            findViewById(R.id.main).getBackground().setColorFilter(this.getColor(R.color.fny), PorterDuff.Mode.MULTIPLY);
+            Kender.getInstance().FF.beKapcs = true;
             polc.setElevation(5);
             polc.setCardElevation(60);
-            Toast.makeText(this,"lámpa "+Kender.getInstance().FF.beKapcs,Toast.LENGTH_SHORT).show();
-        }else if(fátyol.getVisibility()==View.VISIBLE&&!vectorDrawable.isRunning()){
+            Toast.makeText(this, "lámpa " + Kender.getInstance().FF.beKapcs, Toast.LENGTH_SHORT).show();
+        } else if (fátyol.getVisibility() == View.VISIBLE && !vectorDrawable.isRunning()) {
             fátyol.setVisibility(View.GONE);
             vectorDrawable.reset();
-            findViewById(R.id.main).setBackgroundResource(R.drawable.httr_stt);
+            findViewById(R.id.main).getBackground().setColorFilter(this.getColor(R.color.cardview_dark_background), PorterDuff.Mode.MULTIPLY);
             bulb.setBackgroundResource(outValue.resourceId);
-            Kender.getInstance().FF.beKapcs=false;
+            Kender.getInstance().FF.beKapcs = false;
             polc.setCardElevation(5);
             polc.setElevation(20);
-            Toast.makeText(this,"lámpa "+Kender.getInstance().FF.beKapcs,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "lámpa " + Kender.getInstance().FF.beKapcs, Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -336,7 +338,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         thermoView.handler.removeCallbacks(thermoView.oo);
         unbindService(kapcsolat);
         h.removeCallbacks(r);
-        if(dialog.isShowing()) {
+
+        if (dialog.isShowing()) {
 
             dialog.dismiss();
         }
@@ -357,8 +360,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             LService.Binderem myBinder = (LService.Binderem) service;
             lService = myBinder.getService();
             r.run();
-            if(lService.isOOrunning)
-            seed.setVisibility(View.GONE);
+            if (LService.IS_SERVICE_RUNNING)
+                seed.setVisibility(View.GONE);
         }
     };
 
@@ -367,34 +370,43 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         @Override
         public void run() {
 
-            canvasView.told(lService.al, lService.ism);
-            napTV.setText(String.valueOf(lService.ism / 6));
-            if(Kender.getInstance().flowering)ollo.setVisibility(View.VISIBLE);
 
 
-            if (lService.stopIt) {
 
-                if(lService.halott){
-                    TextView text = dialog.findViewById(R.id.text);
-                    text.setText("Your Plant Died!" +Kender.getInstance().causeofdeath+
-                            "\n Raw Yield Salvaged: "+lService.hányGrammLett()+" gr");
-                    ImageView image = dialog.findViewById(R.id.image);
-                    image.setImageResource(R.drawable.koponyacsont);
-                    h.removeCallbacks(r);
+                    canvasView.told(lService.al, lService.ism);
 
-                    dialog.show();
 
-                }else{
-                    TextView text = dialog.findViewById(R.id.text);
-                    text.setText("Produce Harvested!\n Raw Yield Collected: "+lService.hányGrammLett()+" gr");
-                    ImageView image = dialog.findViewById(R.id.image);
-                    image.setImageResource(R.drawable.koszoru);
-                    h.removeCallbacks(r);
 
-                    dialog.show();
-                }
 
-            }else  h.postDelayed(this, 600);
+                            napTV.setText(String.valueOf(lService.ism / 6));
+
+                    if (Kender.getInstance().flowering) ollo.setVisibility(View.VISIBLE);
+
+
+                    if (lService.stopIt) {
+
+                        if (lService.halott) {
+                            TextView text = dialog.findViewById(R.id.text);
+                            text.setText("Your Plant Died!" + Kender.getInstance().causeofdeath +
+                                    "\n Raw Yield Salvaged: " + lService.hányGrammLett() + " gr");
+                            ImageView image = dialog.findViewById(R.id.image);
+                            image.setImageResource(R.drawable.koponyacsont);
+                            h.removeCallbacks(r);
+
+                            dialog.show();
+
+                        } else {
+                            TextView text = dialog.findViewById(R.id.text);
+                            text.setText("Produce Harvested!\n Raw Yield Collected: " + lService.hányGrammLett() + " gr");
+                            ImageView image = dialog.findViewById(R.id.image);
+                            image.setImageResource(R.drawable.koszoru);
+                            h.removeCallbacks(r);
+
+                            dialog.show();
+                        }
+
+                    } else h.postDelayed(this, 85714);
+
 
         }
     };
@@ -405,7 +417,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         ClipData.Item item = new ClipData.Item(view.getTag().toString());
         String[] mimeTypes = {ClipDescription.MIMETYPE_TEXT_PLAIN};
         ClipData data = new ClipData(view.getTag().toString(), mimeTypes, item);
-
         switch (view.getId()) {
             case R.id.daseed:
 
@@ -463,12 +474,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             case DragEvent.ACTION_DRAG_LOCATION:
                 if(event.getClipDescription().getLabel().toString().equals("locsol")) {
 
-                    loccs.start();
-                    if(Kender.getInstance().VV.getVÍZ_Mennyiség()>=Kender.getInstance().CC.potSize/2) {
-                        Kender.getInstance().CC.föld.flush();
-                        alsFiok.flushIt();
-                    }else
+
+                    if(Kender.getInstance().VV.getVÍZ_Mennyiség()<=Kender.getInstance().CC.potSize/2) {
                         Kender.getInstance().VV.locsol();
+                        loccs.start();
+                    }
                 }
                 return true;
 
@@ -488,9 +498,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 }
                 else if(clipData.equals("tap1")){
                     nutriGoo.start();
-                            Kender.getInstance().CC.föld.Nátrium+=Kender.getInstance().nutes.iN;
-                            Kender.getInstance().CC.föld.Foszfor+=Kender.getInstance().nutes.iP;
-                            Kender.getInstance().CC.föld.Kálium+=Kender.getInstance().nutes.iK;
+                    Kender.getInstance().CC.föld.Nátrium+=Kender.getInstance().nutes.iN;
+                    Kender.getInstance().CC.föld.Foszfor+=Kender.getInstance().nutes.iP;
+                    Kender.getInstance().CC.föld.Kálium+=Kender.getInstance().nutes.iK;
                 }
 
                 v.invalidate();
@@ -501,13 +511,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                 ((ImageView) v).clearColorFilter();
                 if (event.getResult()) {
-                    if(!lService.isOOrunning) seed.setVisibility(View.VISIBLE);
+                    if(!LService.IS_SERVICE_RUNNING) seed.setVisibility(View.VISIBLE);
                     kanna.setVisibility(View.VISIBLE);
                     Toast.makeText(MainActivity.this, "Awesome!", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    if(!lService.isOOrunning)
-                    seed.setVisibility(View.VISIBLE);
+                    if(!LService.IS_SERVICE_RUNNING)
+                        seed.setVisibility(View.VISIBLE);
                     kanna.setVisibility(View.VISIBLE);
 
                 }

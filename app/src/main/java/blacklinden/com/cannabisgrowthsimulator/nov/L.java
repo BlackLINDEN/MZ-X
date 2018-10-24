@@ -13,23 +13,20 @@ public class L extends Növény {
     private int sötétIdő = 0;
     private String halál;
 
-    public L(boolean balra) {
+    public L() {
         super("L");
         x = 0.05f;
-        this.balra = balra;
 
+        p = Color.rgb(34,139,34);
         vízigény();
+
     }
 
-    public L(boolean balra, int szint) {
-        super("L");
-        x = 0.05f;
+    public L init(boolean balra, int szint){
         v = 5f;
         this.balra = balra;
         this.szint = szint;
-        p = Color.GREEN;
-        vízigény();
-
+        return this;
     }
 
     private int vastSegéd(){
@@ -99,7 +96,7 @@ public class L extends Növény {
 
 
     private void xHossz(){
-        if(x<110-szint&&ép>0)
+        if(Kender.getInstance().Szintet()<35 && x<110-szint&&ép>0)
             x++;
     }
     @Override
@@ -144,7 +141,7 @@ public class L extends Növény {
     }
 
     private boolean fényFelvétel(){
-        if(Kender.getInstance().FF.beKapcs&&p==Color.GREEN) {
+        if(Kender.getInstance().FF.beKapcs&&p==Color.rgb(34,139,34)) {
             if(Kender.getInstance().FF.getKelvin()>4500&&!Kender.getInstance().flowering)
             Kender.getInstance().fény+=Kender.getInstance().FF.getLux()/1000;
             else

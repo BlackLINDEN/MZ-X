@@ -5,10 +5,14 @@ import android.graphics.Paint;
 public class Av extends Növény {
     private int szint;
     private float ép;
-    public Av(int szint) {
+    public Av() {
         super("AV");
-        this.szint=szint+1;
         vízigény();
+    }
+
+    public Av init(int szint){
+        this.szint=szint+1;
+        return this;
     }
 
     @Override

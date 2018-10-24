@@ -25,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.plattysoft.leonids.ParticleSystem;
 import com.takusemba.spotlight.OnSpotlightStateChangedListener;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
@@ -32,8 +34,15 @@ import com.takusemba.spotlight.Spotlight;
 import com.takusemba.spotlight.shape.Circle;
 import com.takusemba.spotlight.target.SimpleTarget;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
 import blacklinden.com.cannabisgrowthsimulator.nov.Kender;
+import blacklinden.com.cannabisgrowthsimulator.pojo.Lamps;
+import blacklinden.com.cannabisgrowthsimulator.pojo.Termény;
 import blacklinden.com.cannabisgrowthsimulator.serv.Constants;
 import blacklinden.com.cannabisgrowthsimulator.serv.LService;
 import blacklinden.com.cannabisgrowthsimulator.ui.CardItem;
@@ -55,6 +64,22 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Mentés.getInstance(this);
+        if(Mentés.getInstance().getString(Mentés.Key.TRMS_LST,"o").equals("o")) {
+            List<Termény> trmny = new ArrayList<>();
+            String trm = Mentés.getInstance().gsonra(trmny);
+            Mentés.getInstance().put(Mentés.Key.TRMS_LST,trm);
+        }
+
+        if(Mentés.getInstance().getString(Mentés.Key.TESZT_OBJ,"o").equals("o")){
+            Lamps lamps = new Lamps("HPS Grow","HALOGEN",600,2500,10200,
+                    R.drawable.avd_anim,R.drawable.narancs_csova);
+            System.out.println("lamps");
+            String s = Mentés.getInstance().gsonra(lamps);
+            System.out.println("gsonra");
+            Mentés.getInstance().put(Mentés.Key.TESZT_OBJ,s);
+            System.out.println("mentés");
+        }
         setContentView(R.layout.activity_main2);
         Mentés.getInstance(this);
 
@@ -125,6 +150,23 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
 
     }
+
+
+    public void mutiTermest(View v){
+        if(!Mentés.getInstance().getString(Mentés.Key.TRMS_LST,"o").equals("o")) {
+            String s = Mentés.getInstance().getString(Mentés.Key.TRMS_LST);
+            Gson gson = new Gson();
+            Type tList = new TypeToken<ArrayList<Termény>>(){}.getType();
+            List<Termény> termenyList = gson.fromJson(Mentés.getInstance().getString(Mentés.Key.TRMS_LST),tList);
+            if(termenyList.isEmpty())
+            System.out.println("----------------ÜRES------------");
+            else
+                for(Termény t: termenyList) {
+                    t.update();
+                    System.out.println(".>>>>>>>>TERMENY<<<<<<<<. "+t.getSuly());
+                }
+        }
+        }
 
 
 
@@ -296,6 +338,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
     public void setStrain(View v){
     Kender.getInstance();
+
     Kender.getInstance().fajta(mViewPager.getCurrentItem()+1);
     Toast.makeText(this,""+(mViewPager.getCurrentItem()+1),Toast.LENGTH_SHORT).show();
     mViewPager.setVisibility(View.GONE);
