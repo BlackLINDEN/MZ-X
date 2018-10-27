@@ -47,6 +47,7 @@ import blacklinden.com.cannabisgrowthsimulator.serv.Constants;
 import blacklinden.com.cannabisgrowthsimulator.serv.LService;
 import blacklinden.com.cannabisgrowthsimulator.ui.CardItem;
 import blacklinden.com.cannabisgrowthsimulator.ui.CardPagerAdapter;
+import blacklinden.com.cannabisgrowthsimulator.ui.GateTransformation;
 import blacklinden.com.cannabisgrowthsimulator.ui.ShadowTransformer;
 
 
@@ -93,7 +94,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
 
         mCardAdapter = new CardPagerAdapter();
-        mCardAdapter.addCardItem(new CardItem(R.string.title_1, "15-17%","150gr/m2","11 weeks","Auto Hybrid","Feminised",R.drawable.cannabis));
+        mCardAdapter.addCardItem(new CardItem(R.string.title_1, "15-17%","150gr/m2","11 weeks","Auto Hybrid","Feminised",R.drawable.gambi24));
         mCardAdapter.addCardItem(new CardItem(R.string.title_2, "17-20%","140gr/m2","14 weeks","Auto Hybrid","Feminised",R.drawable.dpam));
 
 
@@ -101,7 +102,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         mCardShadowTransformer = new ShadowTransformer(mViewPager, mCardAdapter);
 
         mViewPager.setAdapter(mCardAdapter);
-        mViewPager.setPageTransformer(false, mCardShadowTransformer);
+
         mViewPager.setOffscreenPageLimit(3);
         magv = findViewById(R.id.magv);
 
@@ -278,19 +279,20 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         Intent i = new Intent(this,MainActivity.class);
 
         if(Kender.getInstance().getFajta()>0) {
-            if (!isMyServiceRunning(this)) {
+            if (!LService.IS_SERVICE_RUNNING) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     service.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
-
                     startForegroundService(service);
+                    startActivity(i);
                 } else {
                     service.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
                     //LService.IS_SERVICE_RUNNING = true;
                     startService(service);
+                    startActivity(i);
                 }
-            }
-            // i.putExtra("fajta",2);
-            startActivity(i);
+
+            }else if(isTaskRoot()) startActivity(i); else finish();
+
 
         }else
             Toast.makeText(this,"Pick a Seed",Toast.LENGTH_SHORT).show();

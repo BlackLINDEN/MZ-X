@@ -45,9 +45,6 @@ public class Accessories extends Fragment {
         Elem planet = new Elem("Stiegl", 8,"Slow","Specialized", getResources().getDrawable(R.drawable.cserep10));
         planetArrayList.add(planet);
 
-        planet = new Elem("Geranium Pot", 8,"Slow","Common", getResources().getDrawable(R.drawable.cserep4));
-        planetArrayList.add(planet);
-
         planet = new Elem("Quadra Pot", 11.2f,"Fast","Common", getResources().getDrawable(R.drawable.black_pot));
         planetArrayList.add(planet);
 

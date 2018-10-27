@@ -111,7 +111,7 @@ public class LService extends Service {
         jC = new C(false);
 
         lthread = new Thread(oo);
-        lthread.setDaemon(true);
+        //lthread.setDaemon(true);
 
 
     }
@@ -212,7 +212,7 @@ public class LService extends Service {
 
                 A(al);
 
-                handler.postDelayed(oo, 85714);
+                handler.postDelayed(oo, 300);
         }
     };
 

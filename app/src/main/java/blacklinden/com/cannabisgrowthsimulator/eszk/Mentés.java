@@ -9,6 +9,9 @@ import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
 
+import blacklinden.com.cannabisgrowthsimulator.MainActivity;
+import blacklinden.com.cannabisgrowthsimulator.MyApp;
+
 /*
  * A Singleton for managing your SharedPreferences.
  *
@@ -79,8 +82,8 @@ public class Mentés {
         }
 
         //Option 1:
-        throw new IllegalArgumentException("Should use getInstance(Context) at least once before using this method.");
-
+        //throw new IllegalArgumentException("Should use getInstance(Context) at least once before using this method.");
+        else return getInstance(MyApp.getAppContext());
         //Option 2:
         // Alternatively, you can create a new instance here
         // with something like this:

@@ -23,10 +23,7 @@ public int setDrawableCode(){
             potSize=800;
             waterRunoff=-1.2f;
             break;
-        case "Geranium Pot":drawableCode=R.drawable.cserepes;
-            potSize=800;
-            waterRunoff=-1.2f;
-            break;
+
 
         case "Air Pot":  drawableCode=R.drawable.air_pot;
             potSize=800;

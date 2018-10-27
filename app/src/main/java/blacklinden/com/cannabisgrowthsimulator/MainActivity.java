@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Mentés.getInstance(this);
+
         intent = new Intent(this, Main2Activity.class);
         drawerLayout = findViewById(R.id.drawer_layout);
         outValue = new TypedValue();
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                         // set item as selected to persist highlight
-                        menuItem.setChecked(true);
+                        menuItem.setChecked(false);
                         // close drawer when item is tapped
                         drawerLayout.closeDrawers();
 
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                                 Kender.getInstance().clear();
 
                                     finish();
-                                navigationView.destroyDrawingCache();
+
                                 break;
 
                             case R.id.back:
@@ -116,13 +116,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                                 else
                                     finish();
-                                navigationView.destroyDrawingCache();
+
                                 break;
 
                             case R.id.inventory:
                                 Intent i = new Intent(MainActivity.this, InventoryActivity.class);
                                 startActivity(i);
-                                navigationView.destroyDrawingCache();
+
                         }
 
                         return true;
@@ -405,7 +405,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                             dialog.show();
                         }
 
-                    } else h.postDelayed(this, 85714);
+                    } else h.postDelayed(this, 300);
 
 
         }

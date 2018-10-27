@@ -39,18 +39,18 @@ public class CanvasView extends View {
     float delta_theta=0f;
     private float metrix;
     Paint paint;
-        Context context;
+       
         private ArrayList<Növény> AL;
 
         public CanvasView(Context c, AttributeSet attrs) {
             super(c, attrs);
-            context = c;
+
             paint = new Paint();
             paint.setColor(Color.BLACK);
             paint.setStyle(Paint.Style.STROKE);
             paint.setTextSize(40);
             AL = new ArrayList<>();
-            t = new Teknős(getContext(),metrix/59);
+            t = new Teknős(c,metrix/59);
 
         }
 
@@ -172,8 +172,9 @@ public class CanvasView extends View {
     //adat toldó
     public void told(ArrayList<Növény> yyy, int ism){
         this.ism=ism;
-        this.AL.clear();
-        this.AL.addAll(yyy);
+       /* this.AL.clear();
+        this.AL.addAll(yyy);*/
+       AL=yyy;
         postInvalidate();
     }
 

@@ -60,6 +60,7 @@ public class Lights extends Fragment {
         planet = new Elem("Desk Bulb","CFL",60,4700,1200,R.drawable.cflkek,R.drawable.feher_csova,Objects.requireNonNull(getContext()).getDrawable(R.drawable.ic_ggg));
         lampArrayList.add(planet);
 
+
         adapter.notifyDataSetChanged();
     }
 

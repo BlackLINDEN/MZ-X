@@ -56,7 +56,7 @@ public final class Kender {
     public volatile String causeofdeath="";
 
     private Kender() {
-        //1000000;
+        //Mentés.getInstance(context);
         verem = new Verem();
         initRost();
         initCO2();

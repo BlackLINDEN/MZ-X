@@ -21,6 +21,7 @@ import java.util.Random;
 import java.util.Stack;
 import java.util.concurrent.ThreadLocalRandom;
 
+import blacklinden.com.cannabisgrowthsimulator.MyApp;
 import blacklinden.com.cannabisgrowthsimulator.R;
 import blacklinden.com.cannabisgrowthsimulator.nov.Kender;
 
@@ -69,7 +70,7 @@ public class Teknős  {
         }else{
             shader1 = new BitmapShader(
                     BitmapFactory.decodeResource(
-                            context.getResources(),
+                           context.getResources(),
                             R.drawable.psyfra),
                     Shader.TileMode.MIRROR,
                     Shader.TileMode.MIRROR);
