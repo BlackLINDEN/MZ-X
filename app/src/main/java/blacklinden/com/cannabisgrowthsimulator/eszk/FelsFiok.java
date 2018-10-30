@@ -30,6 +30,7 @@ public class FelsFiok extends LinearLayout {
         private void init(Context context){
             setOrientation(LinearLayout.VERTICAL);
             setBackgroundColor(Color.argb(255,130,82,1));
+            setBackgroundResource(R.drawable.graf_felsopolc);
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             inflater.inflate(R.layout.fels_fiok, this);

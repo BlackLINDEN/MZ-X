@@ -212,7 +212,7 @@ public class LService extends Service {
 
                 A(al);
 
-                handler.postDelayed(oo, 300);
+                handler.postDelayed(oo, 10);
         }
     };
 

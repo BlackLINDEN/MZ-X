@@ -30,7 +30,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
-        <service android:name=".serv.LService" />
+        <service android:name=".serv.LService"
+           />
 
         <activity
             android:name=".InventoryActivity"

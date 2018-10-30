@@ -405,7 +405,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                             dialog.show();
                         }
 
-                    } else h.postDelayed(this, 300);
+                    } else h.postDelayed(this, 10);
 
 
         }

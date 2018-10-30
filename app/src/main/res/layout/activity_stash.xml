@@ -6,4 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".StashActivity">
 
+
+    <blacklinden.com.cannabisgrowthsimulator.eszk.AlsFiok
+        android:id="@+id/al1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/als_box"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/oldalB"
+        android:layout_width="10dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:fadingEdgeLength="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/old_box" />
+
+    <ImageView
+        android:id="@+id/oldalJ"
+        android:layout_width="10dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/old_box" />
+
+
 </android.support.constraint.ConstraintLayout>

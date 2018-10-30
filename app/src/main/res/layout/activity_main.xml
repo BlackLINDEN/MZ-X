@@ -12,7 +12,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/httr_stt"
+    android:background="@drawable/graf_kozepsopolc"
     android:orientation="vertical"
     tools:layout_editor_absoluteY="81dp">
 
@@ -37,7 +37,7 @@
     <blacklinden.com.cannabisgrowthsimulator.canvas.CanvasView
         android:id="@+id/canvas"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="center"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/cserep"
@@ -97,20 +97,18 @@
     <blacklinden.com.cannabisgrowthsimulator.eszk.AlsFiok
         android:id="@+id/also"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:src="@drawable/als_box"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/oldalsoJ"
         app:layout_constraintStart_toStartOf="@+id/oldalsoB"
         app:layout_constraintTop_toBottomOf="@+id/canvas"
-        app:layout_constraintVertical_bias="1.0">
-
-    </blacklinden.com.cannabisgrowthsimulator.eszk.AlsFiok>
+        app:layout_constraintVertical_bias="1.0"/>
 
     <blacklinden.com.cannabisgrowthsimulator.eszk.FelsFiok
         android:id="@+id/imageView2"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -71,7 +71,7 @@ public class Teknős  {
             shader1 = new BitmapShader(
                     BitmapFactory.decodeResource(
                            context.getResources(),
-                            R.drawable.psyfra),
+                            R.drawable.zld1),
                     Shader.TileMode.MIRROR,
                     Shader.TileMode.MIRROR);
         }

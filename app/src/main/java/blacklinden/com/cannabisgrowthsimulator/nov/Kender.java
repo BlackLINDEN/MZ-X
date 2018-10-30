@@ -49,7 +49,7 @@ public final class Kender {
     public void initRost(){this.rost=10;}
 
     private float rost;
-    private Context context;
+
     public Verem verem;
     private float cukor;
     public float fény=0;//százalék
@@ -199,8 +199,7 @@ public final class Kender {
     public boolean Halott_e() {
         return halott_e;
     }
-    public void setContext(Context c){context=c;}
-    public Context getContext(){return context;}
+
 
 
 

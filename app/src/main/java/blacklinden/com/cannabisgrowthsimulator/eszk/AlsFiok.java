@@ -32,6 +32,7 @@ public class AlsFiok extends LinearLayout {
     private void init(Context context){
         setOrientation(LinearLayout.VERTICAL);
         setBackgroundColor(Color.argb(255,130,82,1));
+        setBackgroundResource(R.drawable.graf_alsopolc);
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.als_fiok, this);
