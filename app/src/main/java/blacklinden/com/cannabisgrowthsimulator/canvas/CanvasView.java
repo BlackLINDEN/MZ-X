@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.VectorDrawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
+import blacklinden.com.cannabisgrowthsimulator.R;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Teknős;
 import blacklinden.com.cannabisgrowthsimulator.nov.A;
 import blacklinden.com.cannabisgrowthsimulator.nov.X;
@@ -50,6 +52,7 @@ public class CanvasView extends View {
             paint.setStyle(Paint.Style.STROKE);
             paint.setTextSize(40);
             AL = new ArrayList<>();
+
             t = new Teknős(c,metrix/59);
 
         }
@@ -86,10 +89,11 @@ public class CanvasView extends View {
                     case "F":
                     case "X":
                         c.rotate(ch.szög(), (float) t.x, (float) t.y);
-                        t.előreRajz(ch.vastagság(),-ch.hossz(), c, ch.szín(), ism);
+                        t.előreRajz(ch.vastagság()*(metrix/59),-ch.hossz()*(metrix/59), c, ch.szín(), ism);
                         break;
 
                     case "H":
+                    case "A":
                         c.rotate(ch.szög());
                         t.magRajz(c);
                         break;
@@ -103,60 +107,64 @@ public class CanvasView extends View {
                       if(ch.szint()==1) {
 
                             c.rotate(ch.szög(), (float) t.x, (float) t.y);
-                            t.levElRajz(ch.vastagság(),-ch.hossz(),c,ch.szín());
+                            t.levElRajz(ch.vastagság()*(metrix/59),-ch.hossz()*(metrix/59),c,ch.szín());
 
                         }else if(ch.szint()<=3&&ch.szint()>1){
 
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög()-65, (float) t.x, (float) t.y);
-                            t.levElRajz(ch.vastagság(),-ch.hossz()/2,c,ch.szín());
+                            t.levElRajz(ch.vastagság()*(metrix/59),(-ch.hossz()/2)*(metrix/59),c,ch.szín());
                             t.betöltés(c);
 
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög()+65, (float) t.x, (float) t.y);
-                            t.levElRajz(ch.vastagság(),-ch.hossz()/2, c, ch.szín());
+                            t.levElRajz(ch.vastagság()*(metrix/59),(-ch.hossz()/2)*(metrix/59), c, ch.szín());
                             t.betöltés(c);
 
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög(), (float) t.x, (float) t.y);
-                            t.levElRajz(ch.vastagság(),-ch.hossz(), c, ch.szín());
+                            t.levElRajz(ch.vastagság()*(metrix/59),-ch.hossz()*(metrix/59), c, ch.szín());
                             t.betöltés(c);
 
                         }else {
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög()-130, (float) t.x, (float) t.y);
-                            t.levElRajz(ch.vastagság(),-ch.hossz()/4,c,ch.szín());
+                            t.levElRajz(ch.vastagság()*(metrix/59),(-ch.hossz()/4)*(metrix/59),c,ch.szín());
                             t.betöltés(c);
 
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög()+130, (float) t.x, (float) t.y);
-                            t.levElRajz(ch.vastagság(),-ch.hossz()/4, c, ch.szín());
+                            t.levElRajz(ch.vastagság()*(metrix/59),(-ch.hossz()/4)*(metrix/59), c, ch.szín());
                             t.betöltés(c);
 
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög()-65, (float) t.x, (float) t.y);
-                            t.levElRajz(ch.vastagság(),-ch.hossz()/2, c, ch.szín());
+                            t.levElRajz(ch.vastagság()*(metrix/59),(-ch.hossz()/2)*(metrix/59), c, ch.szín());
                             t.betöltés(c);
 
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög()+65, (float) t.x, (float) t.y);
-                            t.levElRajz(ch.vastagság(),-ch.hossz()/2,c,ch.szín());
+                            t.levElRajz(ch.vastagság()*(metrix/59),(-ch.hossz()/2)*(metrix/59),c,ch.szín());
                             t.betöltés(c);
 
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög(), (float) t.x, (float) t.y);
-                            t.levElRajz(ch.vastagság(),-ch.hossz(), c, ch.szín());
+                            t.levElRajz(ch.vastagság()*(metrix/59),-ch.hossz()*(metrix/59), c, ch.szín());
                             t.betöltés(c);
                         }
                         break;
+
+
 
                     case "V":
                         t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                         //c.rotate(ch.szög(), (float) t.x, (float) t.y);
 
-                        t.virágzás(ch.vastagság(),c,ch.szín());
+                        t.virágzás(ch.vastagság()*(metrix/59),c,ch.szín());
                         t.betöltés(c);
                         break;
+
+
                     case "[":
                         t.mentés(c, (int) t.x, (int) t.y, (int) delta_theta);
                         break;

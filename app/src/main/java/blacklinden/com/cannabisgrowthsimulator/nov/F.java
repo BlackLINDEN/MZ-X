@@ -6,35 +6,42 @@ import android.graphics.Color;
 public class F extends Növény {
 
 
-    public float x=10f;
+    public float x=1f;
     private float ép;
     private float szg;
     private boolean oldHajt=false;
     private int szint;
     private int szín;
-    private final float hosszSzabályzó=12500;
+    private float hosszSzabályzó;
 
 
     public F(){
         super("F");
 
-
-
         System.out.println("szint");
     }
 
-    public F init(float szg,int i){
-        this.szg=szg;
+    public F init(int i,float szg){
+
+        //this.szg=szg>Kender.getInstance().FF.irány?szg-1:szg+1;
+        if(szg!=Kender.getInstance().FF.irány){
+            this.szg=szg/2;
+
+        }
         ép=1;
         szint=i;
         this.oldHajt=true;
+        hosszSzabályzó=15;
+        //Kender.getInstance().Szint();
         return this;
     }
 
     public F init(int i){
         ép=i;
+        //if(szg!=Kender.getInstance().FF.irány) szg=szg>0?szg-10:szg+10;
         this.szint=i;
         Kender.getInstance().Szint();
+        hosszSzabályzó=20;
         return this;
     }
 
@@ -50,24 +57,24 @@ public class F extends Növény {
         if(ép==0)
             Kender.getInstance().halottRészek++;
         xHossz();//
-        fejl();
+
+
     }
 
     @Override
     public float vastagság() {
-        if((x*0.0003f)-szint<5)
-            return 5;
+        if((x*0.08f)-szint/5>1)
+        return (x*0.08f)-szint/5;
         else
-        return (x*0.0003f)-szint;
-
+        return 1;
     }
 
 
 
     private void xHossz(){
 
-                if (Kender.getInstance().Szintet()<30||x < hosszSzabályzó - szint && ép > 0&&ép<200) {
-                    x += ép*2+Kender.getInstance().nutes.N;
+                if (x < hosszSzabályzó - szint && ép > 20) {
+                    x += (ép+Kender.getInstance().nutes.N)*0.01f;
                 }
     }
 
@@ -79,11 +86,13 @@ public class F extends Növény {
 
     @Override
     public float szög() {
+
         if(!oldHajt)
             return Kender.getInstance().FF.irány;
-        else
-            return Kender.getInstance().FF.irány+szg/2;
+        else {
 
+            return Kender.getInstance().FF.irány + szg ;
+        }
 
     }
 
@@ -101,6 +110,8 @@ public class F extends Növény {
 
     @Override
     public float vízigény() {
+        Kender.getInstance().levonH2o(1);
+
         return 0;
     }
 
@@ -124,7 +135,10 @@ public class F extends Növény {
 
     @Override
     public float légz() {
-        return 0;
+        if(oldHajt)
+            return 1;
+        else
+            return 0;
     }
 
     @Override

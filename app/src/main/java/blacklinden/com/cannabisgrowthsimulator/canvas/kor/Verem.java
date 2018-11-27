@@ -37,19 +37,21 @@ public class Verem {
     av = new Stack<>();
 
 
-    for(int i=0;i<100;i++){
+    for(int i=0;i<800;i++) {
         m.push(new M());
         t.push(new T());
+    }
 
+    for(int i=0;i<500;i++){
         av.push(new Av());
         v.push(new V());
-    }
-    for(int i=0;i<100;i++){
+
         a.push(new A());
         x.push(new X());
         f.push(new F());
         l.push(new L());
     }
+
     }
 
     public boolean üreseValami(){

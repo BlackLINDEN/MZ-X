@@ -60,7 +60,8 @@ public class Mentés {
         SAMPLE_CAN,
         SAMPLE_INT,
         SAMPLE_NUT,
-        SAMPLE_POT
+        SAMPLE_POT,
+        BELEP
     }
 
     private Mentés(Context context) {

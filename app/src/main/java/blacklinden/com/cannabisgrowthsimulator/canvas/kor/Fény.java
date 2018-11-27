@@ -15,7 +15,7 @@ public class Fény {
     private final float hőSötétben=25;
     private int kelvin;
     private float táv;
-    private String fajta;
+
 
     private Égő égő;
     public int fatyolCode;
@@ -24,60 +24,14 @@ public class Fény {
 
     public Fény(String fajta){
 
-    this.fajta= Mentés.getInstance().getString(Mentés.Key.SAMPLE_STR,"PRO STAR DUAL");
+
 
      this.irány=0;
-     setDrawCode();
+     setDrawCode("");
 
 
     }
-    public int setDrawCode(){
-        fajta= Mentés.getInstance().getString(Mentés.Key.SAMPLE_STR,"PRO STAR DUAL");
-        switch(fajta){
-            case "PRO STAR DUAL":
-                égő=Égő.LED;
-                watt = 200;
-                kelvin = 6600;
-                lux = 11200;
-                drawCode = R.drawable.fullspec_led;
-                fatyolCode = R.drawable.lila_csova;
-                break;
-            case "Feith Electric":
-                drawCode = R.drawable.blue_led;
-                fatyolCode = R.drawable.feher_csova;
-                égő=Égő.LED;
-                watt = 250;
-                kelvin = 3500;
-                lux = 13500;
-                break;
-            case "CFL Grow":
-                drawCode = R.drawable.cfl_yellow;
-                fatyolCode = R.drawable.httr_vill001;
-                égő=Égő.CFL;
-                watt = 150;
-                kelvin = 2700;
-                lux = 7850;
-                break;
-            case "HPS Grow":
-                drawCode = R.drawable.yellow_hps;
-                fatyolCode = R.drawable.narancs_csova;
-                égő=Égő.HALOGEN;
-                watt = 600;
-                kelvin = 2500;
-                lux = 10200;
-                break;
 
-            case "Desk Bulb":
-                drawCode = R.drawable.cflkek;
-                fatyolCode = R.drawable.feher_csova;
-                égő=Égő.CFL;
-                watt = 60;
-                kelvin = 4700;
-                lux = 1200;
-                break;
-        }
-        return drawCode;
-    }
 
     public int setDrawCode(String teszt){
         Lamps T = (Lamps)Mentés.getInstance().javara(Mentés.getInstance().getString(Mentés.Key.TESZT_OBJ),Lamps.class);
@@ -93,50 +47,16 @@ public class Fény {
     }
 
     public int setDrawCode(int i){
-        fajta= Mentés.getInstance().getString(Mentés.Key.SAMPLE_STR,"PRO STAR DUAL");
-        switch(fajta){
-            case "PRO STAR DUAL":
-                égő=Égő.LED;
-                watt = 200;
-                kelvin = 6600;
-                lux = 11200;
-                drawCode = R.drawable.fullspec_led;
-                fatyolCode = R.drawable.lila_csova;
-                break;
-            case "Feith Electric":
-                drawCode = R.drawable.blue_led;
-                fatyolCode = R.drawable.feher_csova;
-                égő=Égő.LED;
-                watt = 250;
-                kelvin = 3500;
-                lux = 13500;
-                break;
-            case "CFL Grow":
-                drawCode = R.drawable.cfl_yellow;
-                fatyolCode = R.drawable.httr_vill001;
-                égő=Égő.CFL;
-                watt = 150;
-                kelvin = 2700;
-                lux = 7850;
-                break;
-            case "HPS Grow":
-                drawCode = R.drawable.yellow_hps;
-                fatyolCode = R.drawable.narancs_csova;
-                égő=Égő.HALOGEN;
-                watt = 600;
-                kelvin = 2500;
-                lux = 10200;
-                break;
+        Lamps T = (Lamps)Mentés.getInstance().javara(Mentés.getInstance().getString(Mentés.Key.TESZT_OBJ),Lamps.class);
 
-            case "Desk Bulb":
-                drawCode = R.drawable.cflkek;
-                fatyolCode = R.drawable.feher_csova;
-                égő=Égő.CFL;
-                watt = 60;
-                kelvin = 4700;
-                lux = 1200;
-                break;
-        }
+        égő=Égő.valueOf(T.getType());
+        watt = T.getConsumption();
+        kelvin = T.getSpectrum();
+        lux = T.getLumen();
+        drawCode = T.getAnimDrawCode();
+        fatyolCode = T.getFatyolDrawCode();
+
+
         return fatyolCode;
     }
 
@@ -146,11 +66,6 @@ public class Fény {
 
     public void setKelvin(int kelvin){
         this.kelvin=kelvin;
-    }
-
-
-    public void fajtaVlt(String t){
-        this.fajta=t;
     }
 
     public float hőmérséklet(){

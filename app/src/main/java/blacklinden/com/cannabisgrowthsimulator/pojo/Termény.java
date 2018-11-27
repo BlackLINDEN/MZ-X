@@ -3,11 +3,11 @@ package blacklinden.com.cannabisgrowthsimulator.pojo;
 public class Termény {
     private float mennyi;
     private float suly;
-    private String fajta;
+    private int fajta;
     private int thc,cbd;
     private int napok;
 
-    public Termény(float mennyi,String fajta,int thc,int cbd){
+    public Termény(float mennyi,int fajta,int thc,int cbd){
         this.mennyi=mennyi;
         this.fajta=fajta;
         this.cbd=cbd;
@@ -30,7 +30,7 @@ public class Termény {
 
     public int getCbd(){return cbd;}
 
-    public String getFajta(){return fajta;}
+    public int getFajta(){return fajta;}
 
     public int getNapok(){
         return napok;

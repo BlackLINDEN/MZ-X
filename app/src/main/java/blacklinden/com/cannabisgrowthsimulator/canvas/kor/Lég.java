@@ -4,7 +4,7 @@ public class Lég {
    private float CO2;
 
     public Lég(){
-        CO2=15f;
+        CO2=3f;
     }
 
     public  void palack(boolean be){

@@ -15,6 +15,11 @@
             android:icon="@drawable/ic_store_black_24dp"
             android:title="@string/inventory"
             />
+        <item
+            android:id="@+id/colibri"
+            android:icon="@drawable/ic_hummingbird_silhouette_2"
+            android:title="@string/colibri"
+            />
 
     </group>
 </menu>

@@ -5,6 +5,8 @@ import android.graphics.Paint;
 public class A extends Növény {
     private int szint;
     private float ép;
+    private float szg=0;
+    private float oldhajt;
 
     public A() {
         super("A");
@@ -15,6 +17,14 @@ public class A extends Növény {
 
     public A init(int szint){
         this.szint=szint+1;
+        oldhajt=1;
+        return this;
+    }
+
+    public A init(int szint,float szg){
+        this.szint=szint+1;
+        this.szg=szg;
+        oldhajt=0;
         return this;
     }
 
@@ -30,12 +40,12 @@ public class A extends Növény {
 
     @Override
     public float hossz() {
-        return 0;
+        return oldhajt;
     }
 
     @Override
     public float szög() {
-        return 0;
+        return szg;
     }
 
     @Override

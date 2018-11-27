@@ -7,12 +7,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathDashPathEffect;
+import android.graphics.PorterDuff;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.os.Environment;
 
 import java.io.File;
@@ -29,23 +32,23 @@ public class Teknős  {
     public double x, y;
     private double angle;
     private Stack<S> stack = new Stack<>();
-    private int sz=0;
     private int számláló;
-    private Paint virág,bibe;
-    private Paint levélKör;
+    private int sz=0;
+
     private Paint levél,szár;
     private Paint mag;
-    private Path path;
-    private float metrix;
     private Shader sSzr;
-    private Shader shader1,shader2;
+    private Bitmap kenderTeszt,mutableBitmap;
+    private VectorDrawable vd;
 
     public Teknős(Context context,float metrix) {
 
-        this.metrix=metrix;
+
         Bitmap bitmapA = BitmapFactory.decodeResource(
                 context.getResources(), R.drawable.kndr_szr);
-
+        kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
+        mutableBitmap = kenderTeszt.copy(Bitmap.Config.ARGB_8888, true);
+        mutableBitmap.setHeight(10);
         mag = new Paint();
         mag.setColor(Color.rgb(222,184,135));
         mag.setStyle(Paint.Style.FILL);
@@ -53,67 +56,22 @@ public class Teknős  {
         sSzr = new BitmapShader(bitmapA,
                 Shader.TileMode.REPEAT
                 , Shader.TileMode.MIRROR);
-        shader2 = new BitmapShader(
-                BitmapFactory.decodeResource(
-                        context.getResources(),
-                        R.drawable.mag_def_final_blur),
-                Shader.TileMode.CLAMP,
-                Shader.TileMode.CLAMP
-        );
+
         if(Kender.getInstance().getFajta()==1) {
-            shader1 = new BitmapShader(
-                    BitmapFactory.decodeResource(
-                            context.getResources(),
-                            R.drawable.slice5),
-                    Shader.TileMode.MIRROR,
-                    Shader.TileMode.MIRROR);
+            vd = (VectorDrawable)context.getDrawable(R.drawable.laci_levele);
         }else{
-            shader1 = new BitmapShader(
-                    BitmapFactory.decodeResource(
-                           context.getResources(),
-                            R.drawable.zld1),
-                    Shader.TileMode.MIRROR,
-                    Shader.TileMode.MIRROR);
+            vd = (VectorDrawable)context.getDrawable(R.drawable.ic_leaf7);
         }
-        path = new Path();
+        Path path = new Path();
         path.setFillType(Path.FillType.WINDING);
 
-        virág = new Paint();
 
-        virág.setStyle(Paint.Style.FILL);
-        virág.setShader(new BitmapShader(
+        Shader shader1 = new BitmapShader(
                 BitmapFactory.decodeResource(
                         context.getResources(),
-                        R.drawable.gambi24),
-                Shader.TileMode.MIRROR,
-                Shader.TileMode.MIRROR
-                )
-        );
-
-        bibe = new Paint();
-        bibe.setStrokeWidth(5f);
-        bibe.setStyle(Paint.Style.STROKE);
-        bibe.setStrokeCap(Paint.Cap.BUTT);
-        bibe.setPathEffect(new PathDashPathEffect(
-                getTriangle(8),
-                20,
-                1.0f,
-                PathDashPathEffect.Style.ROTATE));
-
-
-        levélKör = new Paint();
-
-        levélKör.setStyle(Paint.Style.STROKE);
-        levélKör.setStrokeCap(Paint.Cap.ROUND);
-        levélKör.setStrokeWidth(2f);
-
-       // lg = new LinearGradient(0,0,0,1,Color.BLACK,Color.WHITE, Shader.TileMode.MIRROR);
-
-        levélKör.setPathEffect(new PathDashPathEffect(
-                getTriangle(8),
-                10,
-                0.0f,
-                PathDashPathEffect.Style.ROTATE));
+                        R.drawable.lvlrezet),
+                Shader.TileMode.CLAMP,
+                Shader.TileMode.CLAMP);
 
         levél = new Paint();
         levél.setAntiAlias(true);
@@ -133,37 +91,31 @@ public class Teknős  {
     public void előreRajz(float v, double step, Canvas canvas, int paint, int ism) {
         float oldx =(float) x;
         float oldy =(float) y;
-        if(ism<180) {
-            x += ((float) step / ism) * Math.cos(Math.toRadians(angle));
-            y += ((float) step / ism) * Math.sin(Math.toRadians(angle));
-        }else{
-            x += ((float) step / 180) * Math.cos(Math.toRadians(angle));
-            y += ((float) step / 180) * Math.sin(Math.toRadians(angle));
-        }
+
+            x += ((float) step ) * Math.cos(Math.toRadians(angle));
+            y += ((float) step ) * Math.sin(Math.toRadians(angle));
+
         szár.reset();
         szár.setStrokeWidth(v);
-        if(paint==Color.RED)
+
         szár.setShader(sSzr);
-        else {
-            szár.setColor(paint);
-            szár.setStyle(Paint.Style.STROKE);
-        }
-        if(y>canvas.getHeight()/4)
+
+        if(y>canvas.getHeight()/10)
         canvas.drawLine(oldx, oldy, (float)x,(float)y,szár);
 
     }
 
+
+
     public void virágzás(float v,Canvas canvas, int p){
-        float oldx =(float) x;
-        float oldy =(float) y;
+
         int rand = ThreadLocalRandom.current().nextInt(10, 20);
         x += (rand)* Math.cos(Math.toRadians(angle));
         y +=(rand)* Math.sin(Math.toRadians(angle));
 
-        bibe.setColor(p);
 
-        canvas.drawCircle((float)x, (float)y, v, virág);
-        canvas.drawCircle((float)x, (float)y, v, bibe);
+        canvas.drawBitmap(mutableBitmap,(float)x-mutableBitmap.getWidth()/2,(float)y-mutableBitmap.getHeight(),null);
+
 
     }
 
@@ -204,11 +156,10 @@ public class Teknős  {
         x += ((float)step)* Math.cos(Math.toRadians(angle));
         y +=((float)step)* Math.sin(Math.toRadians(angle));
 
-        levélKör.setColor(szín);
-        if(szín==Color.BLACK||szín==Color.YELLOW) levél.setShader(shader2);
+        vd.setBounds((int)(oldx - vast), (int)( y -vast), (int) (x + vast), (int)oldy);
+        vd.setColorFilter(szín,PorterDuff.Mode.MULTIPLY);
 
-        canvas.drawOval(oldx - vast, (float) y -vast, (float)(x + vast), oldy, levél);
-        canvas.drawOval(oldx - vast, (float) y - vast, (float)(x + vast), oldy, levélKör);
+        vd.draw(canvas);
 
     }
 
@@ -219,7 +170,7 @@ public class Teknős  {
         c.save();
         számláló=c.save();
 
-        stack.push(new S(c,ix,iy,számláló));
+        stack.push(new S(ix,iy,számláló));
 
     }
 

@@ -14,15 +14,15 @@ public class X extends Növény {
     private int szint;
     private Random rndm;
     private float ép;
+    private final float hosszszab=15;
     public float x;
     private int p;
 
     public X(){
         super("X");
-        x=10;
+        x=1;
         ép=1;
         szög=0;
-
 
         rndm=new Random();
 
@@ -53,33 +53,18 @@ public class X extends Növény {
             ép--;
         xHossz();
         //szög();
+        //hőigény();
     }
 
     @Override
     public float vastagság() {
-        return hossz()*0.00009f;
+        return hossz()*0.04f;
     }
 
     private void xHossz() {
         //ép-=0.002f;
-        switch (Kender.getInstance().getFajta()) {
-
-            case 1:
-
-            if(szint>1&&szint<5)
-                x += 5;
-            else x += 3;
-                break;
-            case 2:
-
-                if (ép<szint&&szint > 8)
-                    x += 8f;
-                else
-                    x += 8+Kender.getInstance().nutes.N;
-
-
-                break;
-        }
+       if(szint>1&&x<hosszszab-szint*2&&ép>10&&ép<40)
+           x+= (ép+Kender.getInstance().nutes.N)*0.1f;
     }
     @Override
     public float hossz() {
@@ -91,12 +76,12 @@ public class X extends Növény {
     @Override
     public float szög() {
         int g=rndm.nextInt(10-(-10))+(-10);
-        if(ép<11) {
+
             if (bvj)
                 szög = Kender.getInstance().FF.irány - (50)-g;
             else
                 szög = Kender.getInstance().FF.irány + (50)+g;
-        }
+
 
         return szög;
     }
@@ -107,7 +92,7 @@ public class X extends Növény {
             p=(Color.GREEN);
         else
             p=(Color.argb(255,133,79,0));
-        return p;
+        return Color.GREEN;
     }
 
     @Override
@@ -130,7 +115,7 @@ public class X extends Növény {
     public float hőigény() {
         float hi=22.5f;
         float lvns=(Math.abs(hi)-Math.abs(Kender.getInstance().FF.hőmérséklet()))/10;
-        //if(ép>0)ép-=lvns;
+        if(ép>0)ép-=lvns;
         return hi;
     }
 

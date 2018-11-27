@@ -9,8 +9,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.AnimatedVectorDrawable;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -50,6 +52,7 @@ import blacklinden.com.cannabisgrowthsimulator.eszk.ThermoView;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Ventil;
 import blacklinden.com.cannabisgrowthsimulator.nov.Kender;
 import blacklinden.com.cannabisgrowthsimulator.serv.LService;
+import blacklinden.com.cannabisgrowthsimulator.ui.kolibri.Kolibri;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener, View.OnDragListener {
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private Dialog dialog;
     private MediaPlayer nutriGoo, loccs, gong;
     private PopupWindow quickAction;
-
+    private ImageView tapeta;
     private TypedValue outValue;
     private AnimatedVectorDrawable vectorDrawable;
 
@@ -85,6 +88,20 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         this.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
         alsFiok = findViewById(R.id.also);
 
+        tapeta = findViewById(R.id.httr_tapeta);
+
+        final ImageView kolibriTV = findViewById(R.id.kolibri);
+        kolibriTV.setBackgroundResource(R.drawable.kolibri_anim);
+        kolibriTV.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+        final AnimationDrawable kolibri = (AnimationDrawable) kolibriTV.getBackground();
+        kolibri.start();
+        Point point = new Point();
+        getWindowManager().getDefaultDisplay().getSize(point);
+        final float w = point.x;
+        final Kolibri kolibriAnimator = new Kolibri(w, kolibriTV);
+        if(Mentés.getInstance().getString(Mentés.Key.BELEP,"o").equals("o"))
+            kolibriAnimator.setTutorial_e(true);
+        kolibriAnimator.run();
 
         nutriGoo = MediaPlayer.create(this, R.raw.nutri);
         loccs = MediaPlayer.create(this, R.raw.loccs);
@@ -123,6 +140,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                                 Intent i = new Intent(MainActivity.this, InventoryActivity.class);
                                 startActivity(i);
 
+                                break;
+
+                            case R.id.colibri:
+                                kolibriAnimator.run();
+                                kolibriTV.setVisibility(View.VISIBLE);
+                                break;
+
                         }
 
                         return true;
@@ -142,8 +166,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         kanna.setImageDrawable(getDrawable(Kender.getInstance().VV.setDrawCode()));
         cserép.setImageDrawable(getDrawable(Kender.getInstance().CC.setDrawableCode()));
         táp.setImageDrawable(getDrawable(Kender.getInstance().nutes.setDrawCode()));
-        vectorDrawable = (AnimatedVectorDrawable) getDrawable(Kender.getInstance().FF.setDrawCode());
-        if (Kender.getInstance().FF.setDrawCode() == R.drawable.yellow_hps)
+        vectorDrawable = (AnimatedVectorDrawable) getDrawable(Kender.getInstance().FF.setDrawCode(""));
+        if (Kender.getInstance().FF.setDrawCode("") == R.drawable.yellow_hps)
             bulb.setRotation(90);
         else bulb.setRotation(180);
         bulb.setImageDrawable(vectorDrawable);
@@ -157,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         napTV = findViewById(R.id.nap);
         ventilBE = false;
         canvasView = findViewById(R.id.canvas);
+        canvasView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         final float cserepMagassag = 59;
         canvasView.metrix((density / 160) * cserepMagassag);
         Kender.getInstance().metrix(dm.heightPixels / density);
@@ -168,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         polc = findViewById(R.id.polc);
 
         ventilObj = findViewById(R.id.ventil);
-
+        ventilObj.setLayerType(View.LAYER_TYPE_HARDWARE,null);
 
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog);
@@ -215,13 +240,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         kanna.setImageDrawable(getDrawable(Kender.getInstance().VV.setDrawCode()));
         cserép.setImageDrawable(getDrawable(Kender.getInstance().CC.setDrawableCode()));
         táp.setImageDrawable(getDrawable(Kender.getInstance().nutes.setDrawCode()));
-        vectorDrawable = (AnimatedVectorDrawable) getDrawable(Kender.getInstance().FF.setDrawCode("a"));
+        vectorDrawable = (AnimatedVectorDrawable) getDrawable(Kender.getInstance().FF.setDrawCode(""));
         if (Kender.getInstance().FF.beKapcs) {
             vectorDrawable.start();
-            findViewById(R.id.main).getBackground().setColorFilter(this.getColor(R.color.fny), PorterDuff.Mode.MULTIPLY);
-
-        } else
-            findViewById(R.id.main).getBackground().setColorFilter(this.getColor(R.color.cardview_dark_background), PorterDuff.Mode.MULTIPLY);
+            tapeta.getBackground().clearColorFilter();
+            tapeta.getDrawable().clearColorFilter();
+        } else {
+            tapeta.getBackground().setColorFilter(this.getColor(R.color.cardview_dark_background),PorterDuff.Mode.MULTIPLY);
+            tapeta.getDrawable().setColorFilter(this.getColor(R.color.cardview_dark_background),PorterDuff.Mode.MULTIPLY);
+        }
         if (Kender.getInstance().FF.setDrawCode("a") == R.drawable.avd_anim)
             bulb.setRotation(90);
         else bulb.setRotation(180);
@@ -267,20 +294,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     + "\nNatrium " + Kender.getInstance().nutes.N + "\nPhosphorus " +
                     Kender.getInstance().nutes.P
                     + "\nPotassium " + Kender.getInstance().nutes.K);
-                /*
-                    public void showAtLocation (View parent, int gravity, int x, int y)
-                        Display the content view in a popup window at the specified location. If the
-                        popup window cannot fit on screen, it will be clipped.
-                        Learn WindowManager.LayoutParams for more information on how gravity and the x
-                        and y parameters are related. Specifying a gravity of NO_GRAVITY is similar
-                        to specifying Gravity.LEFT | Gravity.TOP.
 
-                    Parameters
-                        parent : a parent view to get the getWindowToken() token from
-                        gravity : the gravity which controls the placement of the popup window
-                        x : the popup's x location offset
-                        y : the popup's y location offset
-                */
 
             quickAction.showAtLocation(cserép, Gravity.CENTER, 0, 0);
         } else {
@@ -302,7 +316,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             fátyol.setVisibility(View.VISIBLE);
             bulb.setBackground(getDrawable(R.drawable.feny60));
             vectorDrawable.start();
-            findViewById(R.id.main).getBackground().setColorFilter(this.getColor(R.color.fny), PorterDuff.Mode.MULTIPLY);
+            tapeta.getBackground().clearColorFilter();
+            tapeta.getDrawable().clearColorFilter();
             Kender.getInstance().FF.beKapcs = true;
             polc.setElevation(5);
             polc.setCardElevation(60);
@@ -310,7 +325,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         } else if (fátyol.getVisibility() == View.VISIBLE && !vectorDrawable.isRunning()) {
             fátyol.setVisibility(View.GONE);
             vectorDrawable.reset();
-            findViewById(R.id.main).getBackground().setColorFilter(this.getColor(R.color.cardview_dark_background), PorterDuff.Mode.MULTIPLY);
+            tapeta.getBackground().setColorFilter(this.getColor(R.color.cardview_dark_background),PorterDuff.Mode.MULTIPLY);
+            tapeta.getDrawable().setColorFilter(this.getColor(R.color.cardview_dark_background),PorterDuff.Mode.MULTIPLY);
             bulb.setBackgroundResource(outValue.resourceId);
             Kender.getInstance().FF.beKapcs = false;
             polc.setCardElevation(5);
@@ -343,6 +359,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             dialog.dismiss();
         }
+
+
+
 
     }
 
@@ -405,7 +424,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                             dialog.show();
                         }
 
-                    } else h.postDelayed(this, 10);
+                        lService.saveWeed();
+
+                    } else h.postDelayed(this, 180);
 
 
         }

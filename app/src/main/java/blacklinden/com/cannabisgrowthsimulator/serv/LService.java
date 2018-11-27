@@ -191,10 +191,12 @@ public class LService extends Service {
 
         handler.removeCallbacks(oo);
         ism=6;
-        saveWeed();
+
         al.clear();
         Kender.getInstance().clear();
         IS_SERVICE_RUNNING=false;
+
+
 
     }
 
@@ -210,9 +212,9 @@ public class LService extends Service {
                 ism();
                 System.out.println("ISM " + ism);
 
-                A(al);
+                A();
 
-                handler.postDelayed(oo, 10);
+                handler.postDelayed(oo, 1800);
         }
     };
 
@@ -223,7 +225,7 @@ public class LService extends Service {
     }
 
 
-    private void A(ArrayList<Növény> aa) {
+    private void A() {
        a.clear();
         Kender.getInstance().update(ism);
 
@@ -232,19 +234,20 @@ public class LService extends Service {
             for(Növény x:al) {
 
 
-
-
-
                         //oldalhajtás
-                        if(Objects.equals(x.n,"X")&&Kender.getInstance().Szintet()>3&&Kender.getInstance().Szintet()<100&&x.fejl()==20
-                                &&!Kender.getInstance().verem.f.empty()&&!Kender.getInstance().verem.üreseMT()){
-                            a.add(Kender.getInstance().verem.m.pop());
-                            a.add(Kender.getInstance().verem.f.pop().init(x.szög(),x.szint()));
-                            a.add(Kender.getInstance().verem.t.pop());
-                            a.add(x);
+                if(Objects.equals(x.n,"X")&&x.fejl()==20&&x.szint()>=2&&x.szint()<8
+                        &&!Kender.getInstance().verem.f.empty()&&!Kender.getInstance().verem.üreseMT()){
+
+                        a.add(Kender.getInstance().verem.m.pop());
+                        a.add(Kender.getInstance().verem.f.pop().init(x.szint(),x.szög()));
+                        a.add(Kender.getInstance().verem.t.pop());
+
+                    a.add(x);
 
 
-                        } else if (Objects.equals(x.n,"H")&&x.fejl()==10){
+                    }
+
+                    else if (Objects.equals(x.n,"H")&&x.fejl()==10){
                            a.add(Kender.getInstance().verem.m.pop());
                            a.add(bC);
                            a.add(Kender.getInstance().verem.t.pop());
@@ -252,34 +255,67 @@ public class LService extends Service {
                            a.add(jC);
                            a.add(Kender.getInstance().verem.t.pop());
                            a.add(Kender.getInstance().verem.a.pop().init(0));
-                        } else if (Objects.equals(x.n, "A")&& x.szint() < 500&&
+                        }
+
+                    else if (Objects.equals(x.n, "A")&& x.fejl()==x.szint()&&
+                        !Kender.getInstance().flowering&&
                                 !Kender.getInstance().verem.üreseValami()) {
 
+                        Kender.getInstance().levonas(x.szint()*10);
+                    if(x.hossz()==1) {
+                        a.add(Kender.getInstance().verem.m.pop());
+                        a.add(Kender.getInstance().verem.f.pop().init(x.szint()));
+                        a.add(Kender.getInstance().verem.t.pop());
 
-                            a.add(Kender.getInstance().verem.m.pop());
-                            a.add(Kender.getInstance().verem.x.pop().init(true,x.szint()));
-                            a.add(Kender.getInstance().verem.l.pop().init(true, x.szint()));
-                            a.add(Kender.getInstance().verem.t.pop());
-                            a.add(Kender.getInstance().verem.m.pop());
-                            a.add(Kender.getInstance().verem.x.pop().init(false,x.szint()));
-                            a.add(Kender.getInstance().verem.l.pop().init(false, x.szint()));
-                            a.add(Kender.getInstance().verem.t.pop());
+                        a.add(Kender.getInstance().verem.m.pop());
+                        a.add(Kender.getInstance().verem.x.pop().init(true,x.szint()));
+                        a.add(Kender.getInstance().verem.l.pop().init(true, x.szint()));
+                        a.add(Kender.getInstance().verem.t.pop());
+                        a.add(Kender.getInstance().verem.m.pop());
+                        a.add(Kender.getInstance().verem.x.pop().init(false,x.szint()));
+                        a.add(Kender.getInstance().verem.l.pop().init(false, x.szint()));
+                        a.add(Kender.getInstance().verem.t.pop());
+                    }else{
+                        a.add(Kender.getInstance().verem.m.pop());
+                        a.add(Kender.getInstance().verem.f.pop().init(x.szint(),x.szög()));
+                        a.add(Kender.getInstance().verem.t.pop());
 
-                            if(!Kender.getInstance().flowering&&Kender.getInstance().Szintet()<30)
-                            a.add(Kender.getInstance().verem.f.pop().init(x.szint()));
+                        a.add(Kender.getInstance().verem.m.pop());
+                        a.add(Kender.getInstance().verem.l.pop().init(true, x.szint()));
+                        a.add(Kender.getInstance().verem.t.pop());
+                        a.add(Kender.getInstance().verem.m.pop());
+                        a.add(Kender.getInstance().verem.l.pop().init(false, x.szint()));
+                        a.add(Kender.getInstance().verem.t.pop());
 
+                    }
 
+                }
 
-                        } else if (Objects.equals(x.n, "F") && x.szint()>1 && Kender.getInstance().flowering
+                    else if (Objects.equals(x.n, "F") && x.szint()>1 &&
+
+                         Kender.getInstance().flowering
                                 &&!Kender.getInstance().verem.av.empty()) {
+
                             a.add(x);
                             a.add(Kender.getInstance().verem.av.pop().init(x.szint()));
 
-                        } else if (Objects.equals(x.n, "F") && x.fejl() == 20 && x.szint()>0&&Kender.getInstance().Szintet()<100&&
+                        }
+
+
+                        else if (Objects.equals(x.n, "F") && x.fejl() == 30 && x.szint()>0&&
                                 !Kender.getInstance().verem.a.empty()) {
+
                             a.add(x);
+                            x.vízigény();
+                            if(x.légz()==0)
                             a.add(Kender.getInstance().verem.a.pop().init(x.szint()));
-                        } else if (Objects.equals(x.n, "AV") && x.fejl() > 50&&
+                            else if(x.légz()==1&&x.szint()<8)
+                            a.add(Kender.getInstance().verem.a.pop().init(x.szint(),x.szög()));
+
+                }
+
+
+                    else if (Objects.equals(x.n, "AV") && x.fejl() > 50&&
                                 !Kender.getInstance().verem.v.empty()) {
                             a.add(Kender.getInstance().verem.v.pop());
                         } else if (Objects.equals(x.n, "V") && x.fejl() > 100&&Kender.getInstance().Szintet()<100
@@ -316,17 +352,18 @@ public class LService extends Service {
             System.out.println("<<<<<<||::.VÉGE.::||>>>>>>");
 
             halott=Kender.getInstance().halott_e;
-            stopIt = true;
-
-            stopForeground(true);
+            //saveWeed();
+            stopIt=true;
+            stopForeground(false);
             stopSelf();
+
         }
 
-        private void saveWeed(){
+        public void saveWeed(){
             Gson gson = new Gson();
             Type tList = new TypeToken<ArrayList<Termény>>(){}.getType();
             List<Termény> termenyList = gson.fromJson(Mentés.getInstance().getString(Mentés.Key.TRMS_LST),tList);
-            termenyList.add(new Termény(hányGrammLett(),"Skunk#1",15,1));
+            termenyList.add(new Termény(hányGrammLett(),Kender.getInstance().getFajta(),15,1));
             String ment = Mentés.getInstance().gsonra(termenyList);
             Mentés.getInstance().put(Mentés.Key.TRMS_LST,ment);
         }
@@ -342,7 +379,7 @@ public class LService extends Service {
             }
             if(gramm==0) return gramm;
             else
-            return gramm/1000;
+            return gramm/100;
         }
 
         @Nullable

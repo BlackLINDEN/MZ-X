@@ -15,7 +15,7 @@ public class V extends Növény {
         super("V");
         p=Color.WHITE;
         vízigény();
-        x=5f;
+        x=1f;
     }
 
     public V(float v) {
@@ -34,10 +34,9 @@ public class V extends Növény {
     }
 
     private void xVast(){
-        if(x<20)
-        x+=ép/300+Kender.getInstance().nutes.P;
-        else if(x<30)
-        x+=0.1f;
+        if(x<5)
+        x+=ép/1000+Kender.getInstance().nutes.P/10;
+
     }
 
     @Override

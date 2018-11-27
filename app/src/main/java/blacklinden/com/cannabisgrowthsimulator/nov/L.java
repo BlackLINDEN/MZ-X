@@ -11,35 +11,26 @@ public class L extends Növény {
     private float ép = 1;
     private float hjl = 60;
     private int sötétIdő = 0;
+    private int hosszszab;
     private String halál;
 
     public L() {
         super("L");
-        x = 0.05f;
-
+        x = 1f;
+        hosszszab=30;
         p = Color.rgb(34,139,34);
         vízigény();
 
     }
 
     public L init(boolean balra, int szint){
-        v = 5f;
+        v = x/6;
         this.balra = balra;
         this.szint = szint;
         return this;
     }
 
-    private int vastSegéd(){
-      int xxx;
-        switch(Kender.getInstance().getFajta()){
-            case 1:xxx=12;
-                break;
-            case 2:xxx=14;
-                break;
-            default:xxx=10;
-        }
-        return xxx;
-    }
+
 
     @Override
     public void élet() {
@@ -84,20 +75,22 @@ public class L extends Növény {
         xHossz();
         légz();
         fényFelvétel();
+        //vízigény();
     }
 
 
     @Override
     public float vastagság() {
-        if(v<vastSegéd())
-            v+=0.01f;
+       v=x/6;
         return v;
     }
 
 
     private void xHossz(){
-        if(Kender.getInstance().Szintet()<35 && x<110-szint&&ép>0)
-            x++;
+        if(szint<2)hosszszab=10;
+
+        if(szint<60 &&x<hosszszab-szint*2)
+            x+= (ép+Kender.getInstance().nutes.N)*0.1f;;
     }
     @Override
     public float hossz() {
@@ -143,11 +136,11 @@ public class L extends Növény {
     private boolean fényFelvétel(){
         if(Kender.getInstance().FF.beKapcs&&p==Color.rgb(34,139,34)) {
             if(Kender.getInstance().FF.getKelvin()>4500&&!Kender.getInstance().flowering)
-            Kender.getInstance().fény+=Kender.getInstance().FF.getLux()/1000;
+            Kender.getInstance().fény+=Kender.getInstance().FF.getLux()/1000-(Kender.getInstance().Szintet()-szint);
             else
             Kender.getInstance().fény++;
             if(Kender.getInstance().FF.getKelvin()<4000&&Kender.getInstance().flowering)
-            Kender.getInstance().fény+=Kender.getInstance().FF.getLux()/1000;
+            Kender.getInstance().fény+=Kender.getInstance().FF.getLux()/1000-(Kender.getInstance().Szintet()-szint);
             else
             Kender.getInstance().fény++;
                 return true;
@@ -164,7 +157,7 @@ public class L extends Növény {
 
     @Override
     public float vízigény() {
-
+        //Kender.getInstance().levonH2o(1);
         return 0;
     }
 
@@ -186,7 +179,7 @@ public class L extends Növény {
 
     @Override
     public float légz() {
-        Kender.getInstance().CO2(Kender.getInstance().LL.getCO2()/2);//(Lég.getCO2()*fényFelvétel())
+        Kender.getInstance().CO2(Kender.getInstance().LL.getCO2());//(Lég.getCO2()*fényFelvétel())
         return 0;
     }
 

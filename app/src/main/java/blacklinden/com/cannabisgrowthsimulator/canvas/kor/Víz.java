@@ -7,7 +7,7 @@ import blacklinden.com.cannabisgrowthsimulator.nov.Kender;
 public class Víz {
 
     private float PH;
-    public int drawCode;
+    private int drawCode;
 
     public float getVÍZ_Mennyiség() {
         return VÍZ_Mennyiség;

@@ -22,6 +22,7 @@
     <string name="back">Main Menu</string>
     <string name="title_activity_menu">MenuActivity</string>
     <string name="inventory">Inventory</string>
+    <string name="colibri">Hummingbird</string>
 
 
 </resources>

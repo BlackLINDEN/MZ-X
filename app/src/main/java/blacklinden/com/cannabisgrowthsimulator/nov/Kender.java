@@ -4,8 +4,6 @@ package blacklinden.com.cannabisgrowthsimulator.nov;
 
 
 
-import android.content.Context;
-
 import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Cserép;
 import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Fény;
 import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Lég;
@@ -23,12 +21,12 @@ public final class Kender {
     private int fajta;
 
     public Fény FF;
-    public Lég LL;
+    Lég LL;
     public Víz VV;
     public Cserép CC;
     private float metrix;
     public Nutes nutes;
-    public int halottRészek=0;
+    int halottRészek=0;
 
     private boolean auto_e;
 
@@ -42,17 +40,13 @@ public final class Kender {
 
     public boolean halott_e;
 
-    public float getRost() {
-        return rost;
-    }
 
-    public void initRost(){this.rost=10;}
 
     private float rost;
 
     public Verem verem;
     private float cukor;
-    public float fény=0;//százalék
+    float fény=0;//százalék
     public volatile String causeofdeath="";
 
     private Kender() {
@@ -65,7 +59,7 @@ public final class Kender {
         this.szint=1;
         this.LL = new Lég();
         this.VV = new Víz();
-        this.CC = new Cserép(1.5f,3,"super");
+        this.CC = new Cserép(1.5f,3,"coco");
         initFény();
         initVíz();
 
@@ -128,6 +122,7 @@ public final class Kender {
 
     public void fajta(int fajta){
         this.fajta=fajta;
+
     }
 
     public int getFajta(){
@@ -137,7 +132,7 @@ public final class Kender {
     private void calvinKör(){
 
         if(co2>0&&h2o>1&&h2o<200&&fény>0&&FF.beKapcs) {
-            int nutri=(nutes.N+ nutes.P+ nutes.K);
+            int nutri=(nutes.N+ nutes.P+ nutes.K)/3;
             cukor +=  nutri+fény+co2;
 
                 if(nutes.N>0) nutes.N--;
@@ -146,7 +141,7 @@ public final class Kender {
 
             co2--;
             h2o--;
-            fény--;
+            fény=0;
         }
 
         if(FF.hőmérséklet()>27&&h2o>0)
@@ -159,12 +154,12 @@ public final class Kender {
 
     private void rostbanCukorTárolás(){
         if(cukor>1000){
-            rost+=10;
-            cukor-=10;
+            rost+=100;
+            cukor-=100;
         }
     }
 
-    public float cukrozó(int levonás){
+    float cukrozó(int levonás){
 
         if(cukor<levonás)
             return 0;
@@ -174,10 +169,10 @@ public final class Kender {
         }
     }
 
-    public void CO2(float co2PPM){
+    void CO2(float co2PPM){
         co2+=co2PPM;
     }
-    public void setH2o(float xx) {
+    void setH2o(float xx) {
 
         h2o+=xx;
     }
@@ -188,17 +183,23 @@ public final class Kender {
     public float getCukor() {
         return cukor;
     }
-    public void Szint(){
+    void Szint(){
         szint++;
     }
     public int Szintet(){return szint;}
-
+    public void levonas(int szint){ rost-=szint; }
     public void metrix(float metrix){
         this.metrix=metrix;
     }
-    public boolean Halott_e() {
-        return halott_e;
+    public float getRost() {
+        return rost;
     }
+    public void initRost(){this.rost=100;}
+    public void levonH2o(int i){if(h2o>0) h2o-=i;}
+
+
+
+
 
 
 

@@ -41,8 +41,6 @@ public class ElemHolder extends RecyclerView.ViewHolder {
                 String s = Mentés.getInstance().gsonra(lamps);
                 System.out.println("gsonra");
                 Mentés.getInstance().put(Mentés.Key.TESZT_OBJ,s);
-                System.out.println("mentés");
-                Mentés.getInstance().put(Mentés.Key.SAMPLE_STR,elem.getName());
 
 Toast.makeText(itemView.getContext(),"ITEM"+elem.getName(),Toast.LENGTH_SHORT).show();
             }

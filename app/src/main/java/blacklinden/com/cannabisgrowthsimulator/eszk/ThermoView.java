@@ -46,7 +46,7 @@ public class ThermoView extends View {
         fekete = new Paint();
         fekete.setStyle(Paint.Style.STROKE);
         fekete.setColor(Color.BLACK);
-        fekete.setStrokeWidth(10f);
+        fekete.setStrokeWidth(5f);
 
 
 
@@ -55,15 +55,15 @@ public class ThermoView extends View {
     @Override
     protected void onDraw(Canvas c) {
         super.onDraw(c);
-               c.drawRoundRect(c.getWidth()/4,c.getHeight(),(c.getWidth()/4)*3,0,15,15,fekete);
-        c.drawLine(((getWidth()/4)*2),getHeight()/2,(getWidth()/4)*3,c.getHeight()/2,fekete);
-        c.drawLine(((c.getWidth()/4)*2),c.getHeight()/3,(c.getWidth()/4)*3,c.getHeight()/3,fekete);
-        c.drawLine(((c.getWidth()/4)*2),(c.getHeight()/3)*2,(c.getWidth()/4)*3,(c.getHeight()/3)*2,fekete);
-        c.drawCircle(getWidth()/2,getHeight()-25,25,piros);
+               /*c.drawRoundRect(getWidth()/4,getHeight(),(getWidth()/4)*3,0,15,15,fekete);
+        c.drawLine(((getWidth()/4)*2),getHeight()/2,(getWidth()/4)*3,getHeight()/2,fekete);
+        c.drawLine(((getWidth()/4)*2),getHeight()/3,(getWidth()/4)*3,getHeight()/3,fekete);
+        c.drawLine(((getWidth()/4)*2),(getHeight()/3)*2,(getWidth()/4)*3,(getHeight()/3)*2,fekete);*/
+        c.drawCircle(getWidth()/2,getHeight()-getHeight()/5,getWidth()/10,piros);
         c.drawLine(
-                c.getWidth()/2, c.getHeight()-25,
-                c.getWidth()/2+(float)(Math.cos(Math.PI/2)*(c.getWidth()*0.008)*fok),
-                (float)((c.getHeight()-25)-Math.sin(Math.PI/2)*(c.getHeight()*0.008)*fok), piros
+                getWidth()/2, getHeight()-getHeight()/5,
+                getWidth()/2+(float)(Math.cos(Math.PI/2)*(getWidth()*0.008)*fok),
+                (float)((getHeight()-getHeight()/5)-Math.sin(Math.PI/2)*(getHeight()*0.008)*fok), piros
         );
 
     }
