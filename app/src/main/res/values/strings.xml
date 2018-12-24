@@ -23,6 +23,13 @@
     <string name="title_activity_menu">MenuActivity</string>
     <string name="inventory">Inventory</string>
     <string name="colibri">Hummingbird</string>
+    <string name="shit">YugoSkunk</string>
+    <string name="blueb">BlueBerry</string>
+    <string name="boxtitle_1">Secret Jardín</string>
+    <string name="boxtitle">Grandma\'s Cupboard</string>
+    <string name="snap">Snapshot</string>
+    <string name="title_northernlight">Northern Light</string>
+    <string name="grapeape">Grape Ape</string>
 
 
 </resources>

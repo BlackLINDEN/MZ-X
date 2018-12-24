@@ -51,7 +51,7 @@ public class Fertilizer {
         P = p;
     }
 
-    public int getK() {
+    int getK() {
         return K;
     }
 

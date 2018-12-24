@@ -93,7 +93,7 @@ public class CanvasView extends View {
                         break;
 
                     case "H":
-                    case "A":
+
                         c.rotate(ch.szög());
                         t.magRajz(c);
                         break;
@@ -182,7 +182,7 @@ public class CanvasView extends View {
         this.ism=ism;
        /* this.AL.clear();
         this.AL.addAll(yyy);*/
-       AL=yyy;
+       AL= new ArrayList<>(yyy);
         postInvalidate();
     }
 

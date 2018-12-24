@@ -36,6 +36,7 @@ public class Kolibri implements Runnable, View.OnClickListener {
     private View kolibri;
     private int kattintas=0;
 
+
     public Kolibri(float screenWidth,View kolibri){
         path = new Path();
         handler = new Handler(Looper.myLooper());
@@ -46,58 +47,114 @@ public class Kolibri implements Runnable, View.OnClickListener {
     }
 
     public void flyTo(View v) {
+        if(tutorial_e) {
+            int[] hely = new int[2];
+            int[] helyv = new int[2];
+            kolibri.getLocationOnScreen(hely);
+            v.getLocationOnScreen(helyv);
+            int x1 = hely[0];
+            int y1 = hely[1];
 
-        int[] hely = new int[2];
-        int[] helyv = new int[2];
-        kolibri.getLocationOnScreen(hely);
-        v.getLocationOnScreen(helyv);
-        int x1 = hely[0];
-        int y1 = hely[1];
-
-        int x0 = helyv[0];
-        int y0 = helyv[1];
-
-
-        float X = (x0 + x1) / 3;
-        float Y = (y0 + y1) / 3;
+            int x0 = helyv[0];
+            int y0 = helyv[1];
 
 
-        path.moveTo(x1, y1);
-        path.quadTo(X, Y, x0, y0);
-        animator = ObjectAnimator.ofFloat(kolibri, View.X, View.Y, path);
-        animator.setDuration(2000);
-        animator.setInterpolator(tul);
-        animator.start();
-        if (x0 < screenWidth / 2)
-            kolibri.setScaleX(-1f);
-        else kolibri.setScaleX(1f);
+            float X = (x0 + x1) / 3;
+            float Y = (y0 + y1) / 3;
 
-        path.reset();
 
-        final View cv = v;
+            path.moveTo(x1, y1);
+            path.quadTo(X, Y, x0, y0);
+            animator = ObjectAnimator.ofFloat(kolibri, View.X, View.Y, path);
+            animator.setDuration(2000);
+            animator.setInterpolator(tul);
+            animator.start();
+            if (x0 < screenWidth / 2)
+                kolibri.setScaleX(-1f);
+            else kolibri.setScaleX(1f);
 
-        animator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {
+            path.reset();
 
-            }
+            final View cv = v;
 
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                csirip(cv);
-            }
+            animator.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
 
-            @Override
-            public void onAnimationCancel(Animator animator) {
+                }
 
-            }
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    csirip(cv);
+                }
 
-            @Override
-            public void onAnimationRepeat(Animator animator) {
+                @Override
+                public void onAnimationCancel(Animator animator) {
 
-            }
-        });
+                }
 
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+
+                }
+            });
+        }
+
+    }
+
+    public void flyTo(View v,boolean i) {
+        if(i) {
+            int[] hely = new int[2];
+            int[] helyv = new int[2];
+            kolibri.getLocationOnScreen(hely);
+            v.getLocationOnScreen(helyv);
+            int x1 = hely[0];
+            int y1 = hely[1];
+
+            int x0 = helyv[0];
+            int y0 = helyv[1];
+
+
+            float X = (x0 + x1) / 3;
+            float Y = (y0 + y1) / 3;
+
+
+            path.moveTo(x1, y1);
+            path.quadTo(X, Y, x0, y0);
+            animator = ObjectAnimator.ofFloat(kolibri, View.X, View.Y, path);
+            animator.setDuration(2000);
+            animator.setInterpolator(tul);
+            animator.start();
+            if (x0 < screenWidth / 2)
+                kolibri.setScaleX(-1f);
+            else kolibri.setScaleX(1f);
+
+            path.reset();
+
+            final View cv = v;
+
+            animator.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    csirip(cv);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+
+                }
+            });
+        }
 
     }
 
@@ -174,4 +231,6 @@ public class Kolibri implements Runnable, View.OnClickListener {
         kolibri.setVisibility(View.GONE);
         kattintas=0;
     }
+
+
 }

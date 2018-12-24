@@ -86,8 +86,12 @@ public class Gy extends Növény {
     public float tápigény() {
         if(counter%2==0&&Kender.getInstance().VV.getVÍZ_Mennyiség()>10&&Math.abs(Kender.getInstance().VV.getPH()-Kender.getInstance().CC.föld.PH)<1) {
             Kender.getInstance().nutes.N=Kender.getInstance().CC.föld.Nátrium;
+            if(Kender.getInstance().CC.föld.Nátrium>0)Kender.getInstance().CC.föld.Nátrium--;
             Kender.getInstance().nutes.P=Kender.getInstance().CC.föld.Foszfor;
+            if(Kender.getInstance().CC.föld.Nátrium>0)Kender.getInstance().CC.föld.Foszfor--;
             Kender.getInstance().nutes.K=Kender.getInstance().CC.föld.Kálium;
+            if(Kender.getInstance().CC.föld.Nátrium>0)Kender.getInstance().CC.föld.Kálium--;
+
         }
         return 0;
     }

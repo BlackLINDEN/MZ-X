@@ -27,31 +27,27 @@ public final class Kender {
     private float metrix;
     public Nutes nutes;
     int halottRészek=0;
+    private int box;
 
     private boolean auto_e;
 
     public boolean flowering;
 
     private float h2o;
-
-    private int hő;
-
     private int szint;
 
     public boolean halott_e;
-
-
-
     private float rost;
 
     public Verem verem;
     private float cukor;
-    float fény=0;//százalék
+    float fény=0;
     public volatile String causeofdeath="";
 
     private Kender() {
-        //Mentés.getInstance(context);
-        verem = new Verem();
+
+        initFény();
+        initVíz();
         initRost();
         initCO2();
         this.flowering=false;
@@ -60,8 +56,7 @@ public final class Kender {
         this.LL = new Lég();
         this.VV = new Víz();
         this.CC = new Cserép(1.5f,3,"coco");
-        initFény();
-        initVíz();
+
 
         nutes = new Nutes();
 
@@ -97,6 +92,20 @@ public final class Kender {
             case 2:
                 if (ism == 380) flowering = true;
                 break;
+
+            case 3:
+                if (ism == 380) flowering = true;
+                break;
+
+            case 4:
+                if (ism == 380) flowering = true;
+                break;
+            case 5:
+                if (ism == 300) flowering = true;
+                break;
+            case 6:
+                if (ism == 325) flowering = true;
+                break;
         }
         if(cukor<=0&&rost>=1){
             cukor++;
@@ -122,7 +131,7 @@ public final class Kender {
 
     public void fajta(int fajta){
         this.fajta=fajta;
-
+        verem = new Verem(fajta);
     }
 
     public int getFajta(){
@@ -135,12 +144,12 @@ public final class Kender {
             int nutri=(nutes.N+ nutes.P+ nutes.K)/3;
             cukor +=  nutri+fény+co2;
 
-                if(nutes.N>0) nutes.N--;
-                if(nutes.P>0) nutes.P--;
-                if(nutes.K>0) nutes.K--;
+                if(nutes.N>0) nutes.N=0;
+                if(nutes.P>0) nutes.P=0;
+                if(nutes.K>0) nutes.K=0;
 
             co2--;
-            h2o--;
+            h2o=0;
             fény=0;
         }
 
@@ -148,14 +157,12 @@ public final class Kender {
             h2o-=2f;
         else
             h2o-=1f;
-
-
     }
 
     private void rostbanCukorTárolás(){
         if(cukor>1000){
-            rost+=100;
-            cukor-=100;
+            rost+=10;
+            cukor-=10;
         }
     }
 
@@ -173,7 +180,6 @@ public final class Kender {
         co2+=co2PPM;
     }
     void setH2o(float xx) {
-
         h2o+=xx;
     }
 
@@ -195,8 +201,9 @@ public final class Kender {
         return rost;
     }
     public void initRost(){this.rost=100;}
-    public void levonH2o(int i){if(h2o>0) h2o-=i;}
-
+    void levonH2o(int i){if(h2o>0) h2o-=i;}
+    public int getBox(){return box;}
+    public void setBox(int i){box=i;}
 
 
 

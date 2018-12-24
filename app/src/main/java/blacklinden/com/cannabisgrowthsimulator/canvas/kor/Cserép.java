@@ -93,21 +93,26 @@ public class Föld{
     private Föld(String type){
         switch(type){
             case "coco":
-             this.PH=5.5f;
-             this.drainage=-1.2f;
-             this.waterRetention=0.7f;
-             this.Nátrium = 1;
-             this.Foszfor=1;
-             this.Kálium=5;
+                PH=5.5f;
+
+                drainage=-1.2f;
+
+                waterRetention=0.7f;
+
+                Nátrium = 0;
+
+                Foszfor=1;
+
+                Kálium=2;
              break;
 
             case "super":
-             this.PH=5.5f;
-             this.drainage=-1;
-             this.waterRetention=1;
-             this.Nátrium=3;
-             this.Foszfor=3;
-             this.Kálium=3;
+             PH=5.5f;
+             drainage=-1;
+             waterRetention=1;
+             Nátrium=1;
+             Foszfor=1;
+             Kálium=1;
              break;
         }
     }

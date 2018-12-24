@@ -20,8 +20,8 @@
         android:id="@+id/httr_tapeta"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/hc"
-        android:background="#000"
+        android:src="@drawable/wooden_tiler"
+        android:background="@drawable/wooden_tiler"
         app:layout_constraintBottom_toBottomOf="@+id/cserep"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,6 +51,7 @@
         android:layout_height="0dp"
         android:layout_gravity="center"
         android:textColor="#FFFFFF"
+        android:tag="Turn on the Lights"
         app:layout_constraintBottom_toBottomOf="@+id/cserep"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -81,8 +82,8 @@
         android:layout_marginTop="16dp"
         android:background="?android:selectableItemBackgroundBorderless"
         android:onClick="cl"
+        android:tag="Turn on the lights"
         android:rotation="180"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -126,6 +127,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <blacklinden.com.cannabisgrowthsimulator.eszk.LifeCycler
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <ImageView
         android:id="@+id/oldalsoB"
@@ -196,7 +211,7 @@
         android:layout_marginTop="8dp"
         android:background="?android:selectableItemBackgroundBorderless"
         android:src="@drawable/kanna1"
-        android:tag="locsol"
+        android:tag="Give some water"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -248,7 +263,7 @@
         android:layout_marginTop="8dp"
         android:background="?android:selectableItemBackgroundBorderless"
         android:src="@drawable/seed"
-        android:tag="daseed"
+        android:tag="Plant the seed"
         app:layout_constraintBottom_toBottomOf="@+id/cserep"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -285,8 +300,10 @@
         android:tag="Wanna roll a joint?"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/bura"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>
 

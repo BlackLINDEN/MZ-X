@@ -37,9 +37,9 @@ public class ElemHolder extends RecyclerView.ViewHolder {
             public void onClick(View view) {
                 Lamps lamps = new Lamps(elem.getName(),elem.getType(),elem.getConsumption(),elem.getSpectrum(),
                         elem.getLumen(),elem.getAnimDrawCode(),elem.getFatyolDrawCode());
-                System.out.println("lamps");
+
                 String s = Mentés.getInstance().gsonra(lamps);
-                System.out.println("gsonra");
+
                 Mentés.getInstance().put(Mentés.Key.TESZT_OBJ,s);
 
 Toast.makeText(itemView.getContext(),"ITEM"+elem.getName(),Toast.LENGTH_SHORT).show();

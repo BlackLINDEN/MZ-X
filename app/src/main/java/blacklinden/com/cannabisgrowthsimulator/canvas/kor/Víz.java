@@ -2,7 +2,6 @@ package blacklinden.com.cannabisgrowthsimulator.canvas.kor;
 
 import blacklinden.com.cannabisgrowthsimulator.R;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
-import blacklinden.com.cannabisgrowthsimulator.nov.Kender;
 
 public class Víz {
 
@@ -24,6 +23,7 @@ public class Víz {
 
     public int setDrawCode(){
         //Mentés.getInst Context
+
         switch (Mentés.getInstance().getString(Mentés.Key.SAMPLE_CAN,"Tinman")){
             case "Hipster Pipe":drawCode= R.drawable.kanna1;
                 break;
@@ -33,11 +33,12 @@ public class Víz {
                 break;
             case "Tinman": drawCode = R.drawable.kanna4;
                 break;
-            case "Fine Garden Can": drawCode = R.drawable.kanna5;
+            case "Fine Can": drawCode = R.drawable.kanna5;
                 break;
-            case "Millenial Mini": drawCode=R.drawable.kanna6;
+            case "Mini": drawCode=R.drawable.kanna6;
                 break;
         }
+
         return drawCode;
     }
 
@@ -56,7 +57,7 @@ public class Víz {
 
     public void locsol(){
 
-        VÍZ_Mennyiség+=10;
+        VÍZ_Mennyiség+=100;
     }
     public float getPH(){
         return PH;

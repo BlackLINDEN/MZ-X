@@ -12,29 +12,8 @@ import java.lang.reflect.Type;
 import blacklinden.com.cannabisgrowthsimulator.MainActivity;
 import blacklinden.com.cannabisgrowthsimulator.MyApp;
 
-/*
- * A Singleton for managing your SharedPreferences.
- *
- * You should make sure to change the SETTINGS_NAME to what you want
- * and choose the operating made that suits your needs, the default is
- * MODE_PRIVATE.
- *
- * IMPORTANT: The class is not thread safe. It should work fine in most
- * circumstances since the write and read operations are fast. However
- * if you call edit for bulk updates and do not commit your changes
- * there is a possibility of data loss if a background thread has modified
- * preferences at the same time.
- *
- * Usage:
- *
- * int sampleInt = AppPreferencesEnumExample.getInstance(context).getInt(Key.SAMPLE_INT);
- * AppPreferencesEnumExample.getInstance(context).set(Key.SAMPLE_INT, sampleInt);
- *
- * If AppPreferencesEnumExample.getInstance(Context) has been called once, you can
- * simple use AppPreferencesEnumExample.getInstance() to save some precious line space.
- */
+
 public class Mentés {
-    // TODO: CHANGE THIS TO SOMETHING MEANINGFUL
     private static final String SETTINGS_NAME = "default_settings";
     private static Mentés sSharedPrefs;
     private SharedPreferences mPref;
@@ -42,20 +21,12 @@ public class Mentés {
     private SharedPreferences.Editor mEditor;
     private boolean mBulkUpdate = false;
 
-    /**
-     * Enum representing your setting names or key for your setting.
-     */
+
     public enum Key {
-        /* Recommended naming convention:
-         * ints, floats, doubles, longs:
-         * SAMPLE_NUM or SAMPLE_COUNT or SAMPLE_INT, SAMPLE_LONG etc.
-         *
-         * boolean: IS_SAMPLE, HAS_SAMPLE, CONTAINS_SAMPLE
-         *
-         * String: SAMPLE_KEY, SAMPLE_STR or just SAMPLE
-         */
+
         TRMS_LST,
         TESZT_OBJ,
+        SAMPLE_SZINT,
         SAMPLE_STR,
         SAMPLE_CAN,
         SAMPLE_INT,
@@ -123,16 +94,7 @@ public class Mentés {
         return gson.fromJson(s,o);
     }
 
-    /**
-     * Convenience method for storing doubles.
-     * <p/>
-     * There may be instances where the accuracy of a double is desired.
-     * SharedPreferences does not handle doubles so they have to
-     * cast to and from String.
-     *
-     * @param key The enum of the preference to store.
-     * @param val The new value for the preference.
-     */
+
     public void put(Key key, double val) {
         doEdit();
         mEditor.putString(key.name(), String.valueOf(val));
@@ -177,28 +139,11 @@ public class Mentés {
         return mPref.getFloat(key.name(), defaultValue);
     }
 
-    /**
-     * Convenience method for retrieving doubles.
-     * <p/>
-     * There may be instances where the accuracy of a double is desired.
-     * SharedPreferences does not handle doubles so they have to
-     * cast to and from String.
-     *
-     * @param key The enum of the preference to fetch.
-     */
+
     public double getDouble(Key key) {
         return getDouble(key, 0);
     }
 
-    /**
-     * Convenience method for retrieving doubles.
-     * <p/>
-     * There may be instances where the accuracy of a double is desired.
-     * SharedPreferences does not handle doubles so they have to
-     * cast to and from String.
-     *
-     * @param key The enum of the preference to fetch.
-     */
     public double getDouble(Key key, double defaultValue) {
         try {
             return Double.valueOf(mPref.getString(key.name(), String.valueOf(defaultValue)));

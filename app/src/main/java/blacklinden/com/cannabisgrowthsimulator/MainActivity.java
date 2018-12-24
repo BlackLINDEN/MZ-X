@@ -6,8 +6,10 @@ import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
@@ -16,6 +18,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -34,6 +37,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,9 +48,17 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Objects;
+
 import blacklinden.com.cannabisgrowthsimulator.canvas.CanvasView;
 import blacklinden.com.cannabisgrowthsimulator.eszk.AlsFiok;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
+import blacklinden.com.cannabisgrowthsimulator.eszk.ScreenShot;
 import blacklinden.com.cannabisgrowthsimulator.eszk.StarchView;
 import blacklinden.com.cannabisgrowthsimulator.eszk.ThermoView;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Ventil;
@@ -59,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     CanvasView canvasView;
     ThermoView thermoView;
-    AlsFiok alsFiok;
+
 
     CardView polc;
     ImageButton bulb, seed, cserép, táp, kanna, ollo;
@@ -76,30 +88,41 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private ImageView tapeta;
     private TypedValue outValue;
     private AnimatedVectorDrawable vectorDrawable;
-
+    private Kolibri kolibriAnimator;
+    private ImageView ivLC;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        switch (Kender.getInstance().getBox()) {
+            case 1:
+            setContentView(R.layout.activity_main);
+            break;
+            case 2:
+            setContentView(R.layout.activity_main_textil);
+            break;
+            default:
+                setContentView(R.layout.activity_main);
+        }
         intent = new Intent(this, Main2Activity.class);
         drawerLayout = findViewById(R.id.drawer_layout);
         outValue = new TypedValue();
         this.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
-        alsFiok = findViewById(R.id.also);
+        //alsFiok = findViewById(R.id.also);
+
+        ivLC = findViewById(R.id.ivLC);
 
         tapeta = findViewById(R.id.httr_tapeta);
 
         final ImageView kolibriTV = findViewById(R.id.kolibri);
         kolibriTV.setBackgroundResource(R.drawable.kolibri_anim);
-        kolibriTV.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+        kolibriTV.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
         final AnimationDrawable kolibri = (AnimationDrawable) kolibriTV.getBackground();
         kolibri.start();
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
         final float w = point.x;
-        final Kolibri kolibriAnimator = new Kolibri(w, kolibriTV);
-        if(Mentés.getInstance().getString(Mentés.Key.BELEP,"o").equals("o"))
+        kolibriAnimator = new Kolibri(w, kolibriTV);
+        if(Mentés.getInstance().getString(Mentés.Key.BELEP,"0").equals("0"))
             kolibriAnimator.setTutorial_e(true);
         kolibriAnimator.run();
 
@@ -120,11 +143,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                             case R.id.killit:
                                 lService.stopForeground(true);
                                 lService.stopSelf();
-
-                                Kender.getInstance().clear();
-
                                     finish();
-
+                                Kender.getInstance().clear();
                                 break;
 
                             case R.id.back:
@@ -147,6 +167,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                                 kolibriTV.setVisibility(View.VISIBLE);
                                 break;
 
+                            case R.id.snap:
+                                drawerLayout.closeDrawer(Gravity.NO_GRAVITY);
+                                Bitmap bitmap=ScreenShot.takescreenshotOfRootView(canvasView);
+                                //storeScreenshot(bitmap);
+                                break;
+
                         }
 
                         return true;
@@ -162,6 +188,17 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         cserép = findViewById(R.id.cserep);
         táp = findViewById(R.id.tap1);
         bulb = findViewById(R.id.gmb);
+
+        ViewTreeObserver vto = bulb.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener (new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                bulb.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                kolibriAnimator.flyTo(bulb);
+
+            }
+        });
+
 
         kanna.setImageDrawable(getDrawable(Kender.getInstance().VV.setDrawCode()));
         cserép.setImageDrawable(getDrawable(Kender.getInstance().CC.setDrawableCode()));
@@ -181,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         napTV = findViewById(R.id.nap);
         ventilBE = false;
         canvasView = findViewById(R.id.canvas);
-        canvasView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        canvasView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         final float cserepMagassag = 59;
         canvasView.metrix((density / 160) * cserepMagassag);
         Kender.getInstance().metrix(dm.heightPixels / density);
@@ -193,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         polc = findViewById(R.id.polc);
 
         ventilObj = findViewById(R.id.ventil);
-        ventilObj.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+        ventilObj.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
 
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog);
@@ -321,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             Kender.getInstance().FF.beKapcs = true;
             polc.setElevation(5);
             polc.setCardElevation(60);
-            Toast.makeText(this, "lámpa " + Kender.getInstance().FF.beKapcs, Toast.LENGTH_SHORT).show();
+            kolibriAnimator.flyTo(kanna);
         } else if (fátyol.getVisibility() == View.VISIBLE && !vectorDrawable.isRunning()) {
             fátyol.setVisibility(View.GONE);
             vectorDrawable.reset();
@@ -341,6 +378,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         if (!ventilBE) {
             ventilObj.indit();
             ventilBE = true;
+
         } else {
 
             ventilObj.stop();
@@ -399,6 +437,16 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                             napTV.setText(String.valueOf(lService.ism / 6));
 
+
+            if(!Kender.getInstance().flowering&&lService.ism<50)
+                ivLC.setImageResource(R.drawable.seddl);
+            else if(!Kender.getInstance().flowering)
+                ivLC.setImageResource(R.drawable.veg);
+            else
+                ivLC.setImageResource(R.drawable.flow);
+
+
+
                     if (Kender.getInstance().flowering) ollo.setVisibility(View.VISIBLE);
 
 
@@ -426,7 +474,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                         lService.saveWeed();
 
-                    } else h.postDelayed(this, 180);
+                    } else h.postDelayed(this, 18000);
 
 
         }
@@ -489,18 +537,20 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                         android.graphics.PorterDuff.Mode.MULTIPLY
                 );
 
+                if(event.getClipDescription().getLabel().toString().equals("Give some water")&&
+                        Kender.getInstance().VV.getVÍZ_Mennyiség()<=Kender.getInstance().CC.potSize/2
+                        ) {
+
+                    Kender.getInstance().VV.locsol();
+                    loccs.start();
+
+            }
+
                 v.invalidate();
                 return true;
 
             case DragEvent.ACTION_DRAG_LOCATION:
-                if(event.getClipDescription().getLabel().toString().equals("locsol")) {
 
-
-                    if(Kender.getInstance().VV.getVÍZ_Mennyiség()<=Kender.getInstance().CC.potSize/2) {
-                        Kender.getInstance().VV.locsol();
-                        loccs.start();
-                    }
-                }
                 return true;
 
             case DragEvent.ACTION_DRAG_EXITED:
@@ -513,7 +563,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             case DragEvent.ACTION_DROP:
                 String clipData = event.getClipDescription().getLabel().toString();
-                if(clipData.equals("daseed")) {
+                if(clipData.equals("Plant the seed")) {
                     lService.startThread();
                     gong.start();
                 }
@@ -550,11 +600,38 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     public void szüret(View view){
-        lService.szüretelve=true;
+        //lService.szüretelve=true;
+        //findViewById(R.id.ollo).setVisibility(View.GONE);
+        lService.harvest();
     }
 
     public void nyissMenut(View v){
         drawerLayout.openDrawer(Gravity.START);
+    }
+
+
+    public String storeScreenshot(Bitmap bitmap) {
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        File mypath=new File(directory,"profile.jpg");
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                Objects.requireNonNull(fos).close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return directory.getAbsolutePath();
     }
 }
 

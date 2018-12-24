@@ -14,9 +14,12 @@ import android.graphics.Path;
 import android.graphics.PathDashPathEffect;
 import android.graphics.PorterDuff;
 import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
 import android.os.Environment;
+
+import com.github.alexjlockwood.kyrie.KyrieDrawable;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -40,6 +43,7 @@ public class Teknős  {
     private Shader sSzr;
     private Bitmap kenderTeszt,mutableBitmap;
     private VectorDrawable vd;
+    private KyrieDrawable kd;
 
     public Teknős(Context context,float metrix) {
 
@@ -48,7 +52,10 @@ public class Teknős  {
                 context.getResources(), R.drawable.kndr_szr);
         kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
         mutableBitmap = kenderTeszt.copy(Bitmap.Config.ARGB_8888, true);
-        mutableBitmap.setHeight(10);
+        //mutableBitmap.setHeight(10);
+
+
+
         mag = new Paint();
         mag.setColor(Color.rgb(222,184,135));
         mag.setStyle(Paint.Style.FILL);
@@ -57,10 +64,25 @@ public class Teknős  {
                 Shader.TileMode.REPEAT
                 , Shader.TileMode.MIRROR);
 
-        if(Kender.getInstance().getFajta()==1) {
-            vd = (VectorDrawable)context.getDrawable(R.drawable.laci_levele);
-        }else{
-            vd = (VectorDrawable)context.getDrawable(R.drawable.ic_leaf7);
+        switch (Kender.getInstance().getFajta()) {
+            case 1:
+                kd = KyrieDrawable.create(context, R.drawable.laci_levele);
+                break;
+            case 2:
+                kd = KyrieDrawable.create(context, R.drawable.ic_haze_leaf);
+                break;
+            case 3:
+                kd = KyrieDrawable.create(context, R.drawable.ic_yugo_skunk);
+                break;
+            case 4:
+                kd = KyrieDrawable.create(context,R.drawable.ic_blue_berry);
+                break;
+            case 5:
+                kd = KyrieDrawable.create(context,R.drawable.ic_northern_light);
+                break;
+            case 6:
+                kd = KyrieDrawable.create(context,R.drawable.ic_grape_ape);
+                break;
         }
         Path path = new Path();
         path.setFillType(Path.FillType.WINDING);
@@ -113,7 +135,7 @@ public class Teknős  {
         x += (rand)* Math.cos(Math.toRadians(angle));
         y +=(rand)* Math.sin(Math.toRadians(angle));
 
-
+      
         canvas.drawBitmap(mutableBitmap,(float)x-mutableBitmap.getWidth()/2,(float)y-mutableBitmap.getHeight(),null);
 
 
@@ -156,11 +178,16 @@ public class Teknős  {
         x += ((float)step)* Math.cos(Math.toRadians(angle));
         y +=((float)step)* Math.sin(Math.toRadians(angle));
 
-        vd.setBounds((int)(oldx - vast), (int)( y -vast), (int) (x + vast), (int)oldy);
-        vd.setColorFilter(szín,PorterDuff.Mode.MULTIPLY);
+        //vd.setBounds((int)(oldx - vast), (int)( y -vast), (int) (x + vast), (int)oldy);
+        //vd.setColorFilter(szín,PorterDuff.Mode.MULTIPLY);
 
-        vd.draw(canvas);
+        //vd.draw(canvas);
 
+        kd.setBounds((int)(oldx - vast), (int)( y -vast), (int) (x + vast), (int)oldy);
+        if(szín!=Color.rgb(34,139,34))
+        kd.setTint(szín);
+        //kd.setColorFilter(szín,PorterDuff.Mode.MULTIPLY);
+        kd.draw(canvas);
     }
 
 

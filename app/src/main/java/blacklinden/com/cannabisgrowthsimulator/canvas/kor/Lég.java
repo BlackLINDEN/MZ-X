@@ -15,4 +15,8 @@ public class Lég {
         return CO2;
     }
 
+    public void addCO2(float i){
+      CO2+=i;
+    }
+
 }

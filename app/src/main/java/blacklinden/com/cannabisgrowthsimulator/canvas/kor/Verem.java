@@ -23,7 +23,7 @@ public class Verem {
     public Stack<A> a;
     public Stack<Av> av;
 
-    public Verem(){
+    public Verem(int fajta){
 
     v = new Stack<>();
     x = new Stack<>();
@@ -44,12 +44,12 @@ public class Verem {
 
     for(int i=0;i<500;i++){
         av.push(new Av());
-        v.push(new V());
+        v.push(new V(fajta));
 
         a.push(new A());
-        x.push(new X());
-        f.push(new F());
-        l.push(new L());
+        x.push(new X(fajta));
+        f.push(new F(fajta));
+        l.push(new L(fajta));
     }
 
     }

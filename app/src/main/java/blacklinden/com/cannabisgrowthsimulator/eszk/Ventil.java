@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 
 import blacklinden.com.cannabisgrowthsimulator.R;
 
-public class Ventil extends RelativeLayout {
+public class Ventil extends RelativeLayout  {
 
     Handler handler = new Handler();
     ImageView ventil;

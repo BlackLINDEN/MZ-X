@@ -21,5 +21,11 @@
             android:title="@string/colibri"
             />
 
+        <item
+            android:id="@+id/fenykep"
+            android:icon="@drawable/ic_camera_alt_black_24dp"
+            android:title="@string/snap"
+            />
+
     </group>
 </menu>

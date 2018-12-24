@@ -85,10 +85,10 @@ public class Accessories extends Fragment {
         planet = new Elem("Tinman", 5,"Fast","Unique", getResources().getDrawable(R.drawable.kanna4));
         planetArrayList.add(planet);
 
-        planet = new Elem("Fine Garden Can", 6,"Fast","Rare", getResources().getDrawable(R.drawable.kanna5));
+        planet = new Elem("FineCan", 6,"Fast","Rare", getResources().getDrawable(R.drawable.kanna5));
         planetArrayList.add(planet);
 
-        planet = new Elem("Millenial Mini", 0.8f,"Fast","Common", getResources().getDrawable(R.drawable.kanna6));
+        planet = new Elem("Mini", 0.8f,"Fast","Common", getResources().getDrawable(R.drawable.kanna6));
         planetArrayList.add(planet);
         adapter.notifyDataSetChanged();
     }

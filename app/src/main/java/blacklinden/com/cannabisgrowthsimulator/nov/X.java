@@ -14,30 +14,52 @@ public class X extends Növény {
     private int szint;
     private Random rndm;
     private float ép;
-    private final float hosszszab=15;
+    private float hosszszab,vastszab,szögszab;
     public float x;
-    private int p;
+    private int p,g;
 
-    public X(){
+
+    public X(int fajta){
         super("X");
         x=1;
         ép=1;
         szög=0;
-
+        switch(fajta){
+            case 1 :
+                hosszszab=15;
+                vastszab=0.04f;
+                szögszab=50;
+                break;
+            case 2:
+                hosszszab=25;
+                vastszab=0.07f;
+                szögszab=60;
+                break;
+            case 3:
+                hosszszab=12;
+                vastszab=0.05f;
+                szögszab=20;
+                break;
+            case 4:
+                hosszszab=10;
+                vastszab=0.06f;
+                szögszab=55;
+                break;
+            case 5:
+                hosszszab=13;
+                vastszab=0.05f;
+                szögszab=61;
+                break;
+            case 6:
+                hosszszab=9;
+                vastszab=0.08f;
+                szögszab=47;
+                break;
+        }
         rndm=new Random();
-
+        g=rndm.nextInt((30-(-30))+(-30));
     }
-    public X(boolean bvj,float ép,float x,float szög, int szint){
-        super("X");
-        this.ép=ép;
-        this.x=x;
-        this.szög=szög;
-        this.bvj=bvj;
-        this.szint=szint;
 
-        rndm=new Random();
-
-    }
 
     public X init(boolean bvj,int szint){
         this.bvj=bvj;
@@ -58,7 +80,7 @@ public class X extends Növény {
 
     @Override
     public float vastagság() {
-        return hossz()*0.04f;
+        return hossz()*vastszab;
     }
 
     private void xHossz() {
@@ -75,12 +97,12 @@ public class X extends Növény {
 
     @Override
     public float szög() {
-        int g=rndm.nextInt(10-(-10))+(-10);
+
 
             if (bvj)
-                szög = Kender.getInstance().FF.irány - (50)-g;
+                szög = Kender.getInstance().FF.irány - (szögszab)-g;
             else
-                szög = Kender.getInstance().FF.irány + (50)+g;
+                szög = Kender.getInstance().FF.irány + (szögszab)+g;
 
 
         return szög;

@@ -191,7 +191,7 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/ic_grow_box_c"
         android:elevation="30dp"
-        android:onClick="mag"
+        android:onClick="nyissBox"
         android:tag="Choose your Grow Box"
         android:textColor="#000"
         android:textSize="14sp"

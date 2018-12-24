@@ -12,12 +12,66 @@ public class F extends Növény {
     private boolean oldHajt=false;
     private int szint;
     private int szín;
-    private float hosszSzabályzó;
+    private int fajta;
+    private float hosszSzabályzó,vastszab;
 
 
-    public F(){
+
+    public F(int fajta){
         super("F");
+        this.fajta=fajta;
+        switch (fajta){
+            case 1:
+                if(oldHajt)
+                    hosszSzabályzó=15;
+                else
+                    hosszSzabályzó=20;
 
+                vastszab=0.08f;
+            break;
+
+            case 2:
+                if(oldHajt)
+                    hosszSzabályzó=10;
+                else
+                    hosszSzabályzó=20;
+                vastszab=0.1f;
+            break;
+
+            case 3:
+                if(oldHajt)
+                    hosszSzabályzó=6;
+                else
+                    hosszSzabályzó=17;
+                vastszab=0.09f;
+            break;
+
+            case 4:
+                if(oldHajt)
+                    hosszSzabályzó=8;
+                else
+                    hosszSzabályzó=18;
+                vastszab=0.075f;
+            break;
+
+            case 5:
+                if(oldHajt)
+                    hosszSzabályzó=12;
+                else
+                    hosszSzabályzó=22;
+                vastszab=0.078f;
+            break;
+            case 6:
+                if(oldHajt)
+                    hosszSzabályzó=12;
+                else
+                    hosszSzabályzó=22;
+                vastszab=0.078f;
+            break;
+
+
+
+        }
         System.out.println("szint");
     }
 
@@ -25,13 +79,33 @@ public class F extends Növény {
 
         //this.szg=szg>Kender.getInstance().FF.irány?szg-1:szg+1;
         if(szg!=Kender.getInstance().FF.irány){
-            this.szg=szg/2;
+            switch (fajta) {
+                case 1:
+                    this.szg = szg / 2;
+                break;
+                case 2:
+                    this.szg = szg/4;
+                break;
+                case 3:
+                    this.szg = szg/3.4f;
+                    break;
+                case 4:
+                    this.szg = szg/1.2f;
+                    break;
+                case 5:
+                    this.szg =szg*1.2f;
+                    break;
+                case 6:
+                    this.szg = szg/2.7f;
+                    break;
+            }
+
 
         }
         ép=1;
         szint=i;
         this.oldHajt=true;
-        hosszSzabályzó=15;
+        //hosszSzabályzó=15;
         //Kender.getInstance().Szint();
         return this;
     }
@@ -41,7 +115,7 @@ public class F extends Növény {
         //if(szg!=Kender.getInstance().FF.irány) szg=szg>0?szg-10:szg+10;
         this.szint=i;
         Kender.getInstance().Szint();
-        hosszSzabályzó=20;
+        //hosszSzabályzó=20;
         return this;
     }
 
@@ -49,7 +123,7 @@ public class F extends Növény {
     @Override
     public void élet() {
 
-        ép+=Kender.getInstance().cukrozó(1);
+        ép+=Kender.getInstance().cukrozó(lerp(1,5));
 
         //if(Kender.getInstance().getRost()<=0&&Kender.getInstance().getCukor()<=0) ép--;
         //if(Kender.getInstance().nutrition.N>16&&Kender.getInstance().flowering) ép --;
@@ -63,8 +137,8 @@ public class F extends Növény {
 
     @Override
     public float vastagság() {
-        if((x*0.08f)-szint/5>1)
-        return (x*0.08f)-szint/5;
+        if((x*vastszab)-szint/5>1)
+        return (x*vastszab)-szint/5;
         else
         return 1;
     }
@@ -144,6 +218,10 @@ public class F extends Növény {
     @Override
     public int szint() {
         return szint;
+    }
+
+    private int lerp(int i, int ii){
+        return i + (ii - i) * szint/100;
     }
 
 

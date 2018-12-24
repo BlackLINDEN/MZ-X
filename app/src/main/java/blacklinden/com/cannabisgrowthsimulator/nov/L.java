@@ -9,24 +9,59 @@ public class L extends Növény {
     private int szint;
     private int p;
     private float ép = 1;
-    private float hjl = 60;
+    private float hjl = 5;
     private int sötétIdő = 0;
-    private int hosszszab;
+    private float hosszszab,vastszab;
     private String halál;
 
-    public L() {
+
+    public L(int fajta) {
         super("L");
-        x = 1f;
-        hosszszab=30;
+        x = 5f;
+        switch (fajta){
+            case 1:
+                hosszszab=30;
+                vastszab=6;
+            break;
+            case 2:
+                hosszszab=40;
+                vastszab=5.6f;
+                break;
+            case 3:
+                hosszszab=28;
+                vastszab=6.8f;
+                break;
+            case 4:
+                hosszszab=35;
+                vastszab=5f;
+                break;
+            case 5:
+                hosszszab=38;
+                vastszab=6.2f;
+                break;
+            case 6:
+                hosszszab=38;
+                vastszab=6.2f;
+                break;
+        }
+
         p = Color.rgb(34,139,34);
         vízigény();
-
+        //v = x/vastszab;
     }
 
     public L init(boolean balra, int szint){
-        v = x/6;
+
         this.balra = balra;
         this.szint = szint;
+        return this;
+    }
+
+    public L init(boolean balra, int szint, int i){
+
+        this.balra = balra;
+        this.szint = szint;
+        hosszszab-=10;
         return this;
     }
 
@@ -37,29 +72,36 @@ public class L extends Növény {
 
 
         ép += Kender.getInstance().cukrozó(1);
-        if (Kender.getInstance().flowering){
 
-            if (Kender.getInstance().getRost() <= 0 ){
+
+        if (Kender.getInstance().getRost() <= 0 ){
             halál = "SUGAR STARVATION";
             ép--;
             }
-                else if(Kender.getInstance().nutes.N > Kender.getInstance().nutes.P){
-                halál = "NATRIUM BURN";
-                ép--;
-            }
 
-                else if(Kender.getInstance().nutes.K > 9 ){
-                halál = "POTASSIUM BURN";
-                ép--;
-            }
+        if(ép==0){
 
-                    else if (Kender.getInstance().nutes.P > 20){
-                halál = "PHOSPHORUS BURN";
-                ép--;
-            }
+            p=(Color.YELLOW);
 
-         }
+        }
 
+        if(Kender.getInstance().nutes.N > Kender.getInstance().nutes.P){
+            halál = "NATRIUM BURN";
+            p=(Color.argb(255,200,100,40));
+            ép--;
+        }
+
+        if(Kender.getInstance().nutes.K > 9 ){
+            halál = "POTASSIUM BURN";
+            p=(Color.argb(255,100,105,40));
+            ép--;
+        }
+
+        if (Kender.getInstance().nutes.P > 20){
+            halál = "PHOSPHORUS BURN";
+            p=(Color.argb(255,20,200,40));
+            ép--;
+        }
 
         if(sötétIdő>9){
             halál ="LIGHT DEPRIVATION";
@@ -81,7 +123,7 @@ public class L extends Növény {
 
     @Override
     public float vastagság() {
-       v=x/6;
+       v=x/vastszab;
         return v;
     }
 
@@ -107,7 +149,9 @@ public class L extends Növény {
         if(p== Color.YELLOW&&hjl<90)
             hjl+=10;
         else if(!Kender.getInstance().FF.beKapcs)
-            hjl=60;
+            hjl=68;
+        else if(hjl<61)
+            hjl++;
         if(balra)
             return Kender.getInstance().FF.irány-hjl;
         else return Kender.getInstance().FF.irány+hjl;
@@ -115,34 +159,19 @@ public class L extends Növény {
 
     @Override
     public int szín() {
-        if(ép==0){
-
-            p=(Color.YELLOW);
-        }else if(!Kender.getInstance().flowering
-                &&
-                Kender.getInstance().nutes.P>Kender.getInstance().nutes.N){
-            p=(Color.BLACK);
-            ép-=10;
-        }
-
-        else if(Kender.getInstance().flowering&&Kender.getInstance().nutes.P>20){
-            p=(Color.YELLOW);
-            ép--;
-        }
-
         return p;
     }
 
     private boolean fényFelvétel(){
         if(Kender.getInstance().FF.beKapcs&&p==Color.rgb(34,139,34)) {
             if(Kender.getInstance().FF.getKelvin()>4500&&!Kender.getInstance().flowering)
-            Kender.getInstance().fény+=Kender.getInstance().FF.getLux()/1000-(Kender.getInstance().Szintet()-szint);
+            Kender.getInstance().fény+=Kender.getInstance().FF.getLux()/(1000*(Kender.getInstance().Szintet()-szint));
             else
-            Kender.getInstance().fény++;
+            Kender.getInstance().fény+=(Kender.getInstance().Szintet()-szint)/10;
             if(Kender.getInstance().FF.getKelvin()<4000&&Kender.getInstance().flowering)
-            Kender.getInstance().fény+=Kender.getInstance().FF.getLux()/1000-(Kender.getInstance().Szintet()-szint);
+            Kender.getInstance().fény+=Kender.getInstance().FF.getLux()/(1000*(Kender.getInstance().Szintet()-szint));
             else
-            Kender.getInstance().fény++;
+            Kender.getInstance().fény+=(Kender.getInstance().Szintet()-szint)/10;
                 return true;
         }else {
             sötétIdő++;

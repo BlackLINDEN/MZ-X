@@ -74,8 +74,8 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     }
 
     private void bind(CardItem item, View view) {
-        TextView titleTextView = (TextView) view.findViewById(R.id.titleTextView);
-        TextView contentTextView = (TextView) view.findViewById(R.id.thc);
+        TextView titleTextView =  view.findViewById(R.id.titleTextView);
+        TextView contentTextView =  view.findViewById(R.id.thc);
         TextView yield = view.findViewById(R.id.yield);
         TextView gender = view.findViewById(R.id.gender);
         TextView strainType = view.findViewById(R.id.strainType);

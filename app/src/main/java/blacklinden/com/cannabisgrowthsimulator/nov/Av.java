@@ -1,6 +1,6 @@
 package blacklinden.com.cannabisgrowthsimulator.nov;
 
-import android.graphics.Paint;
+
 
 public class Av extends Növény {
     private int szint;

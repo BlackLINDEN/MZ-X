@@ -102,7 +102,7 @@ public class LService extends Service {
 
 
             al.add(new Gy());
-            al.add(new F().init(0));
+            al.add(new F(Kender.getInstance().getFajta()).init(0));
             al.add(new M());
             al.add(new H());
             al.add(new T());
@@ -214,7 +214,7 @@ public class LService extends Service {
 
                 A();
 
-                handler.postDelayed(oo, 1800);
+                handler.postDelayed(oo, 18000);
         }
     };
 
@@ -235,7 +235,7 @@ public class LService extends Service {
 
 
                         //oldalhajtás
-                if(Objects.equals(x.n,"X")&&x.fejl()==20&&x.szint()>=2&&x.szint()<8
+                if(Objects.equals(x.n,"X")&&x.fejl()==20&&x.szint()>=2&&x.szint()<12
                         &&!Kender.getInstance().verem.f.empty()&&!Kender.getInstance().verem.üreseMT()){
 
                         a.add(Kender.getInstance().verem.m.pop());
@@ -257,11 +257,14 @@ public class LService extends Service {
                            a.add(Kender.getInstance().verem.a.pop().init(0));
                         }
 
-                    else if (Objects.equals(x.n, "A")&& x.fejl()==x.szint()&&
+                    else if (Objects.equals(x.n, "A")&& x.fejl()==1&&
                         !Kender.getInstance().flowering&&
+
                                 !Kender.getInstance().verem.üreseValami()) {
 
-                        Kender.getInstance().levonas(x.szint()*10);
+
+
+                        //oldalhajtás-e
                     if(x.hossz()==1) {
                         a.add(Kender.getInstance().verem.m.pop());
                         a.add(Kender.getInstance().verem.f.pop().init(x.szint()));
@@ -281,10 +284,10 @@ public class LService extends Service {
                         a.add(Kender.getInstance().verem.t.pop());
 
                         a.add(Kender.getInstance().verem.m.pop());
-                        a.add(Kender.getInstance().verem.l.pop().init(true, x.szint()));
+                        a.add(Kender.getInstance().verem.l.pop().init(true, x.szint(),1));
                         a.add(Kender.getInstance().verem.t.pop());
                         a.add(Kender.getInstance().verem.m.pop());
-                        a.add(Kender.getInstance().verem.l.pop().init(false, x.szint()));
+                        a.add(Kender.getInstance().verem.l.pop().init(false, x.szint(), 1));
                         a.add(Kender.getInstance().verem.t.pop());
 
                     }
@@ -292,7 +295,6 @@ public class LService extends Service {
                 }
 
                     else if (Objects.equals(x.n, "F") && x.szint()>1 &&
-
                          Kender.getInstance().flowering
                                 &&!Kender.getInstance().verem.av.empty()) {
 
@@ -303,14 +305,18 @@ public class LService extends Service {
 
 
                         else if (Objects.equals(x.n, "F") && x.fejl() == 30 && x.szint()>0&&
+                        Kender.getInstance().getRost()>=x.szint()*10&&
                                 !Kender.getInstance().verem.a.empty()) {
 
+
+                            //légz() nem légzés itt
                             a.add(x);
                             x.vízigény();
                             if(x.légz()==0)
                             a.add(Kender.getInstance().verem.a.pop().init(x.szint()));
                             else if(x.légz()==1&&x.szint()<8)
                             a.add(Kender.getInstance().verem.a.pop().init(x.szint(),x.szög()));
+                    Kender.getInstance().levonas(x.szint()*10);
 
                 }
 
@@ -345,7 +351,7 @@ public class LService extends Service {
 
         }
 
-        private void vége(){
+        public void vége(){
             handler.removeCallbacks(oo);
 
 
@@ -408,6 +414,11 @@ public class LService extends Service {
 
         public int hullám () {
             return (int) Kender.getInstance().VV.getVÍZ_Mennyiség();
+        }
+
+        public void harvest(){
+        handler.post(oo);
+        szüretelve=true;
         }
 
     }

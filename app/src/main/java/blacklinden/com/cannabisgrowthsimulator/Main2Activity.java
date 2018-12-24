@@ -35,8 +35,10 @@ import blacklinden.com.cannabisgrowthsimulator.pojo.Termény;
 import blacklinden.com.cannabisgrowthsimulator.serv.Constants;
 import blacklinden.com.cannabisgrowthsimulator.serv.LService;
 import blacklinden.com.cannabisgrowthsimulator.ui.CardItem;
+import blacklinden.com.cannabisgrowthsimulator.ui.CardItem2;
 import blacklinden.com.cannabisgrowthsimulator.ui.CardPagerAdapter;
 
+import blacklinden.com.cannabisgrowthsimulator.ui.CardPagerAdapter2;
 import blacklinden.com.cannabisgrowthsimulator.ui.ShadowTransformer;
 import blacklinden.com.cannabisgrowthsimulator.ui.kolibri.Kolibri;
 
@@ -49,6 +51,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     private ViewPager mViewPager;
     private AnimationDrawable kolibri;
     private CardPagerAdapter mCardAdapter;
+    private CardPagerAdapter2 mCardAdapter2;
     private ShadowTransformer mCardShadowTransformer;
     private Kolibri kolibriAnimator;
     private ImageView kolibriTV;
@@ -56,6 +59,8 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Mentés.getInstance(this);
+
+
         if(Mentés.getInstance().getString(Mentés.Key.TRMS_LST,"o").equals("o")) {
             List<Termény> trmny = new ArrayList<>();
             String trm = Mentés.getInstance().gsonra(trmny);
@@ -84,9 +89,8 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         getWindowManager().getDefaultDisplay().getSize(point);
         final float w = point.x;
         kolibriAnimator = new Kolibri(w,kolibriTV);
-        if(Mentés.getInstance().getString(Mentés.Key.BELEP,"o").equals("o"))
+        if(Mentés.getInstance().getString(Mentés.Key.BELEP,"0").equals("0"))
             kolibriAnimator.setTutorial_e(true);
-        Mentés.getInstance().put(Mentés.Key.BELEP,"i");
         kolibriAnimator.run();
 
         mViewPager = findViewById(R.id.viewPager);
@@ -97,8 +101,14 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         mCardAdapter = new CardPagerAdapter();
         mCardAdapter.addCardItem(new CardItem(R.string.title_1, "15-17%","150gr/m2","11 weeks","Auto Hybrid","Feminised",R.drawable.gambi24));
         mCardAdapter.addCardItem(new CardItem(R.string.title_2, "17-20%","140gr/m2","14 weeks","Auto Hybrid","Feminised",R.drawable.dpam));
+        mCardAdapter.addCardItem(new CardItem(R.string.shit,"8-12%","200gr/m2","13 weeks","Auto Crap","Feminised",R.drawable.budbud));
+        mCardAdapter.addCardItem(new CardItem(R.string.blueb,"12-18%","200gr/m2","13 weeks","Auto Crap","Feminised",R.drawable.budbud));
+        mCardAdapter.addCardItem(new CardItem(R.string.title_northernlight,"13%","170gr/m2","15 weeks","Auto Indica","Feminised",R.drawable.budbud));
+        mCardAdapter.addCardItem(new CardItem(R.string.grapeape,"14%","180gr/m2","15 weeks","Auto Indica","Feminised",R.drawable.budbud));
 
-
+        mCardAdapter2 = new CardPagerAdapter2();
+        mCardAdapter2.addCardItem(new CardItem2(R.string.boxtitle,"textile",R.drawable.old_box));
+        mCardAdapter2.addCardItem(new CardItem2(R.string.boxtitle_1,"textile",R.drawable.old_box));
 
         mCardShadowTransformer = new ShadowTransformer(mViewPager, mCardAdapter);
 
@@ -108,10 +118,10 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         magv = findViewById(R.id.magv);
 
 
-        mViewPager.setAdapter(mCardAdapter);
+
         mViewPager.setPageTransformer(false, mCardShadowTransformer);
 
-        mViewPager.setCurrentItem(2);
+        mViewPager.setCurrentItem(3);
 
 
 
@@ -187,26 +197,22 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
 
     public void mag(View v){
-       checkService();
-    }
-
-    private void checkService(){
-        //Toast.makeText(this,isMyServiceRunning(this)+" Fut e a Szervíz:"+LService.IS_SERVICE_RUNNING,Toast.LENGTH_SHORT).show();
-
         if(!LService.IS_SERVICE_RUNNING) {
-
+            mViewPager.setAdapter(mCardAdapter);
             findViewById(R.id.start).setVisibility(View.GONE);
             mViewPager.setVisibility(View.VISIBLE);
             magv.setVisibility(View.GONE);
             findViewById(R.id.box).setVisibility(View.GONE);
             kolibriAnimator.flyTo(mViewPager);
-            Kender.getInstance().clear();
+            //Kender.getInstance().clear();
         }
         else {
             Toast.makeText(this,"Operation In-Progress",Toast.LENGTH_SHORT).show();
             kolibriAnimator.flyTo(magv);
         }
     }
+
+
 
 
     public void startSim(View v){
@@ -268,5 +274,32 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     public void stopTut(View v){
         kolibriAnimator.setTutorial_e(false);
         kolibriAnimator.run();
+    }
+
+    public void nyissBox(View v){
+
+        if(!LService.IS_SERVICE_RUNNING) {
+            mViewPager.setAdapter(mCardAdapter2);
+            findViewById(R.id.start).setVisibility(View.GONE);
+            mViewPager.setVisibility(View.VISIBLE);
+            magv.setVisibility(View.GONE);
+            findViewById(R.id.box).setVisibility(View.GONE);
+            kolibriAnimator.flyTo(mViewPager);
+            //Kender.getInstance().clear();
+        }
+        else {
+            Toast.makeText(this,"Operation In-Progress",Toast.LENGTH_SHORT).show();
+            kolibriAnimator.flyTo(findViewById(R.id.box),true);
+        }
+    }
+
+    public void setBox(View v){
+        Kender.getInstance().setBox(mViewPager.getCurrentItem()+1);
+        Toast.makeText(this,""+(mViewPager.getCurrentItem()+1),Toast.LENGTH_SHORT).show();
+        mViewPager.setVisibility(View.GONE);
+        magv.setVisibility(View.VISIBLE);
+        findViewById(R.id.box).setVisibility(View.VISIBLE);
+        findViewById(R.id.start).setVisibility(View.VISIBLE);
+        kolibriAnimator.flyTo(findViewById(R.id.shop));
     }
 }

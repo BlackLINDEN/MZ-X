@@ -24,7 +24,7 @@ public class PotHolder extends RecyclerView.ViewHolder {
 
     }
 
-    public void setDetails(Elem planet) {
+    void setDetails(Elem planet) {
         imageView.setImageDrawable(planet.getDrawable());
         txtName.setText(planet.getName());
         txtDistance.setText(String.format(Locale.US, "Volume : %s L", planet.getVolume()));

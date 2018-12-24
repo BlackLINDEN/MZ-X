@@ -69,7 +69,10 @@ public class Fény {
     }
 
     public float hőmérséklet(){
+        if(beKapcs)
         return (hőSötétben+(watt*égő.getHőszor_()));
+        else
+        return hőSötétben;
     }
 
 

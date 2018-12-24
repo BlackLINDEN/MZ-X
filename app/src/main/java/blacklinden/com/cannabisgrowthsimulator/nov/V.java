@@ -11,19 +11,15 @@ public class V extends Növény {
     private float ép;
     private float szög;
     private float x;
-    public V() {
+    private int fajta;
+    public V(int fajta) {
         super("V");
         p=Color.WHITE;
+        this.fajta=fajta;
         vízigény();
         x=1f;
     }
 
-    public V(float v) {
-        super("V");
-
-        vízigény();
-        x=v;
-    }
 
     @Override
     public void élet() {
