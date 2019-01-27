@@ -31,6 +31,7 @@ import java.util.List;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
 import blacklinden.com.cannabisgrowthsimulator.nov.Kender;
 import blacklinden.com.cannabisgrowthsimulator.pojo.Lamps;
+import blacklinden.com.cannabisgrowthsimulator.pojo.Stash;
 import blacklinden.com.cannabisgrowthsimulator.pojo.Termény;
 import blacklinden.com.cannabisgrowthsimulator.serv.Constants;
 import blacklinden.com.cannabisgrowthsimulator.serv.LService;
@@ -55,6 +56,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     private ShadowTransformer mCardShadowTransformer;
     private Kolibri kolibriAnimator;
     private ImageView kolibriTV;
+    public static final String[] sss = {"B1","B2","B3","B4","B5","B6"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +69,18 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             Mentés.getInstance().put(Mentés.Key.TRMS_LST,trm);
         }
 
+        if(Mentés.getInstance().getString(Mentés.Key.ERllT_LST,"o").equals("o")) {
+            List<Termény> trmny = new ArrayList<>();
+            String trm = Mentés.getInstance().gsonra(trmny);
+            Mentés.getInstance().put(Mentés.Key.ERllT_LST,trm);
+        }
+
+        if(Mentés.getInstance().getString(Mentés.Key.VGTRMK_LST,"o").equals("o")) {
+            List<Stash> trmny = new ArrayList<>();
+            String trm = Mentés.getInstance().gsonra(trmny);
+            Mentés.getInstance().put(Mentés.Key.VGTRMK_LST,trm);
+        }
+
         if(Mentés.getInstance().getString(Mentés.Key.TESZT_OBJ,"o").equals("o")){
             Lamps lamps = new Lamps("HPS Grow","HALOGEN",600,2500,10200,
                     R.drawable.avd_anim,R.drawable.narancs_csova);
@@ -76,6 +90,18 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             Mentés.getInstance().put(Mentés.Key.TESZT_OBJ,s);
             System.out.println("mentés");
         }
+
+        if(Mentés.getInstance().getInt(Mentés.Key.B6,0)==0) {
+          Mentés.getInstance().put(Mentés.Key.B6,1);
+
+        }
+
+        for (String ss : sss) {
+            Mentés.getInstance().put(Mentés.Key.valueOf(ss), 1);
+        }
+
+
+        Mentés.getInstance().put(Mentés.Key.SAMPLE_ZSETON,100);
 
 
         setContentView(R.layout.activity_main2);
@@ -199,6 +225,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     public void mag(View v){
         if(!LService.IS_SERVICE_RUNNING) {
             mViewPager.setAdapter(mCardAdapter);
+
             findViewById(R.id.start).setVisibility(View.GONE);
             mViewPager.setVisibility(View.VISIBLE);
             magv.setVisibility(View.GONE);
@@ -243,15 +270,24 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
 
 
-    public void setStrain(View v){
-    Kender.getInstance();
-    Kender.getInstance().fajta(mViewPager.getCurrentItem()+1);
-    Toast.makeText(this,""+(mViewPager.getCurrentItem()+1),Toast.LENGTH_SHORT).show();
+    public void setStrain(View v) {
+        if(Mentés.getInstance().getInt(Mentés.Key.valueOf(sss[mViewPager.getCurrentItem()]),0)>0){
+        Kender.getInstance();
+        Kender.getInstance().fajta(mViewPager.getCurrentItem() + 1);
+        Toast.makeText(this, "" + (mViewPager.getCurrentItem() + 1), Toast.LENGTH_SHORT).show();
+        kolibriAnimator.flyTo(findViewById(R.id.shop));
+    }else kolibriAnimator.flyTo(findViewById(R.id.seedsLeft),"You don't have this seed.");
+        
     mViewPager.setVisibility(View.GONE);
     magv.setVisibility(View.VISIBLE);
     findViewById(R.id.box).setVisibility(View.VISIBLE);
     findViewById(R.id.start).setVisibility(View.VISIBLE);
-    kolibriAnimator.flyTo(findViewById(R.id.shop));
+
+
+    /*int i = Mentés.getInstance().getInt(Mentés.Key.SAMPLE_ZSETON,0)-1;
+    Mentés.getInstance().put(Mentés.Key.SAMPLE_ZSETON,i);
+       */
+
     }
 
     @Override

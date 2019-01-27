@@ -16,9 +16,11 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 
 import android.util.Log;
+import android.widget.Toast;
 
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -41,10 +43,12 @@ import blacklinden.com.cannabisgrowthsimulator.nov.Gy;
 import blacklinden.com.cannabisgrowthsimulator.nov.H;
 import blacklinden.com.cannabisgrowthsimulator.nov.Kender;
 
+import blacklinden.com.cannabisgrowthsimulator.nov.L;
 import blacklinden.com.cannabisgrowthsimulator.nov.Növény;
 
 import blacklinden.com.cannabisgrowthsimulator.nov.menttolt.M;
 import blacklinden.com.cannabisgrowthsimulator.nov.menttolt.T;
+import blacklinden.com.cannabisgrowthsimulator.parse.ParseUtil;
 import blacklinden.com.cannabisgrowthsimulator.pojo.Termény;
 
 public class LService extends Service {
@@ -57,12 +61,14 @@ public class LService extends Service {
     private IBinder binderem = new Binderem();
     public static volatile boolean IS_SERVICE_RUNNING = false;
     private Notif notif;
+    private Notification notification;
 
     public volatile boolean szüretelve=false;
     public volatile boolean halott;
     private Thread lthread;
     private C bC,jC;
     private ArrayList<Növény> a;
+    private ParseUtil parseUtil;
 
     public LService() {
 
@@ -82,24 +88,7 @@ public class LService extends Service {
     @Override
     public void onCreate() {
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            notif = new Notif(this);
-            Intent notificationIntent = new Intent(this, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-                    notificationIntent, 0);
-            Notification.Builder nb = notif.
-                    getAndroidChannelNotification("GROWBOX", "Grow Operation In-Progress");
-            nb.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.kendericon));
-            nb.setSmallIcon(R.mipmap.type_simbol);
-            nb.setContentIntent(pendingIntent);
-
-            notif.getManager().notify(101, nb.build());
-
-            startForeground(101,
-                    nb.build());
-
-        }
-
+        notificationForO("In Progress");
 
             al.add(new Gy());
             al.add(new F(Kender.getInstance().getFajta()).init(0));
@@ -111,8 +100,32 @@ public class LService extends Service {
         jC = new C(false);
 
         lthread = new Thread(oo);
+        lthread.setPriority(Thread.MAX_PRIORITY);
         //lthread.setDaemon(true);
 
+        parseUtil = new ParseUtil();
+
+
+    }
+
+    private void notificationForO(String uzenet){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notif = new Notif(this);
+            Intent notificationIntent = new Intent(this, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                    notificationIntent, 0);
+            Notification.Builder nb = notif.
+                    getAndroidChannelNotification("GROWBOX", uzenet);
+            nb.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.kendericon));
+            nb.setSmallIcon(R.mipmap.type_simbol);
+            nb.setContentIntent(pendingIntent);
+
+            notif.getManager().notify(101, nb.build());
+
+            startForeground(101,
+                    nb.build());
+
+        }
 
     }
 
@@ -127,7 +140,7 @@ public class LService extends Service {
             switch ((Objects.requireNonNull(intent.getAction()))) {
                 case Constants.ACTION.STARTFOREGROUND_ACTION:
                     Log.i("log ", "Received Start Foreground Intent ");
-                    showNotification();
+                    showNotification("In Progress");
 
 
                     break;
@@ -149,7 +162,7 @@ public class LService extends Service {
 
     }
 
-    private void showNotification() {
+    private void showNotification(String uzenet) {
         Intent notificationIntent = new Intent(this, MainActivity.class);
         notificationIntent.setAction(Constants.ACTION.MAIN_ACTION);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
@@ -165,11 +178,11 @@ public class LService extends Service {
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
 
 
-            Notification notification = new Notification.Builder(this)
+            notification = new Notification.Builder(this)
                     .setContentTitle("GROWBOX")
 
                     .setTicker("Grow Operation")
-                    .setContentText("In-Progress")
+                    .setContentText(uzenet)
                     .setSmallIcon(R.mipmap.type_simbol)
                     .setLargeIcon(icon)
                     .setContentIntent(pendingIntent)
@@ -197,6 +210,8 @@ public class LService extends Service {
         IS_SERVICE_RUNNING=false;
 
 
+        Toast.makeText(this,"IM DEAD =(",Toast.LENGTH_SHORT).show();
+
 
     }
 
@@ -214,7 +229,7 @@ public class LService extends Service {
 
                 A();
 
-                handler.postDelayed(oo, 18000);
+                handler.postDelayed(oo, 1800);
         }
     };
 
@@ -358,6 +373,14 @@ public class LService extends Service {
             System.out.println("<<<<<<||::.VÉGE.::||>>>>>>");
 
             halott=Kender.getInstance().halott_e;
+
+            if(halott){
+                showNotification("Your Plant Died");
+                notificationForO("Your Plant Died");
+            }else{
+                showNotification("Auto Harvest");
+                notificationForO("Auto Harvest");
+            }
             //saveWeed();
             stopIt=true;
             stopForeground(false);
@@ -366,12 +389,14 @@ public class LService extends Service {
         }
 
         public void saveWeed(){
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().create();
             Type tList = new TypeToken<ArrayList<Termény>>(){}.getType();
             List<Termény> termenyList = gson.fromJson(Mentés.getInstance().getString(Mentés.Key.TRMS_LST),tList);
-            termenyList.add(new Termény(hányGrammLett(),Kender.getInstance().getFajta(),15,1));
+
+            termenyList.add(new Termény(darabraMennyi(),hányGrammLett(),Kender.getInstance().getFajta(),15,1));
             String ment = Mentés.getInstance().gsonra(termenyList);
             Mentés.getInstance().put(Mentés.Key.TRMS_LST,ment);
+
         }
 
 
@@ -386,6 +411,16 @@ public class LService extends Service {
             if(gramm==0) return gramm;
             else
             return gramm/100;
+        }
+
+        private int darabraMennyi(){
+        int i=0;
+        for(Növény x:al){
+            if (Objects.equals(x.n, "V")) {
+                i++;
+            }
+        }
+        return i;
         }
 
         @Nullable
@@ -417,8 +452,14 @@ public class LService extends Service {
         }
 
         public void harvest(){
-        handler.post(oo);
         szüretelve=true;
+        handler.post(oo);
+
+        }
+
+        public void trim(){
+        handler.post(oo);
+            al.remove(L.class);
         }
 
     }

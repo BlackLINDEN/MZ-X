@@ -123,7 +123,7 @@ public class F extends Növény {
     @Override
     public void élet() {
 
-        ép+=Kender.getInstance().cukrozó(lerp(1,5));
+        ép+=Kender.getInstance().cukrozó(lerp(1,10));
 
         //if(Kender.getInstance().getRost()<=0&&Kender.getInstance().getCukor()<=0) ép--;
         //if(Kender.getInstance().nutrition.N>16&&Kender.getInstance().flowering) ép --;

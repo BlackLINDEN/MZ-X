@@ -48,7 +48,7 @@ public class Ventil extends RelativeLayout  {
 
         });
 
-        animationThread.start();
+        //animationThread.start();
 
     }
 

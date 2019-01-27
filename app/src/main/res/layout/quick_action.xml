@@ -1,25 +1,251 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_custom_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="2dp"
-    android:background="#ab2fc4"
-    >
-    <ImageButton
-        android:id="@+id/ib_close"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#e8f8f8ff"
+    android:padding="5dp">
+
+
+    <LinearLayout
+        android:id="@+id/ll1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_done_black_24dp"
-        android:layout_alignParentEnd="true"
-        android:background="@null"
-        />
-    <TextView
-        android:id="@+id/quick_tv"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableTop="@drawable/ic_water"
+                android:elevation="5dp"
+                android:text="H2O"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+            <com.budiyev.android.circularprogressbar.CircularProgressBar
+                android:id="@+id/water"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                app:animateProgress="true"
+                app:backgroundStrokeColor="#000000"
+                app:backgroundStrokeWidth="1dp"
+                app:drawBackgroundStroke="false"
+                app:foregroundStrokeCap="butt"
+                app:foregroundStrokeColor="#29b6f6"
+                app:foregroundStrokeWidth="3dp"
+                app:indeterminate="false"
+                app:indeterminateMinimumAngle="45"
+                app:indeterminateRotationAnimationDuration="1200"
+                app:indeterminateSweepAnimationDuration="600"
+                app:maximum="600"
+                app:progress="5"
+                app:progressAnimationDuration="100"
+                app:startAngle="100" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableTop="@drawable/ic_sugar"
+                android:elevation="5dp"
+                android:text="Sugar"
+
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+            <com.budiyev.android.circularprogressbar.CircularProgressBar
+                android:id="@+id/sugar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                app:animateProgress="true"
+                app:backgroundStrokeColor="#000000"
+                app:backgroundStrokeWidth="1dp"
+                app:drawBackgroundStroke="false"
+                app:foregroundStrokeCap="butt"
+                app:foregroundStrokeColor="#29b6f6"
+                app:foregroundStrokeWidth="3dp"
+                app:indeterminate="false"
+                app:indeterminateMinimumAngle="45"
+                app:indeterminateRotationAnimationDuration="1200"
+                app:indeterminateSweepAnimationDuration="600"
+                app:maximum="100000"
+                app:progress="5"
+                app:progressAnimationDuration="100"
+                app:startAngle="100" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableTop="@drawable/ic_starch"
+                android:elevation="5dp"
+                android:text="Starch"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+            <com.budiyev.android.circularprogressbar.CircularProgressBar
+                android:id="@+id/starch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                app:animateProgress="true"
+                app:backgroundStrokeColor="#000000"
+                app:backgroundStrokeWidth="1dp"
+                app:drawBackgroundStroke="false"
+                app:foregroundStrokeCap="butt"
+                app:foregroundStrokeColor="#29b6f6"
+                app:foregroundStrokeWidth="3dp"
+                app:indeterminate="false"
+                app:indeterminateMinimumAngle="45"
+                app:indeterminateRotationAnimationDuration="1200"
+                app:indeterminateSweepAnimationDuration="600"
+                app:maximum="10000"
+                app:progress="5"
+                app:progressAnimationDuration="100"
+                app:startAngle="100" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:padding="25sp"
-        />
+        android:layout_below="@+id/ll1"
+        android:layout_centerHorizontal="true">
+
+        <FrameLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/uveg_ripple"
+                android:elevation="5dp"
+                android:text="N"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+            <com.budiyev.android.circularprogressbar.CircularProgressBar
+                android:id="@+id/natrium"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                app:animateProgress="true"
+                app:backgroundStrokeColor="#000000"
+                app:backgroundStrokeWidth="1dp"
+                app:drawBackgroundStroke="false"
+                app:foregroundStrokeCap="butt"
+                app:foregroundStrokeColor="#29f6b8"
+                app:foregroundStrokeWidth="3dp"
+                app:indeterminate="false"
+                app:indeterminateMinimumAngle="45"
+                app:indeterminateRotationAnimationDuration="1200"
+                app:indeterminateSweepAnimationDuration="600"
+                app:maximum="30"
+                app:progress="0"
+                app:progressAnimationDuration="100"
+                app:startAngle="100" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/uveg_ripple"
+                android:elevation="5dp"
+                android:text="P"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+            <com.budiyev.android.circularprogressbar.CircularProgressBar
+                android:id="@+id/foszfor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                app:animateProgress="true"
+                app:backgroundStrokeColor="#000000"
+                app:backgroundStrokeWidth="1dp"
+                app:drawBackgroundStroke="false"
+                app:foregroundStrokeCap="butt"
+                app:foregroundStrokeColor="#eafb2d"
+                app:foregroundStrokeWidth="3dp"
+                app:indeterminate="false"
+                app:indeterminateMinimumAngle="45"
+                app:indeterminateRotationAnimationDuration="1200"
+                app:indeterminateSweepAnimationDuration="600"
+                app:maximum="30"
+                app:progress="0"
+                app:progressAnimationDuration="100"
+                app:startAngle="100" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/uveg_ripple"
+                android:elevation="5dp"
+                android:text="K"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+            <com.budiyev.android.circularprogressbar.CircularProgressBar
+                android:id="@+id/kalium"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                app:animateProgress="true"
+                app:backgroundStrokeColor="#000000"
+                app:backgroundStrokeWidth="1dp"
+                app:drawBackgroundStroke="false"
+                app:foregroundStrokeCap="butt"
+                app:foregroundStrokeColor="#c7cf78"
+                app:foregroundStrokeWidth="3dp"
+                app:indeterminate="false"
+                app:indeterminateMinimumAngle="45"
+                app:indeterminateRotationAnimationDuration="1200"
+                app:indeterminateSweepAnimationDuration="600"
+                app:maximum="30"
+                app:progress="0"
+                app:progressAnimationDuration="100"
+                app:startAngle="100" />
+        </FrameLayout>
+    </LinearLayout>
+
+
 </RelativeLayout>

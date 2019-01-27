@@ -26,6 +26,7 @@ public class StarchView extends View {
     private int fontSize;
     private int armTrunc;
     private boolean init_e=false;
+    private float humid;
 
 
     public StarchView(Context context) {
@@ -42,6 +43,7 @@ public class StarchView extends View {
 
     private void init(){
         paint = new Paint();
+        paint.setColor(Color.BLACK);
         numeralSpacing=0;
         h=getHeight();
         w=getWidth();
@@ -50,7 +52,7 @@ public class StarchView extends View {
                 13,getResources().getDisplayMetrics());
         int min=Math.min(h,w);
         armTrunc=min/20;
-        radius=(int)(min/2-padding);
+        radius=(int)(min-padding);
         init_e=true;
 
 
@@ -62,9 +64,9 @@ public class StarchView extends View {
         super.onDraw(c);
         if(!init_e)init();
 
-        drawCircle(c);
+        //drawCircle(c);
         drawArms(c);
-        postInvalidateDelayed(500);
+       // postInvalidateDelayed(500);
     }
 
     @Override
@@ -74,7 +76,7 @@ public class StarchView extends View {
 
     private void drawCircle(Canvas c){
         paint.reset();
-        paint.setColor(Color.WHITE);
+        paint.setColor(Color.BLACK);
         paint.setStrokeWidth(5);
         paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);
@@ -83,7 +85,7 @@ public class StarchView extends View {
     }
 
     private void drawArm(Canvas c,double loc){
-        double angle=Math.PI*loc/1000+Math.PI/2;
+        double angle=Math.PI*loc+Math.PI/2;
         int armRadius=radius-armTrunc;
         c.drawLine(w/2,h/2,
                 (float)(w/2+Math.cos(angle)*armRadius),
@@ -93,12 +95,12 @@ public class StarchView extends View {
 
     private void drawArms(Canvas c){
 
-        drawArm(c, Kender.getInstance().VV.getVÍZ_Mennyiség());
+        drawArm(c, humid);
 
     }
 
-    public void setPaint(){
-        paint.setColor(Color.BLUE);
+    public void loc(float humid){
+        this.humid=humid*1000;
+        postInvalidate();
     }
-
 }

@@ -34,10 +34,10 @@ import blacklinden.com.cannabisgrowthsimulator.nov.menttolt.M;
 public class CanvasView extends View {
 
 
-
+    private int ism;
         private Bitmap mBitmap;
         Teknős t;
-        private int ism;
+
     float delta_theta=0f;
     private float metrix;
     Paint paint;
@@ -53,7 +53,7 @@ public class CanvasView extends View {
             paint.setTextSize(40);
             AL = new ArrayList<>();
 
-            t = new Teknős(c,metrix/59);
+            t = new Teknős(c);
 
         }
 
@@ -75,7 +75,7 @@ public class CanvasView extends View {
 
 
 
-
+        //
         public void T(Canvas c,ArrayList<Növény> a){
 
             //
@@ -85,11 +85,12 @@ public class CanvasView extends View {
 
             for (Növény ch : a) {
 
+
                 switch (ch.n) {
                     case "F":
                     case "X":
                         c.rotate(ch.szög(), (float) t.x, (float) t.y);
-                        t.előreRajz(ch.vastagság()*(metrix/59),-ch.hossz()*(metrix/59), c, ch.szín(), ism);
+                        t.előreRajz(ch.vastagság()*(metrix/59),-ch.hossz()*(metrix/59), c,ch.szín(), ism);
                         break;
 
                     case "H":
@@ -123,7 +124,7 @@ public class CanvasView extends View {
 
                             t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                             c.rotate(ch.szög(), (float) t.x, (float) t.y);
-                            t.levElRajz(ch.vastagság()*(metrix/59),-ch.hossz()*(metrix/59), c, ch.szín());
+                            t.levElRajz(ch.vastagság()*(metrix/59),-ch.hossz()*(metrix/59), c,ch.szín());
                             t.betöltés(c);
 
                         }else {

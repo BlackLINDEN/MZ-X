@@ -25,8 +25,18 @@ public class Mentés {
     public enum Key {
 
         TRMS_LST,
+        ERllT_LST,
+        VGTRMK_LST,
+        PARATART,
         TESZT_OBJ,
         SAMPLE_SZINT,
+        SAMPLE_ZSETON,
+        B1,
+        B2,
+        B3,
+        B4,
+        B5,
+        B6,
         SAMPLE_STR,
         SAMPLE_CAN,
         SAMPLE_INT,
@@ -67,6 +77,7 @@ public class Mentés {
         mEditor.putString(key.name(), val);
         doCommit();
     }
+
 
     public void put(Key key, int val) {
         doEdit();

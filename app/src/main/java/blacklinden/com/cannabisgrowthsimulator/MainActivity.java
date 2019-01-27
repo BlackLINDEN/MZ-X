@@ -48,11 +48,20 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.budiyev.android.circularprogressbar.CircularProgressBar;
+import com.github.alexjlockwood.kyrie.KyrieDrawable;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import blacklinden.com.cannabisgrowthsimulator.canvas.CanvasView;
@@ -63,6 +72,7 @@ import blacklinden.com.cannabisgrowthsimulator.eszk.StarchView;
 import blacklinden.com.cannabisgrowthsimulator.eszk.ThermoView;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Ventil;
 import blacklinden.com.cannabisgrowthsimulator.nov.Kender;
+import blacklinden.com.cannabisgrowthsimulator.pojo.Termény;
 import blacklinden.com.cannabisgrowthsimulator.serv.LService;
 import blacklinden.com.cannabisgrowthsimulator.ui.kolibri.Kolibri;
 
@@ -87,9 +97,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private PopupWindow quickAction;
     private ImageView tapeta;
     private TypedValue outValue;
-    private AnimatedVectorDrawable vectorDrawable;
+    private KyrieDrawable vectorDrawable;
     private Kolibri kolibriAnimator;
     private ImageView ivLC;
+    private LayoutInflater inflater;
+    private View customView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -203,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         kanna.setImageDrawable(getDrawable(Kender.getInstance().VV.setDrawCode()));
         cserép.setImageDrawable(getDrawable(Kender.getInstance().CC.setDrawableCode()));
         táp.setImageDrawable(getDrawable(Kender.getInstance().nutes.setDrawCode()));
-        vectorDrawable = (AnimatedVectorDrawable) getDrawable(Kender.getInstance().FF.setDrawCode(""));
+        vectorDrawable = KyrieDrawable.create( this, Kender.getInstance().FF.setDrawCode(""));
         if (Kender.getInstance().FF.setDrawCode("") == R.drawable.yellow_hps)
             bulb.setRotation(90);
         else bulb.setRotation(180);
@@ -226,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
 
         fátyol = findViewById(R.id.fatyol);
-        fátyol.setImageDrawable(getDrawable(Kender.getInstance().FF.setDrawCode(1)));
+        //fátyol.setImageDrawable(getDrawable(Kender.getInstance().FF.setDrawCode(1)));
         polc = findViewById(R.id.polc);
 
         ventilObj = findViewById(R.id.ventil);
@@ -277,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         kanna.setImageDrawable(getDrawable(Kender.getInstance().VV.setDrawCode()));
         cserép.setImageDrawable(getDrawable(Kender.getInstance().CC.setDrawableCode()));
         táp.setImageDrawable(getDrawable(Kender.getInstance().nutes.setDrawCode()));
-        vectorDrawable = (AnimatedVectorDrawable) getDrawable(Kender.getInstance().FF.setDrawCode(""));
+        vectorDrawable = KyrieDrawable.create( this, Kender.getInstance().FF.setDrawCode(""));
         if (Kender.getInstance().FF.beKapcs) {
             vectorDrawable.start();
             tapeta.getBackground().clearColorFilter();
@@ -295,10 +308,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     public void cserépGomb(View v) {
         if (quickAction == null) {
             // Initialize a new instance of LayoutInflater service
-            LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+
+            if(inflater==null)
+                inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
 
             // Inflate the custom layout/view
-            View customView = inflater.inflate(R.layout.quick_action
+            assert inflater != null;
+            customView = inflater.inflate(R.layout.quick_action
                     , null);
 
                 /*
@@ -325,20 +341,36 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             quickAction.setElevation(5.0f);
 
 
-            TextView quickText = customView.findViewById(R.id.quick_tv);
-            quickText.setText("water " + Kender.getInstance().VV.getVÍZ_Mennyiség()
-                    + "\nSugar " + Kender.getInstance().getCukor() + "\nStarch" + Kender.getInstance().getRost()
-                    + "\nNatrium " + Kender.getInstance().nutes.N + "\nPhosphorus " +
-                    Kender.getInstance().nutes.P
-                    + "\nPotassium " + Kender.getInstance().nutes.K);
-
 
             quickAction.showAtLocation(cserép, Gravity.CENTER, 0, 0);
         } else {
             quickAction.dismiss();
             quickAction = null;
         }
+        kwikkEksn();
     }
+    private void kwikkEksn(){
+
+
+        if(customView!=null) {
+
+            ((CircularProgressBar) customView.findViewById(R.id.water)).setProgress(Kender.getInstance().VV.getVÍZ_Mennyiség());
+
+            ((CircularProgressBar) customView.findViewById(R.id.sugar)).setProgress(Kender.getInstance().getCukor());
+
+            ((CircularProgressBar) customView.findViewById(R.id.starch)).setProgress(Kender.getInstance().getRost());
+
+            ((CircularProgressBar) customView.findViewById(R.id.natrium)).setProgress(Kender.getInstance().nutes.N);
+
+            ((CircularProgressBar) customView.findViewById(R.id.foszfor)).setProgress(Kender.getInstance().nutes.P);
+
+            ((CircularProgressBar) customView.findViewById(R.id.kalium)).setProgress(Kender.getInstance().nutes.K);
+
+
+        }
+    }
+
+
 
 
     private void clearCanvas() {
@@ -361,7 +393,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             kolibriAnimator.flyTo(kanna);
         } else if (fátyol.getVisibility() == View.VISIBLE && !vectorDrawable.isRunning()) {
             fátyol.setVisibility(View.GONE);
-            vectorDrawable.reset();
+            vectorDrawable.stop();
             tapeta.getBackground().setColorFilter(this.getColor(R.color.cardview_dark_background),PorterDuff.Mode.MULTIPLY);
             tapeta.getDrawable().setColorFilter(this.getColor(R.color.cardview_dark_background),PorterDuff.Mode.MULTIPLY);
             bulb.setBackgroundResource(outValue.resourceId);
@@ -398,6 +430,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             dialog.dismiss();
         }
 
+        kolibriAnimator.dispose();
+
 
 
 
@@ -432,7 +466,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                     canvasView.told(lService.al, lService.ism);
 
-
+            if(quickAction!=null)kwikkEksn();
 
 
                             napTV.setText(String.valueOf(lService.ism / 6));
@@ -472,9 +506,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                             dialog.show();
                         }
 
-                        lService.saveWeed();
+                        //lService.saveWeed();
 
-                    } else h.postDelayed(this, 18000);
+                    } else h.postDelayed(this, 1800);
 
 
         }
@@ -566,6 +600,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 if(clipData.equals("Plant the seed")) {
                     lService.startThread();
                     gong.start();
+                    int i = Mentés.getInstance().getInt(Mentés.Key.valueOf(Main2Activity.sss[Kender.getInstance().getFajta()-1]))-1;
+                    Mentés.getInstance().put(Mentés.Key.valueOf(Main2Activity.sss[Kender.getInstance().getFajta()-1]),i);
                 }
                 else if(clipData.equals("tap1")){
                     nutriGoo.start();
@@ -603,6 +639,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         //lService.szüretelve=true;
         //findViewById(R.id.ollo).setVisibility(View.GONE);
         lService.harvest();
+    }
+
+    public void saveWeed(View v){
+        Gson gson = new GsonBuilder().create();
+        Type tList = new TypeToken<ArrayList<Termény>>(){}.getType();
+        List<Termény> termenyList = gson.fromJson(Mentés.getInstance().getString(Mentés.Key.TRMS_LST),tList);
+        if(termenyList.size()<3)
+        lService.saveWeed();
+        else v.setBackgroundColor(Color.RED);
     }
 
     public void nyissMenut(View v){

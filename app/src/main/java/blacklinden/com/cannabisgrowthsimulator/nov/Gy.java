@@ -20,7 +20,7 @@ public class Gy extends Növény {
                 Kender.getInstance().causeofdeath += "\n ROOT ROT";
                 Kender.getInstance().halott_e = true;
             }
-        }else if(szomj>60&&!Kender.getInstance().causeofdeath.contains("\n DEHYDRATION"))
+        }else if(szomj>15&&!Kender.getInstance().causeofdeath.contains("\n DEHYDRATION"))
             Kender.getInstance().causeofdeath += "\n DEHYDRATION";
         vízigény();
         légz();
@@ -62,9 +62,15 @@ public class Gy extends Növény {
                 )
         );
 
-        if(Kender.getInstance().VV.getVÍZ_Mennyiség()<=0)
+        if(Kender.getInstance().VV.getVÍZ_Mennyiség()<=0) {
             szomj++;
-        else if(Kender.getInstance().VV.getVÍZ_Mennyiség()>20) szomj=0;
+            Kender.getInstance().cukrozó(100*Kender.getInstance().Szintet());
+            Kender.getInstance().FF.setIrány();
+        }
+        else if(Kender.getInstance().VV.getVÍZ_Mennyiség()>20) {
+            szomj = 0;
+            Kender.getInstance().FF.setIrány(2);
+        }
         return 0;
     }
 
@@ -101,8 +107,10 @@ public class Gy extends Növény {
         if(Kender.getInstance().VV.getVÍZ_Mennyiség()+Kender.getInstance().CC.waterRunoff<100)
         Kender.getInstance().CO2(Kender.getInstance().LL.getCO2()/2);
 
-        else
+        else {
             fullad++;
+            Kender.getInstance().cukrozó(10);
+        }
         return 0;
     }
 

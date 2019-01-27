@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.LinearGradient;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathDashPathEffect;
@@ -42,16 +43,15 @@ public class Teknős  {
     private Paint mag;
     private Shader sSzr;
     private Bitmap kenderTeszt,mutableBitmap;
-    private VectorDrawable vd;
+
     private KyrieDrawable kd;
 
-    public Teknős(Context context,float metrix) {
+    public Teknős(Context context) {
 
 
-        Bitmap bitmapA = BitmapFactory.decodeResource(
-                context.getResources(), R.drawable.kndr_szr);
-        kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
-        mutableBitmap = kenderTeszt.copy(Bitmap.Config.ARGB_8888, true);
+        //Bitmap bitmapA = BitmapFactory.decodeResource(context.getResources(), R.drawable.kndr_szr);
+
+
         //mutableBitmap.setHeight(10);
 
 
@@ -60,46 +60,55 @@ public class Teknős  {
         mag.setColor(Color.rgb(222,184,135));
         mag.setStyle(Paint.Style.FILL);
 
-        sSzr = new BitmapShader(bitmapA,
+        sSzr = new BitmapShader(BitmapFactory.decodeResource(
+                context.getResources(), R.drawable.kndr_szr),
                 Shader.TileMode.REPEAT
                 , Shader.TileMode.MIRROR);
+
 
         switch (Kender.getInstance().getFajta()) {
             case 1:
                 kd = KyrieDrawable.create(context, R.drawable.laci_levele);
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
                 break;
             case 2:
                 kd = KyrieDrawable.create(context, R.drawable.ic_haze_leaf);
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud);
                 break;
             case 3:
                 kd = KyrieDrawable.create(context, R.drawable.ic_yugo_skunk);
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
                 break;
             case 4:
                 kd = KyrieDrawable.create(context,R.drawable.ic_blue_berry);
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
                 break;
             case 5:
                 kd = KyrieDrawable.create(context,R.drawable.ic_northern_light);
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
                 break;
             case 6:
                 kd = KyrieDrawable.create(context,R.drawable.ic_grape_ape);
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
                 break;
         }
-        Path path = new Path();
-        path.setFillType(Path.FillType.WINDING);
 
 
-        Shader shader1 = new BitmapShader(
-                BitmapFactory.decodeResource(
-                        context.getResources(),
-                        R.drawable.lvlrezet),
-                Shader.TileMode.CLAMP,
-                Shader.TileMode.CLAMP);
+
+        mutableBitmap = kenderTeszt.copy(Bitmap.Config.ARGB_8888, true);
 
         levél = new Paint();
         levél.setAntiAlias(true);
         levél.setStyle(Paint.Style.FILL_AND_STROKE);
-        levél.setShader(shader1);
+        levél.setColor(Color.GREEN);
         szár = new Paint();
+
+    }
+
+    public Teknős(){
+       /* kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
+        mutableBitmap = kenderTeszt.copy(Bitmap.Config.ARGB_8888, true);
+        */
 
     }
 
@@ -139,6 +148,40 @@ public class Teknős  {
         canvas.drawBitmap(mutableBitmap,(float)x-mutableBitmap.getWidth()/2,(float)y-mutableBitmap.getHeight(),null);
 
 
+    }
+    //kicsicanvas
+    public void terményRajz(Context context, Canvas c,int w, int h, int fajta,int mennyi){
+        Bitmap bitmap = rotateBitmap(flowerStrain(context,fajta),ThreadLocalRandom.current().nextInt(1,270));
+        int height_bounds_controller = mennyi<50?(h/2):h-bitmap.getHeight();
+        int x = ThreadLocalRandom.current().nextInt(0, w-bitmap.getWidth());
+        int y = ThreadLocalRandom.current().nextInt(3, height_bounds_controller);
+
+        c.drawBitmap(bitmap,x,y,null);
+
+    }
+
+    public void terményRajz(Context context, Canvas c,int w, int h,int hCont, int fajta,int mennyi){
+        Bitmap bitmap = rotateBitmap(flowerStrain(context,fajta),ThreadLocalRandom.current().nextInt(1,270));
+        int height_bounds_controller = h-bitmap.getHeight();
+        int x = ThreadLocalRandom.current().nextInt(0, w-bitmap.getWidth());
+        int y = ThreadLocalRandom.current().nextInt(hCont, height_bounds_controller);
+
+        c.drawBitmap(bitmap,x,y,null);
+
+    }
+
+    private Bitmap flowerStrain(Context context,int fajta){
+        switch (fajta){
+            case 1: return BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
+            default: return BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud);
+        }
+    }
+
+    private Bitmap rotateBitmap(Bitmap source, float angle)
+    {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
     public void levElRajz(float vast, double step, Canvas canvas) {

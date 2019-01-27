@@ -2,29 +2,27 @@ package blacklinden.com.cannabisgrowthsimulator.eszk;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
-
 import blacklinden.com.cannabisgrowthsimulator.R;
 
-public class AlsFiok extends LinearLayout {
+public class StashFiok extends LinearLayout {
 
-    StarchView starchView;
 
-    public AlsFiok(Context context) {
+
+    public StashFiok(Context context) {
         super(context);
         init(context);
     }
 
-    public AlsFiok(Context context, AttributeSet attrs) {
+    public StashFiok(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public AlsFiok(Context context, AttributeSet attrs, int defStyleAttr) {
+    public StashFiok(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
@@ -35,9 +33,13 @@ public class AlsFiok extends LinearLayout {
         //setBackgroundResource(R.drawable.darazs_also);
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.als_fiok, this);
-        starchView = findViewById(R.id.starchView);
+        inflater.inflate(R.layout.stash_fiok, this);
 
+
+    }
+
+    public void setHttr(int id){
+        setBackgroundResource(id);
     }
 
 

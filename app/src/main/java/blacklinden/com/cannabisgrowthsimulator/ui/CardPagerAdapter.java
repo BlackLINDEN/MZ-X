@@ -12,7 +12,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import blacklinden.com.cannabisgrowthsimulator.Main2Activity;
 import blacklinden.com.cannabisgrowthsimulator.R;
+import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
 
 public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
 
@@ -55,7 +57,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
         View view = LayoutInflater.from(container.getContext())
                 .inflate(R.layout.adapter, container, false);
         container.addView(view);
-        bind(mData.get(position), view);
+        bind(mData.get(position), view,position);
         CardView cardView = (CardView) view.findViewById(R.id.cardView);
 
         if (mBaseElevation == 0) {
@@ -64,6 +66,11 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
 
         cardView.setMaxCardElevation(mBaseElevation * MAX_ELEVATION_FACTOR);
         mViews.set(position, cardView);
+
+        view.setTag(position);
+
+
+
         return view;
     }
 
@@ -73,7 +80,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
         mViews.set(position, null);
     }
 
-    private void bind(CardItem item, View view) {
+    private void bind(CardItem item, View view,int position) {
         TextView titleTextView =  view.findViewById(R.id.titleTextView);
         TextView contentTextView =  view.findViewById(R.id.thc);
         TextView yield = view.findViewById(R.id.yield);
@@ -81,6 +88,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
         TextView strainType = view.findViewById(R.id.strainType);
         TextView flower = view.findViewById(R.id.flower);
         ImageView imageView = view.findViewById(R.id.titleImage);
+        TextView darab = view.findViewById(R.id.seedsLeft);
         titleTextView.setText(item.getTitle());
         contentTextView.setText(item.getThc());
         yield.setText(item.getYield());
@@ -88,6 +96,9 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
         strainType.setText(item.getStrainType());
         flower.setText(item.getFlower());
         imageView.setImageResource(item.getPic());
+
+        darab.setText(Integer.toString(Mentés.getInstance().getInt(Mentés.Key.valueOf(Main2Activity.sss[position]),0)));
+
     }
 
 

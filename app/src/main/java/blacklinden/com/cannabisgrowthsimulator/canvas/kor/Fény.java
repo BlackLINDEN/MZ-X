@@ -3,6 +3,7 @@ package blacklinden.com.cannabisgrowthsimulator.canvas.kor;
 
 import android.graphics.drawable.Drawable;
 
+import androidx.annotation.Nullable;
 import blacklinden.com.cannabisgrowthsimulator.R;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
 import blacklinden.com.cannabisgrowthsimulator.pojo.Lamps;
@@ -22,7 +23,7 @@ public class Fény {
     public boolean beKapcs = false;
     public int drawCode;
 
-    public Fény(String fajta){
+    public Fény(){
 
 
 
@@ -78,10 +79,12 @@ public class Fény {
 
 
     public void setIrány(){
-        this.irány++;
+        if(Math.abs(irány)<5)irány++;
     }
 
-
+    public void setIrány(int i){
+        irány=i;
+    }
     public int getLux(){
         return lux;
     }

@@ -4,31 +4,444 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="#a1887f"
     tools:context=".StashActivity">
 
 
-    <blacklinden.com.cannabisgrowthsimulator.eszk.AlsFiok
+    <blacklinden.com.cannabisgrowthsimulator.eszk.StashFiok
         android:id="@+id/al1"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="93dp"
+        android:layout_marginTop="8dp"
         android:src="@drawable/als_box"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"/>
 
-    <TextView
-        android:id="@+id/stashTV"
+
+    <ImageView
+        android:id="@+id/kuka"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:src="@drawable/ic_delete_forever_black_24dp"
+        android:tag="kuka"
+        app:layout_constraintBottom_toBottomOf="@+id/al1"
+        app:layout_constraintEnd_toStartOf="@+id/oldalJ"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/csupisor" />
+
+    <ImageView
+        android:id="@+id/pakk"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_pakk"
+        android:tag="pakk"
+        app:layout_constraintBottom_toBottomOf="@+id/al1"
+        app:layout_constraintEnd_toEndOf="@+id/al1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/oldalB"
+        app:layout_constraintTop_toBottomOf="@+id/csupisor" />
+
+
+    <ImageView
+        android:id="@+id/humid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/uveg_ripple"
+        android:onClick="humidify"
+        android:src="@drawable/ic_humidifier"
+        app:layout_constraintBottom_toTopOf="@+id/kispolc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/kispolc"
+        android:layout_width="70dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginEnd="8dp"
+        android:elevation="25dp"
+        android:fadingEdgeLength="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25"
+        app:srcCompat="@drawable/ic_fapallo" />
+
+
+
+
+    <LinearLayout
+        android:id="@+id/csupisor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/al1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        android:orientation="horizontal">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    <blacklinden.com.cannabisgrowthsimulator.canvas.CsuporCanvas
+        android:id="@+id/csupi"
+        android:layout_width="60dp"
+        android:layout_height="100dp"
+        android:tag="csupi"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:onClick="nyissCsupi"/>
+
+            <TextView
+                android:id="@+id/cstv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="3"
+                android:text="weed"
+                android:textAlignment="center"
+                android:background="#fff"
+                android:layout_centerInParent="true"
+                android:layout_margin="1dp"
+
+                android:tint="#fff" />
+
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+           >
+
+
+            <blacklinden.com.cannabisgrowthsimulator.canvas.CsuporCanvas
+                android:id="@+id/csupi1"
+                android:layout_width="60dp"
+                android:layout_height="100dp"
+                android:tag="csupi"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:onClick="nyissCsupi"/>
+
+            <TextView
+                android:id="@+id/cstv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="3"
+                android:text="weed"
+                android:textAlignment="center"
+                android:background="#fff"
+                android:layout_centerInParent="true"
+                android:layout_margin="1dp"
+
+                android:tint="#fff" />
+
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <blacklinden.com.cannabisgrowthsimulator.canvas.CsuporCanvas
+                android:id="@+id/csupi2"
+                android:layout_width="60dp"
+                android:layout_height="100dp"
+                android:tag="csupi"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:onClick="nyissCsupi"/>
+
+            <TextView
+                android:id="@+id/cstv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="3"
+                android:text="weed"
+                android:textAlignment="center"
+                android:background="#fff"
+                android:layout_centerInParent="true"
+                android:layout_margin="1dp"
+
+                android:tint="#fff" />
+
+
+        </RelativeLayout>
+
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+            <blacklinden.com.cannabisgrowthsimulator.canvas.CsuporCanvas
+                android:id="@+id/csupi3"
+                android:layout_width="60dp"
+                android:layout_height="100dp"
+                android:tag="csupi"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:onClick="nyissCsupi" />
+
+            <TextView
+                android:id="@+id/cstv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="3"
+                android:text="weed"
+                android:textAlignment="center"
+                android:background="#fff"
+               android:layout_centerInParent="true"
+                android:layout_margin="1dp"
+
+                android:tint="#fff" />
+
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="csuporMenu"
+        app:elevation="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.89" />
+
+    <LinearLayout
+        android:id="@+id/ll2"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:visibility="gone"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/al1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        android:orientation="horizontal"
+       >
+
+        <LinearLayout
+        android:layout_width="60dp"
+            android:layout_margin="10dp"
+        android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/csupi_menu_httr">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/ll2tv"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/csupi_menu_httr">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/ll3tv"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/csupi_menu_httr">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/ll4tv"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/csupi_menu_httr">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/ll5tv"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/ic_paramero"
+        app:layout_constraintBottom_toBottomOf="@+id/csupisor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.060000002">
+
+        <TextView
+            android:id="@+id/para"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:background="@drawable/uveg_ripple"
+            android:elevation="5dp"
+            android:textAlignment="center"
+            android:textColor="@color/black" />
+
+        <com.budiyev.android.circularprogressbar.CircularProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:animateProgress="true"
+            app:backgroundStrokeColor="#bdbdbd"
+            app:backgroundStrokeWidth="2dp"
+            app:drawBackgroundStroke="false"
+            app:foregroundStrokeCap="butt"
+            app:foregroundStrokeColor="#fbc02d"
+            app:foregroundStrokeWidth="3dp"
+            app:indeterminate="false"
+            app:indeterminateMinimumAngle="45"
+            app:indeterminateRotationAnimationDuration="1200"
+            app:indeterminateSweepAnimationDuration="600"
+            app:maximum="100"
+            app:progress="5"
+            app:progressAnimationDuration="100"
+            app:startAngle="100" />
+
+    </FrameLayout>
+
+    <blacklinden.com.cannabisgrowthsimulator.eszk.Ventil
+        android:id="@+id/ventil"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="ventil"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+    <ImageView
+        android:id="@+id/h1"
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_akaszto"
+        app:layout_constraintBottom_toTopOf="@+id/csupisor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <blacklinden.com.cannabisgrowthsimulator.canvas.KicsiCanvas
+        android:id="@+id/stashCanvas"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="kcMenu"
+        android:tag="kc1"
+        app:layout_constraintBottom_toTopOf="@+id/csupisor"
+        app:layout_constraintEnd_toEndOf="@+id/h1"
+        app:layout_constraintStart_toStartOf="@+id/h1"
+        app:layout_constraintTop_toBottomOf="@+id/h1"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <blacklinden.com.cannabisgrowthsimulator.canvas.KicsiCanvas
+        android:id="@+id/stashCanvas2"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="kcMenu"
+        android:tag="kc2"
+        app:layout_constraintBottom_toTopOf="@+id/csupisor"
+        app:layout_constraintEnd_toEndOf="@+id/stashCanvas"
+        app:layout_constraintStart_toStartOf="@+id/stashCanvas"
+        app:layout_constraintTop_toBottomOf="@+id/stashCanvas"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <blacklinden.com.cannabisgrowthsimulator.canvas.KicsiCanvas
+        android:id="@+id/stashCanvas3"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:onClick="kcMenu"
+        android:tag="kc3"
+        app:layout_constraintEnd_toEndOf="@+id/stashCanvas2"
+        app:layout_constraintStart_toStartOf="@+id/stashCanvas2"
+        app:layout_constraintTop_toBottomOf="@+id/stashCanvas2" />
+
+
+
 
     <ImageView
         android:id="@+id/oldalB"
@@ -36,6 +449,7 @@
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:fadingEdgeLength="5dp"
+        android:elevation="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -47,12 +461,15 @@
         android:id="@+id/oldalJ"
         android:layout_width="10dp"
         android:layout_height="0dp"
+        android:elevation="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/old_box" />
+
+
 
 
 </android.support.constraint.ConstraintLayout>

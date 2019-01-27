@@ -68,7 +68,7 @@ public final class Kender {
 
     public void initFény(){
 
-        this.FF=new Fény(Mentés.getInstance().getString(Mentés.Key.SAMPLE_STR,"Advanced Star PRO STAR DUAL"));
+        this.FF=new Fény();
     }
     public void initCukor(){
         this.cukor=1;
