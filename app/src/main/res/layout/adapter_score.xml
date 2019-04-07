@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:elevation="0dp"
+    app:cardUseCompatPadding="true"
+    android:backgroundTint="#5e1e02">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:padding="5dp"
+        android:src="@drawable/ic_shiny_shelves"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+
+       >
+
+        <ImageView
+            android:id="@+id/pakkok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_pakk"
+            />
+
+        <ImageView
+            android:id="@+id/fiokajto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:elevation="25dp"
+            android:onClick="fiokajtoNyitas"
+            android:src="@drawable/nari_negyzet"/>
+
+
+
+    </FrameLayout>
+</android.support.v7.widget.CardView>
