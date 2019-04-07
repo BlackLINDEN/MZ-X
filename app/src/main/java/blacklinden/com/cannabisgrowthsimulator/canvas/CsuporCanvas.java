@@ -52,7 +52,7 @@ public class CsuporCanvas extends View {
         kupak = new Paint();
 
         kupak.setStyle(Paint.Style.FILL);
-        Shader shader1 = new BitmapShader(BitmapFactory.decodeResource(getContext().getResources(),R.drawable.parafa)
+        Shader shader1 = new BitmapShader(BitmapFactory.decodeResource(getContext().getResources(),R.drawable.prfa_txtr)
                 ,Shader.TileMode.CLAMP,Shader.TileMode.CLAMP);
         kupak.setShader(shader1);
 

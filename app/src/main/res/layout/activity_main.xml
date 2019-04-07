@@ -44,6 +44,17 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
         app:layout_constraintVertical_bias="0.0" />
 
+    <ImageView
+        android:id="@+id/fatyol"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/httr_vill001"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/cserep"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/gmb"
+        app:layout_constraintVertical_bias="1.0" />
 
     <blacklinden.com.cannabisgrowthsimulator.canvas.CanvasView
         android:id="@+id/canvas"
@@ -58,19 +69,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gmb"
         app:layout_constraintVertical_bias="1.0" />
-
-    <ImageView
-        android:id="@+id/fatyol"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/httr_vill001"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/cserep"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/gmb"
-        app:layout_constraintVertical_bias="1.0" />
-
 
     <ImageButton
         android:id="@+id/gmb"
@@ -150,7 +148,8 @@
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:fadingEdgeLength="5dp"
-        android:elevation="30dp"
+        android:elevation="40dp"
+        android:backgroundTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -162,7 +161,8 @@
         android:id="@+id/oldalsoJ"
         android:layout_width="10dp"
         android:layout_height="0dp"
-        android:elevation="30dp"
+        android:elevation="40dp"
+        android:backgroundTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

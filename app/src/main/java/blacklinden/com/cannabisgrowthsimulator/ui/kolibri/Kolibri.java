@@ -28,278 +28,55 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import blacklinden.com.cannabisgrowthsimulator.R;
 
-public class Kolibri implements Runnable, View.OnClickListener {
-    private Path path;
-    private ObjectAnimator animator;
-    private OvershootInterpolator tul;
+public class Kolibri implements KolibriState, Runnable, View.OnClickListener {
     private float screenWidth;
     private boolean tutorial_e=false;
     private Handler handler;
-    private WeakReference<View> kolibri;
+    private View kolibri;
     private int kattintas=0;
     private BubbleLayout bubbleLayout;
     private PopupWindow popupWindow;
+    private KolibriState state;
 
 
     public Kolibri(float screenWidth, View kolibri){
-        path = new Path();
+
         handler = new Handler(Looper.myLooper());
-        tul = new OvershootInterpolator();
         this.screenWidth=screenWidth;
-        this.kolibri=new WeakReference<>(kolibri);
+        this.kolibri=kolibri;
+        //state = Tutorial.getInstance(this);
         kolibri.setOnClickListener(this);
         bubbleLayout = (BubbleLayout) LayoutInflater.from(kolibri.getContext()).inflate(R.layout.bubble_layout, null);
         popupWindow = BubblePopupHelper.create(kolibri.getContext(), bubbleLayout);
     }
 
     public void dispose(){
-        kolibri.clear();
-    }
-
-    public void flyTo(View v) {
-        if(tutorial_e) {
-            int[] hely = new int[2];
-            int[] helyv = new int[2];
-            kolibri.get().getLocationOnScreen(hely);
-            v.getLocationOnScreen(helyv);
-            int x1 = hely[0];
-            int y1 = hely[1];
-
-            int x0 = helyv[0];
-            int y0 = helyv[1];
-
-
-            float X = (x0 + x1) / 3;
-            float Y = (y0 + y1) / 3;
-
-
-            path.moveTo(x1, y1);
-            path.quadTo(X, Y, x0, y0);
-            animator = ObjectAnimator.ofFloat(kolibri.get(), View.X, View.Y, path);
-            animator.setDuration(2000);
-            animator.setInterpolator(tul);
-            animator.start();
-            if (x0 < screenWidth / 2)
-                kolibri.get().setScaleX(-1f);
-            else kolibri.get().setScaleX(1f);
-
-            path.reset();
-
-            final View cv = v;
-
-            animator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animator) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animator) {
-                    csirip(cv);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animator) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animator) {
-
-                }
-            });
-        }
-
-    }
-
-    public void flyTo(View v,String cs) {
-        final String fcs = cs;
-        if(tutorial_e) {
-            int[] hely = new int[2];
-            int[] helyv = new int[2];
-            kolibri.get().getLocationOnScreen(hely);
-            v.getLocationOnScreen(helyv);
-            int x1 = hely[0];
-            int y1 = hely[1];
-
-            int x0 = helyv[0];
-            int y0 = helyv[1];
-
-
-            float X = (x0 + x1) / 3;
-            float Y = (y0 + y1) / 3;
-
-
-            path.moveTo(x1, y1);
-            path.quadTo(X, Y, x0, y0);
-            animator = ObjectAnimator.ofFloat(kolibri.get(), View.X, View.Y, path);
-            animator.setDuration(2000);
-            animator.setInterpolator(tul);
-            animator.start();
-            if (x0 < screenWidth / 2)
-                kolibri.get().setScaleX(-1f);
-            else kolibri.get().setScaleX(1f);
-
-            path.reset();
-
-            final View cv = v;
-
-            animator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animator) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animator) {
-                    csirip(cv,fcs);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animator) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animator) {
-
-                }
-            });
-        }
-
-    }
-
-
-    public void flyTo(View v,boolean i) {
-        if(i) {
-            int[] hely = new int[2];
-            int[] helyv = new int[2];
-            kolibri.get().getLocationOnScreen(hely);
-            v.getLocationOnScreen(helyv);
-            int x1 = hely[0];
-            int y1 = hely[1];
-
-            int x0 = helyv[0];
-            int y0 = helyv[1];
-
-
-            float X = (x0 + x1) / 3;
-            float Y = (y0 + y1) / 3;
-
-
-            path.moveTo(x1, y1);
-            path.quadTo(X, Y, x0, y0);
-            animator = ObjectAnimator.ofFloat(kolibri.get(), View.X, View.Y, path);
-            animator.setDuration(2000);
-            animator.setInterpolator(tul);
-            animator.start();
-            if (x0 < screenWidth / 2)
-                kolibri.get().setScaleX(-1f);
-            else kolibri.get().setScaleX(1f);
-
-            path.reset();
-
-            final View cv = v;
-
-            animator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animator) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animator) {
-                    csirip(cv);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animator) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animator) {
-
-                }
-            });
-        }
-
-    }
-
-    private void csirip(View cv){
-
-
-
-        int[] hely = new int[2];
-        int[] helyv = new int[2];
-        kolibri.get().getLocationOnScreen(hely);
-        cv.getLocationOnScreen(helyv);
-        bubbleLayout.setArrowDirection(ArrowDirection.LEFT);
-        TextView tv = bubbleLayout.findViewById(R.id.vmiTV);
-        tv.setText(cv.getTag().toString());
-        if(this!=null)
-        popupWindow.showAtLocation(kolibri.get(), Gravity.NO_GRAVITY, hely[0],  hely[1]-kolibri.get().getHeight()/2);
-
-
-    }
-
-    private void csirip(View cv,String cs){
-
-        BubbleLayout bubbleLayout = (BubbleLayout) LayoutInflater.from(kolibri.get().getContext()).inflate(R.layout.bubble_layout, null);
-        PopupWindow popupWindow = BubblePopupHelper.create(kolibri.get().getContext(), bubbleLayout);
-
-        int[] hely = new int[2];
-        int[] helyv = new int[2];
-        kolibri.get().getLocationOnScreen(hely);
-        cv.getLocationOnScreen(helyv);
-        bubbleLayout.setArrowDirection(ArrowDirection.LEFT);
-        TextView tv = bubbleLayout.findViewById(R.id.vmiTV);
-        tv.setText(cs);
-        popupWindow.showAtLocation(kolibri.get(), Gravity.NO_GRAVITY, hely[0],  hely[1]-kolibri.get().getHeight()/2);
-
-
-    }
-
-    private void repdes(){
-        int[] hely = new int[2];
-
-        kolibri.get().getLocationOnScreen(hely);
-
-        int x1 = hely[0];
-        int y1 = hely[1];
-
-        int x0 = ThreadLocalRandom.current().nextInt((int)screenWidth/4-kolibri.get().getWidth(), (int)screenWidth/2+kolibri.get().getWidth());
-        int y0 = ThreadLocalRandom.current().nextInt((int)screenWidth/4-kolibri.get().getWidth(), (int)screenWidth+kolibri.get().getWidth());;
-
-
-        float X = (x0 + x1) / 3;
-        float Y = (y0 + y1) / 3;
-
-
-        path.moveTo(x1, y1);
-        path.quadTo(X, Y, x0, y0);
-        animator = ObjectAnimator.ofFloat(kolibri.get(), View.X, View.Y, path);
-        animator.setDuration(2000);
-        animator.setInterpolator(tul);
-        animator.start();
-        path.reset();
-        if (x0 < screenWidth / 2)
-            kolibri.get().setScaleX(-1f);
-        else kolibri.get().setScaleX(1f);
+        stopIt();
+        popupWindow.dismiss();
+        state.dispose();
     }
 
 
     @Override
-    public void run() {
-        if(!tutorial_e) repdes();
-
-
-        if(kattintas>=5)
-            stopIt();
-        else
-            handler.postDelayed(this, 12000);
+    public void flyTo(View view) {
+        state.flyTo(view);
     }
 
+    @Override
+    public void csirip(View view) {
+
+    }
+
+    @Override
+    public void run() {
+        //if(!tutorial_e) repdes();
+
+        if(state instanceof Repdes) {
+            state.flyTo(null);
+            handler.postDelayed(this, 12000);
+        }
+
+    }
 
     public void setTutorial_e(boolean tutorial_e) {
         this.tutorial_e = tutorial_e;
@@ -308,14 +85,44 @@ public class Kolibri implements Runnable, View.OnClickListener {
     @Override
     public void onClick(View view) {
         kattintas++;
-        repdes();
+        //repdes();
     }
 
-    private void stopIt(){
-        handler.removeCallbacks(this);
-        kolibri.get().setVisibility(View.GONE);
+    public void stopIt(){
         kattintas=0;
     }
 
+    public View getKolibri(){
+        return kolibri;
+    }
+
+    float getScreenWidth() {
+        return screenWidth;
+    }
+
+    BubbleLayout getBubbleLayout() {
+        return bubbleLayout;
+    }
+    PopupWindow getPopupWindow() {
+        return popupWindow;
+    }
+
+    public KolibriState getState() {
+        return state;
+    }
+
+    public void setState(String currentState){
+        switch (currentState) {
+            case "tutorial":
+            state = Tutorial.getInstance(this);
+            break;
+            case "idle":
+            state = Idle.getInstance(this);
+            break;
+            case "repdes":
+            state = Repdes.getInstance(this);
+            break;
+        }
+    }
 
 }

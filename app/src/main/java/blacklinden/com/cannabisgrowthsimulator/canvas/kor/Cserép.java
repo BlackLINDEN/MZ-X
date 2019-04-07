@@ -3,6 +3,7 @@ package blacklinden.com.cannabisgrowthsimulator.canvas.kor;
 
 import blacklinden.com.cannabisgrowthsimulator.R;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
+import blacklinden.com.cannabisgrowthsimulator.pojo.Acc;
 
 public class Cserép{
 
@@ -18,8 +19,22 @@ public Cserép(float potSize,float waterRunoff,String soilType){
 }
 
 public int setDrawableCode(){
+    String s = Mentés.getInstance().getString(Mentés.Key.SAMPLE_POT,"Quadra Pot");
+    if(s.equals("Quadra Pot")){
+        drawableCode=R.drawable.black_pot;
+        potSize=800;
+        waterRunoff=-1.2f;
+    }else{
+        Acc acc = (Acc)Mentés.getInstance().javara(s,Acc.class);
+        drawableCode=acc.getDrawCode();
+        potSize=acc.getVol();
+        waterRunoff=-1.2f;
+    }
+
+    /*
     switch (Mentés.getInstance().getString(Mentés.Key.SAMPLE_POT,"Quadra Pot")){
-        case "Stiegl":drawableCode=R.drawable.cserep10;
+        case "Stiegl":
+            drawableCode=R.drawable.cserep10;
             potSize=800;
             waterRunoff=-1.2f;
             break;
@@ -69,7 +84,7 @@ public int setDrawableCode(){
             potSize=600;
             break;
 
-    }
+    }*/
 
     return drawableCode;
 }

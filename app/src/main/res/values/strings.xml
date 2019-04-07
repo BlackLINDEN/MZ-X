@@ -30,6 +30,10 @@
     <string name="snap">Snapshot</string>
     <string name="title_northernlight">Northern Light</string>
     <string name="grapeape">Grape Ape</string>
+    <string name="grind_it">Grind It</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

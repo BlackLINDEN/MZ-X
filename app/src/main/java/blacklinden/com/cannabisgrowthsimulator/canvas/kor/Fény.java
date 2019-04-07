@@ -13,7 +13,7 @@ public class Fény {
     public float irány;
     private int lux;
     public int watt;
-    private final float hőSötétben=25;
+    private float hőSötétben=25;
     private int kelvin;
     private float táv;
 
@@ -22,12 +22,14 @@ public class Fény {
     public int fatyolCode;
     public boolean beKapcs = false;
     public int drawCode;
+    private Lamps defT;
 
     public Fény(){
 
 
 
      this.irány=0;
+        defT =new Lamps("HPS Grow","HALOGEN",600,2500,10200, R.drawable.avd_anim,R.drawable.narancs_csova);
      setDrawCode("");
 
 
@@ -35,20 +37,39 @@ public class Fény {
 
 
     public int setDrawCode(String teszt){
-        Lamps T = (Lamps)Mentés.getInstance().javara(Mentés.getInstance().getString(Mentés.Key.TESZT_OBJ),Lamps.class);
+        String s = Mentés.getInstance().getString(Mentés.Key.TESZT_OBJ,"o");
+        if(!s.equals("o")) {
+            Lamps T = (Lamps) Mentés.getInstance().javara(s, Lamps.class);
 
-                égő=Égő.valueOf(T.getType());
-                watt = T.getConsumption();
-                kelvin = T.getSpectrum();
-                lux = T.getLumen();
-                drawCode = T.getAnimDrawCode();
-                fatyolCode = T.getFatyolDrawCode();
+            égő = Égő.valueOf(T.getType());
+            watt = T.getConsumption();
+            kelvin = T.getSpectrum();
+            lux = T.getLumen();
+            drawCode = T.getAnimDrawCode();
+            fatyolCode = T.getFatyolDrawCode();
 
-        return drawCode;
+            return drawCode;
+        }else{
+
+            Mentés.getInstance().put(Mentés.Key.TESZT_OBJ,Mentés.getInstance().gsonra(
+                    new Lamps("HPS Grow","HALOGEN",600,2500,10200,
+                    R.drawable.avd_anim,R.drawable.narancs_csova
+                    )
+            ));
+
+            return setDrawCode("");
+        }
+
     }
 
     public int setDrawCode(int i){
-        Lamps T = (Lamps)Mentés.getInstance().javara(Mentés.getInstance().getString(Mentés.Key.TESZT_OBJ),Lamps.class);
+        //alapérték ide jön
+        Lamps T;
+        String s = Mentés.getInstance().getString(Mentés.Key.TESZT_OBJ,"0");
+        if(s.equals("0"))
+         T = defT;
+        else
+         T = (Lamps)Mentés.getInstance().javara(s,Lamps.class);
 
         égő=Égő.valueOf(T.getType());
         watt = T.getConsumption();
@@ -82,6 +103,8 @@ public class Fény {
         if(Math.abs(irány)<5)irány++;
     }
 
+    public void resetIrány(){if(irány>0)irány--;}
+
     public void setIrány(int i){
         irány=i;
     }
@@ -90,7 +113,10 @@ public class Fény {
     }
 
     public int getKelvin() { return kelvin;}
-
+    public void setHő(){
+        if(hőSötétben>22.5f)
+        hőSötétben--;
+    }
 
 
 }

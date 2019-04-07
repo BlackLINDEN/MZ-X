@@ -10,6 +10,7 @@ import java.util.Locale;
 
 import blacklinden.com.cannabisgrowthsimulator.R;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
+import blacklinden.com.cannabisgrowthsimulator.pojo.Nutri;
 
 public class FertilHolder extends RecyclerView.ViewHolder {
     private TextView txtName, txtDistance, txtGravity, txtDiameter;
@@ -24,21 +25,20 @@ public class FertilHolder extends RecyclerView.ViewHolder {
 
     }
 
-    public void setDetails(Fertilizer planet) {
-        imageView.setImageDrawable(planet.getDrawable());
-        txtName.setText(planet.getName());
-        txtDistance.setText(String.format(Locale.US, "Natrium : %d", planet.getN()));
-        txtGravity.setText(String.format(Locale.US, "Phosphorus : %d", planet.getP()));
-        txtDiameter.setText(String.format(Locale.US, "Potassium : %d", planet.getK()));
-        final Fertilizer elem = planet;
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    public void setDetails(Fertilizer fertil) {
+        imageView.setImageDrawable(fertil.getDrawable());
+        txtName.setText(fertil.getName());
+        txtDistance.setText(String.format(Locale.US, "Natrium : %d", fertil.getN()));
+        txtGravity.setText(String.format(Locale.US, "Phosphorus : %d", fertil.getP()));
+        txtDiameter.setText(String.format(Locale.US, "Potassium : %d", fertil.getK()));
+        final Fertilizer elem = fertil;
+        itemView.setOnClickListener(view -> {
 
-                Mentés.getInstance().put(Mentés.Key.SAMPLE_NUT,elem.getName());
+            String s = Mentés.getInstance().gsonra(new Nutri(elem.getName() ,elem.getDrawCode(),elem.getN(),elem.getP(),elem.getK()));
 
-                Toast.makeText(itemView.getContext(),"Selected: "+elem.getName(),Toast.LENGTH_SHORT).show();
-            }
+            Mentés.getInstance().put(Mentés.Key.SAMPLE_NUT,s);
+
+            Toast.makeText(itemView.getContext(),"Selected: "+elem.getName(),Toast.LENGTH_SHORT).show();
         });
     }
 }

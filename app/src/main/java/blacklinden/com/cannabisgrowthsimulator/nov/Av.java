@@ -17,8 +17,9 @@ public class Av extends Növény {
 
     @Override
     public void élet() {
-        ép+=Kender.getInstance().cukrozó(1);
-        fejl();
+        ép+=Kender.getInstance().cukrozó(szint/10);
+        ép+=tápigény();
+        ép+=fényigény();
     }
 
     @Override
@@ -43,7 +44,7 @@ public class Av extends Növény {
 
     @Override
     public float fejl() {
-        ép+=szint;
+
 
         return ép;
     }
@@ -56,7 +57,10 @@ public class Av extends Növény {
 
     @Override
     public float fényigény() {
-        return 0;
+        if(Kender.getInstance().FF.getKelvin()<3000)
+            return Kender.getInstance().FF.getLux()/100;
+        else
+            return 1.5f;
     }
 
     @Override
@@ -66,6 +70,9 @@ public class Av extends Növény {
 
     @Override
     public float tápigény() {
+        if(Kender.getInstance().nutes.P>0)
+            return Kender.getInstance().nutes.P*Kender.getInstance().nutes.P;
+        else
         return 0;
     }
 

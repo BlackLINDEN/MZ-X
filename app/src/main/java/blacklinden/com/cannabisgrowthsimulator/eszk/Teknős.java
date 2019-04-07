@@ -32,6 +32,7 @@ import blacklinden.com.cannabisgrowthsimulator.MyApp;
 import blacklinden.com.cannabisgrowthsimulator.R;
 import blacklinden.com.cannabisgrowthsimulator.nov.Kender;
 
+@SuppressWarnings("ALL")
 public class Teknős  {
     public double x, y;
     private double angle;
@@ -39,7 +40,7 @@ public class Teknős  {
     private int számláló;
     private int sz=0;
 
-    private Paint levél,szár;
+    private Paint levél,szár,vrg;
     private Paint mag;
     private Shader sSzr;
     private Bitmap kenderTeszt,mutableBitmap;
@@ -60,6 +61,9 @@ public class Teknős  {
         mag.setColor(Color.rgb(222,184,135));
         mag.setStyle(Paint.Style.FILL);
 
+        vrg = new Paint();
+        vrg.setPathEffect( new PathDashPathEffect(getTriangle(2), 1, 2, PathDashPathEffect.Style.ROTATE));
+
         sSzr = new BitmapShader(BitmapFactory.decodeResource(
                 context.getResources(), R.drawable.kndr_szr),
                 Shader.TileMode.REPEAT
@@ -69,33 +73,33 @@ public class Teknős  {
         switch (Kender.getInstance().getFajta()) {
             case 1:
                 kd = KyrieDrawable.create(context, R.drawable.laci_levele);
-                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.ys_nyers);
                 break;
             case 2:
                 kd = KyrieDrawable.create(context, R.drawable.ic_haze_leaf);
-                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud);
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
                 break;
             case 3:
                 kd = KyrieDrawable.create(context, R.drawable.ic_yugo_skunk);
-                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.ys);
                 break;
             case 4:
                 kd = KyrieDrawable.create(context,R.drawable.ic_blue_berry);
-                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.bb);
                 break;
             case 5:
                 kd = KyrieDrawable.create(context,R.drawable.ic_northern_light);
-                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud);
                 break;
             case 6:
                 kd = KyrieDrawable.create(context,R.drawable.ic_grape_ape);
-                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.ga);
                 break;
         }
 
+        mutableBitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.vrg);
 
 
-        mutableBitmap = kenderTeszt.copy(Bitmap.Config.ARGB_8888, true);
 
         levél = new Paint();
         levél.setAntiAlias(true);
@@ -140,14 +144,22 @@ public class Teknős  {
 
     public void virágzás(float v,Canvas canvas, int p){
 
+      if(p!=Color.rgb(205, 133, 63))
+       vrg.setColor(Color.WHITE);
+      else
+       vrg.setColor(p);
+
+
+      canvas.drawBitmap(kenderTeszt,(float)x-kenderTeszt.getWidth()/2,(float)y-kenderTeszt.getHeight(),vrg);
+
+    }
+
+    public void előVirágzás(Canvas canvas,int p){
         int rand = ThreadLocalRandom.current().nextInt(10, 20);
         x += (rand)* Math.cos(Math.toRadians(angle));
         y +=(rand)* Math.sin(Math.toRadians(angle));
 
-      
         canvas.drawBitmap(mutableBitmap,(float)x-mutableBitmap.getWidth()/2,(float)y-mutableBitmap.getHeight(),null);
-
-
     }
     //kicsicanvas
     public void terményRajz(Context context, Canvas c,int w, int h, int fajta,int mennyi){
@@ -171,10 +183,57 @@ public class Teknős  {
     }
 
     private Bitmap flowerStrain(Context context,int fajta){
+        Bitmap kenderTeszt;
         switch (fajta){
-            case 1: return BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
-            default: return BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud);
+            case 1:
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.ys_nyers);
+                break;
+            case 2:
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
+                break;
+            case 3:
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.ys);
+                break;
+            case 4:
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.bb);
+                break;
+            case 5:
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud);
+                break;
+            case 6:
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.ga);
+                break;
+            default: kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud);
         }
+
+        return kenderTeszt;
+    }
+
+    public static Bitmap flowerStrain(Context context,String fajta){
+        Bitmap kenderTeszt;
+        switch (fajta){
+            case "weed1":
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.ys_nyers);
+                break;
+            case "weed2":
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud1);
+                break;
+            case "weed3":
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.ys);
+                break;
+            case "weed4":
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.bb);
+                break;
+            case "weed5":
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud);
+                break;
+            case "weed6":
+                kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.ga);
+                break;
+            default: kenderTeszt = BitmapFactory.decodeResource(context.getResources(),R.drawable.budbud);
+        }
+
+        return kenderTeszt;
     }
 
     private Bitmap rotateBitmap(Bitmap source, float angle)

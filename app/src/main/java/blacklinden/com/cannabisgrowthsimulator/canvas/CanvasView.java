@@ -91,6 +91,7 @@ public class CanvasView extends View {
                     case "X":
                         c.rotate(ch.szög(), (float) t.x, (float) t.y);
                         t.előreRajz(ch.vastagság()*(metrix/59),-ch.hossz()*(metrix/59), c,ch.szín(), ism);
+                        t.levElRajz((ch.vastagság()*2)*(metrix/59),2*(metrix/59),c);
                         break;
 
                     case "H":
@@ -159,9 +160,13 @@ public class CanvasView extends View {
 
                     case "V":
                         t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
-                        //c.rotate(ch.szög(), (float) t.x, (float) t.y);
-
                         t.virágzás(ch.vastagság()*(metrix/59),c,ch.szín());
+                        t.betöltés(c);
+                        break;
+
+                    case "AV":
+                        t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
+                        t.előVirágzás(c,ch.szín());
                         t.betöltés(c);
                         break;
 

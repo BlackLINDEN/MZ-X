@@ -10,6 +10,10 @@ public class CardItem2 {
         this.type=type;
     }
 
+    public CardItem2(){
+
+    }
+
 
     public int getTitleRes() {
         return titleRes;

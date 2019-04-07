@@ -31,12 +31,12 @@
         android:background="@drawable/ic_done_black_24dp"
         android:gravity="center_horizontal" />
 
-    <Button
-        android:id="@+id/dialogButtonSAVE"
+    <ProgressBar
+        android:id="@+id/pb"
         android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:onClick="saveWeed"
-        android:background="@drawable/ic_save_black_24dp"
-        android:gravity="center_horizontal" />
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:visibility="gone"/>
 </RelativeLayout>

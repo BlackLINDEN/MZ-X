@@ -15,13 +15,15 @@ public class Gy extends Növény {
 
     @Override
     public void élet() {
-        if(fullad>400) {
-            if(ThreadLocalRandom.current().nextInt(1, 100)>50) {
+        if(fullad>40) {
+            if(ThreadLocalRandom.current().nextInt(1, 100)>80) {
                 Kender.getInstance().causeofdeath += "\n ROOT ROT";
                 Kender.getInstance().halott_e = true;
             }
-        }else if(szomj>15&&!Kender.getInstance().causeofdeath.contains("\n DEHYDRATION"))
+        }else if(szomj>15&&!Kender.getInstance().causeofdeath.contains("\n DEHYDRATION")) {
             Kender.getInstance().causeofdeath += "\n DEHYDRATION";
+            Kender.getInstance().halott_e=true;
+        }
         vízigény();
         légz();
         counter++;
@@ -64,14 +66,14 @@ public class Gy extends Növény {
 
         if(Kender.getInstance().VV.getVÍZ_Mennyiség()<=0) {
             szomj++;
-            Kender.getInstance().cukrozó(100*Kender.getInstance().Szintet());
+            //Kender.getInstance().cukrozó(10*Kender.getInstance().Szintet());
             Kender.getInstance().FF.setIrány();
         }
         else if(Kender.getInstance().VV.getVÍZ_Mennyiség()>20) {
             szomj = 0;
-            Kender.getInstance().FF.setIrány(2);
+            Kender.getInstance().FF.resetIrány();
         }
-        return 0;
+        return szomj;
     }
 
     private double szigmoid(double x) {
@@ -104,12 +106,14 @@ public class Gy extends Növény {
 
     @Override
     public float légz() {
-        if(Kender.getInstance().VV.getVÍZ_Mennyiség()+Kender.getInstance().CC.waterRunoff<100)
+        if(Kender.getInstance().VV.getVÍZ_Mennyiség()+Kender.getInstance().CC.waterRunoff<100*(
+                Kender.getInstance().Szintet()/2
+                ))
         Kender.getInstance().CO2(Kender.getInstance().LL.getCO2()/2);
 
         else {
             fullad++;
-            Kender.getInstance().cukrozó(10);
+            //Kender.getInstance().cukrozó(10);
         }
         return 0;
     }

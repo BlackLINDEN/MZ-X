@@ -9,6 +9,7 @@ import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ComponentName;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
@@ -20,6 +21,7 @@ import android.support.animation.SpringAnimation;
 import android.support.animation.SpringForce;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -45,6 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
+import java.util.UUID;
 
 import blacklinden.com.cannabisgrowthsimulator.canvas.CsuporCanvas;
 import blacklinden.com.cannabisgrowthsimulator.canvas.KicsiCanvas;
@@ -56,7 +59,6 @@ import blacklinden.com.cannabisgrowthsimulator.serv.StashService;
 
 public class StashActivity extends AppCompatActivity implements View.OnTouchListener, View.OnDragListener {
 
-    private static final int idozito = 90000;
 
     private float dX;
     private float dY;
@@ -71,10 +73,7 @@ public class StashActivity extends AppCompatActivity implements View.OnTouchList
     private LinearLayout ll;
     private TextView ll2tv,ll3tv,ll4tv,ll5tv,
     cstv,cstv1,cstv2,cstv3;
-
     private Dialog dialog;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,8 +150,6 @@ public class StashActivity extends AppCompatActivity implements View.OnTouchList
         cstv3 = findViewById(R.id.cstv3);
 
 
-        //tv.setText(Mentés.getInstance().getString(Mentés.Key.SAMPLE_NOVENY,"üres"));
-        //tételenként új custom view-t adok a recy-hez vagy a layout-hoz ( majd kiderül )
         String rawList = Mentés.getInstance().getString(Mentés.Key.TRMS_LST,"0");
         if(!rawList.equals("0")) {
             Gson gson = new Gson();
@@ -162,9 +159,14 @@ public class StashActivity extends AppCompatActivity implements View.OnTouchList
             if(!termenyList.isEmpty()) {
                 for (Termény t : termenyList) {
 
-                    if (kicsiCanvasStack.peek().isEmpty())
+                    if (kicsiCanvasStack.peek().isEmpty()) {
+                        t.setSorszám(createSalt());
+                        Toast.makeText(this,"oncreate \n"+t.getSorszám(),Toast.LENGTH_SHORT).show();
                         kicsiCanvasStack.pop().init(t);
+                    }
                 }
+
+                Mentés.getInstance().put(Mentés.Key.TRMS_LST,gson.toJson(termenyList));
             }
 
 
@@ -179,8 +181,10 @@ public class StashActivity extends AppCompatActivity implements View.OnTouchList
             if(!erleltlist.isEmpty()) {
                 for (Termény t : erleltlist) {
 
-                    if (csuporCanvasStack.peek().isEmpty())
+                    if (csuporCanvasStack.peek().isEmpty()) {
+
                         csuporCanvasStack.pop().fillUp(t);
+                    }
                 }
             }
         }
@@ -193,9 +197,9 @@ public class StashActivity extends AppCompatActivity implements View.OnTouchList
         ComponentName componentName = new ComponentName(this,
                 StashService.class);
 
+        long scheduler_Interval = 15 * DateUtils.MINUTE_IN_MILLIS;
         JobInfo jobInfo = new JobInfo.Builder(1, componentName)
-                .setOverrideDeadline(idozito).setRequiredNetworkType(
-                        JobInfo.NETWORK_TYPE_NONE)
+                .setPeriodic(scheduler_Interval)
                 .setPersisted(false).build();
         Objects.requireNonNull(jobScheduler).schedule(jobInfo);
 
@@ -209,6 +213,11 @@ public class StashActivity extends AppCompatActivity implements View.OnTouchList
         oo.run();
         aa.run();
 
+    }
+
+    private String createSalt() {
+
+        return (UUID.randomUUID().toString());
     }
 
     @Override
@@ -261,53 +270,54 @@ public class StashActivity extends AppCompatActivity implements View.OnTouchList
         fling.setFriction(0.5f);
         final SpringAnimation stretchAnimation = new SpringAnimation(findViewById(R.id.h1), DynamicAnimation.SCALE_Y, SpringForce.STIFFNESS_LOW);
         */
+
+        View bKtl = findViewById(R.id.balKtl);
+        View jKtl = findViewById(R.id.jbKtl);
+
+        final SpringAnimation ktlXAnim = createSpringAnimation(bKtl, DynamicAnimation.X, SpringForce.STIFFNESS_HIGH, SpringForce.DAMPING_RATIO_LOW_BOUNCY);
+        final SpringAnimation ktlYAnim = createSpringAnimation(bKtl, DynamicAnimation.Y, SpringForce.STIFFNESS_HIGH, SpringForce.DAMPING_RATIO_LOW_BOUNCY);
+
+        final SpringAnimation jktlXAnim = createSpringAnimation(jKtl, DynamicAnimation.X, SpringForce.STIFFNESS_HIGH, SpringForce.DAMPING_RATIO_LOW_BOUNCY);
+        final SpringAnimation jktlYAnim = createSpringAnimation(jKtl, DynamicAnimation.Y, SpringForce.STIFFNESS_HIGH, SpringForce.DAMPING_RATIO_LOW_BOUNCY);
+
         final SpringAnimation firstXAnim = createSpringAnimation(c2, DynamicAnimation.X, SpringForce.STIFFNESS_HIGH, SpringForce.DAMPING_RATIO_LOW_BOUNCY);
-        final SpringAnimation firstYAnim = createSpringAnimation(c2, DynamicAnimation.Y, SpringForce.STIFFNESS_HIGH, SpringForce.DAMPING_RATIO_HIGH_BOUNCY);
+        final SpringAnimation firstYAnim = createSpringAnimation(c2, DynamicAnimation.Y, SpringForce.STIFFNESS_HIGH, SpringForce.DAMPING_RATIO_LOW_BOUNCY);
 
         final SpringAnimation secondXAnim = createSpringAnimation(c3, DynamicAnimation.X, SpringForce.STIFFNESS_HIGH, SpringForce.DAMPING_RATIO_LOW_BOUNCY);
-        final SpringAnimation secondYAnim = createSpringAnimation(c3, DynamicAnimation.Y, SpringForce.STIFFNESS_HIGH, SpringForce.DAMPING_RATIO_HIGH_BOUNCY);
+        final SpringAnimation secondYAnim = createSpringAnimation(c3, DynamicAnimation.Y, SpringForce.STIFFNESS_HIGH, SpringForce.DAMPING_RATIO_LOW_BOUNCY);
         final SpringAnimation thirdXAnim = createSpringAnimation(c4, DynamicAnimation.X, SpringForce.STIFFNESS_HIGH, SpringForce.DAMPING_RATIO_LOW_BOUNCY);
-        final SpringAnimation thirdYAnim = createSpringAnimation(c4, DynamicAnimation.Y, SpringForce.STIFFNESS_HIGH, SpringForce.DAMPING_RATIO_HIGH_BOUNCY);
+        final SpringAnimation thirdYAnim = createSpringAnimation(c4, DynamicAnimation.Y, SpringForce.STIFFNESS_HIGH, SpringForce.DAMPING_RATIO_LOW_BOUNCY);
 
         final ViewGroup.MarginLayoutParams fab5Params = (ViewGroup.MarginLayoutParams) c2.getLayoutParams();
         final ViewGroup.MarginLayoutParams fab6Params = (ViewGroup.MarginLayoutParams) c3.getLayoutParams();
         final ViewGroup.MarginLayoutParams fab7Params = (ViewGroup.MarginLayoutParams) c4.getLayoutParams();
+        final ViewGroup.MarginLayoutParams bParams = (ViewGroup.MarginLayoutParams) bKtl.getLayoutParams();
+        final ViewGroup.MarginLayoutParams jParams = (ViewGroup.MarginLayoutParams) jKtl.getLayoutParams();
 
+        firstXAnim.addUpdateListener((animation, v, vl) -> {
+            secondXAnim.animateToFinalPosition(v + ((c2.getWidth() -
+                    c3.getWidth()) / 2));
+            ktlXAnim.animateToFinalPosition(v + ((
+                    bKtl.getWidth()) / 2)+bParams.leftMargin);
+            jktlXAnim.animateToFinalPosition(v + (c2.getWidth() -
+                   jParams.rightMargin-jKtl.getWidth()));
 
-        firstXAnim.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() {
-            @Override
-            public void onAnimationUpdate(DynamicAnimation dynamicAnimation, float v, float v1) {
-
-                secondXAnim.animateToFinalPosition(v + ((c2.getWidth() -
-                        c3.getWidth()) / 2));
-
-            }
         });
 
-        firstYAnim.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() {
-            @Override
-            public void onAnimationUpdate(DynamicAnimation dynamicAnimation, float v, float v1) {
-                secondYAnim.animateToFinalPosition(v + c2.getHeight() +
-                        fab6Params.topMargin);
-            }
+        firstYAnim.addUpdateListener((animation, v, vl) -> {
+            secondYAnim.animateToFinalPosition(v + c2.getHeight() +
+                    fab6Params.topMargin);
+            ktlYAnim.animateToFinalPosition(v + c2.getHeight() -
+                    bParams.topMargin/2);
+            jktlYAnim.animateToFinalPosition(v + c2.getHeight() -
+                    jParams.topMargin/2);
         });
 
-        secondYAnim.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() {
-            @Override
-            public void onAnimationUpdate(DynamicAnimation animation, float value, float velocity) {
-                thirdYAnim.animateToFinalPosition(value + c2.getHeight() +
-                        fab7Params.topMargin);
-            }
-        });
+        secondYAnim.addUpdateListener((animation, value, velocity) -> thirdYAnim.animateToFinalPosition(value + c2.getHeight() +
+                fab7Params.topMargin));
 
-        secondXAnim.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() {
-            @Override
-            public void onAnimationUpdate(DynamicAnimation animation, float value, float velocity) {
-                    thirdXAnim.animateToFinalPosition(value + ((c2.getWidth() -
-                            c3.getWidth()) / 2));
-
-            }
-        });
+        secondXAnim.addUpdateListener((animation, value, velocity) -> thirdXAnim.animateToFinalPosition(value + ((c2.getWidth() -
+                c3.getWidth()) / 2)));
 
 
 
@@ -341,10 +351,14 @@ public class StashActivity extends AppCompatActivity implements View.OnTouchList
                         break;
 
                     case MotionEvent.ACTION_UP:
-                        view.animate().x(w/2-view.getWidth()/2).y(h/3-view.getHeight()/2).setDuration(10).start();
-                        firstXAnim.animateToFinalPosition(w/2-view.getWidth()/2 + ((c1.getWidth() -
+                        view.animate().translationX(0).translationY(0).setDuration(100).start();
+                        float x=view.getX()-view.getTranslationX();
+                        float y=view.getY()-view.getTranslationY();
+
+
+                        firstXAnim.animateToFinalPosition(x + ((c1.getWidth() -
                                 c2.getWidth()) / 2));
-                        firstYAnim.animateToFinalPosition(h/3-view.getHeight()/2 + c1.getHeight() +
+                        firstYAnim.animateToFinalPosition(y + c1.getHeight() +
                                 fab5Params.topMargin);
 
 
@@ -416,8 +430,8 @@ public class StashActivity extends AppCompatActivity implements View.OnTouchList
                     case "kc1":
                             if (!kicsiCanvas.isEmpty() && ((CsuporCanvas) v).isEmpty()) {
                                 ((CsuporCanvas) v).fillUp(kicsiCanvas.getTermény());
+                                dryToCure(kicsiCanvas.getTermény().getSorszám());
                                 kicsiCanvas.setEmpty();
-                                dryToCure(2);
                             }
 
                   break;
@@ -426,8 +440,8 @@ public class StashActivity extends AppCompatActivity implements View.OnTouchList
 
                             if (!kc2.isEmpty() && ((CsuporCanvas) v).isEmpty()) {
                                 ((CsuporCanvas) v).fillUp(kc2.getTermény());
+                                dryToCure(kc2.getTermény().getSorszám());
                                 kc2.setEmpty();
-                                dryToCure(1);
                             }
 
                         break;
@@ -436,8 +450,8 @@ public class StashActivity extends AppCompatActivity implements View.OnTouchList
 
                             if (!kc3.isEmpty() && ((CsuporCanvas) v).isEmpty()) {
                                 ((CsuporCanvas) v).fillUp(kc3.getTermény());
+                                dryToCure(kc3.getTermény().getSorszám());
                                 kc3.setEmpty();
-                                dryToCure(0);
                             }
 
                     break;
@@ -502,19 +516,31 @@ public class StashActivity extends AppCompatActivity implements View.OnTouchList
         return false;
     }
     //012
-    private void dryToCure(int sorszám){
+    private void dryToCure(String sorszám){
         Gson gson = new GsonBuilder().create();
         Type tList = new TypeToken<ArrayList<Termény>>(){}.getType();
         List<Termény> termenyList = gson.fromJson(Mentés.getInstance().getString(Mentés.Key.TRMS_LST),tList);
         List<Termény> erlltList = gson.fromJson(Mentés.getInstance().getString(Mentés.Key.ERllT_LST),tList);
-        termenyList.get(sorszám).setCuring(true);
-        termenyList.get(sorszám).setSorszám(sorszám);
-        erlltList.add(termenyList.get(sorszám));
-        termenyList.remove(sorszám);
+        Toast.makeText(this,sorszám,Toast.LENGTH_SHORT).show();
+        for(Termény item:termenyList) {
+
+            System.out.println(item.getSorszám());
+            if (sorszám.equals(item.getSorszám())) {
+                Toast.makeText(this,"added",Toast.LENGTH_SHORT).show();
+                item.setCuring(true);
+                erlltList.add(item);
+
+                String ment2 = Mentés.getInstance().gsonra(erlltList);
+                Mentés.getInstance().put(Mentés.Key.ERllT_LST,ment2);
+                break;
+            }
+        }
+
+        termenyList.removeIf(i -> i.getSorszám().equals(sorszám));
         String ment = Mentés.getInstance().gsonra(termenyList);
         Mentés.getInstance().put(Mentés.Key.TRMS_LST,ment);
-        String ment2 = Mentés.getInstance().gsonra(erlltList);
-        Mentés.getInstance().put(Mentés.Key.ERllT_LST,ment2);
+
+
     }
 
     private void cureToStash(View v){
@@ -528,7 +554,7 @@ public class StashActivity extends AppCompatActivity implements View.OnTouchList
         vgtrmkList.add(new Stash(t.getSuly(),t.getThc(),
                 t.getCbd(),t.getNapok(),t.getFajtaString()));
 
-        erlltList.remove(erlltList.get(t.getSorszám()));
+        erlltList.removeIf(i -> i.getSorszám().equals(t.getSorszám()));
         ((CsuporCanvas)v).empty();
         String ment = Mentés.getInstance().gsonra(erlltList);
         Mentés.getInstance().put(Mentés.Key.ERllT_LST,ment);

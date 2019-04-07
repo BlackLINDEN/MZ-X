@@ -7,12 +7,11 @@ public class Termény {
     private int thc,cbd;
     private float t,c;
     private int napok;
-    private float moisture;
     private int burp,gas;
     private boolean isCuring;
     private String status ="good",fajtaString;
     private float vapor;
-    private int sorszám;
+    private String sorszám;
 
 
     public Termény(int db,float mennyi,int fajta,int thc,int cbd){
@@ -40,60 +39,42 @@ public class Termény {
         }
         this.cbd=cbd;
         this.thc=thc;
-        t=(thc);
-        c=(cbd);
+        t=(thc*(db/10));
+        c=(cbd*(db/10));
         suly=mennyi;
-        moisture=suly*0.8f;
         eredetiSuly=suly;
         napok=1;
 
     }
 
     public void update(){
-        suly=moisture+moisture/4;
-
-        if(!status.equals("molded")&&vapor>=0.4f&&vapor<0.6f) {
-            if (t <= thc + vigor()) {
-
-                if (isCuring) {
-                    t += vigor();
-                } else
-                    t += 0.1f;
-            }
-            if (c <= cbd + vigor()) {
-
-                if (isCuring) {
-                    c += vigor();
-                } else
-                    c += 0.1f;
-            }
-
-            if (isCuring && goldilocks()) t++;
+        if(vapor>=40&&vapor<60) {
+            if (t < thc) t+=2f;
+            if (c < cbd) c+=0.5f;
+            if(suly>(eredetiSuly*0.4f)) suly--;
+        }else if(vapor>60) {
+            if (c < cbd) c+=0.1f;
+            status="smelly";
+        }else if(vapor<40){
+            if (t < thc) t+=0.1f;
+            if(suly>(eredetiSuly*0.4f)) suly-=1.2f;
+        }
+        if(isCuring){
+            if(gas<10)
+            t++;
+            else
+                status="smelly";
+            gas++;
+        }else{
+            if(goldilocks())status="goldilocks";
         }
 
-        if(vapor<0.4f||vapor>0.6f)
-            moisture+=suly*vapor;
-
-       if(moisture>eredetiSuly*0.2f&&moisture>2){
-           if(isCuring) {
-               moisture--;
-               gas++;
-           }
-           else {
-               moisture--;
-           }
-       }
-
-       if(gas>moisture/2)status="smelly";
 
 
         napok++;
     }
 
-    private float vigor(){
-        return (int)eredetiSuly/10;
-    }
-    public float getSuly(){
+   public float getSuly(){
         return suly;
     }
 
@@ -110,8 +91,8 @@ public class Termény {
     public int getNapok(){
         return napok;
     }
-    public boolean goldilocks(){
-        return moisture>=eredetiSuly*0.3f&&moisture<=eredetiSuly*0.37f;
+    private boolean goldilocks(){
+        return suly==eredetiSuly*0.5f;
     }
     public void burpJar(){
         burp++;
@@ -136,11 +117,11 @@ public class Termény {
         this.vapor=vapor;
     }
 
-    public void setSorszám(int i){
+    public void setSorszám(String i){
         sorszám=i;
     }
 
-    public int getSorszám(){
+    public String getSorszám(){
         return sorszám;
     }
 }

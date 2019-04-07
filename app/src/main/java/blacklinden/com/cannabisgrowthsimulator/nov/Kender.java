@@ -9,7 +9,6 @@ import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Fény;
 import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Lég;
 import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Verem;
 import blacklinden.com.cannabisgrowthsimulator.canvas.kor.Víz;
-import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Nutes;
 
 public final class Kender {
@@ -19,6 +18,7 @@ public final class Kender {
     private int co2;
 
     private int fajta;
+
 
     public Fény FF;
     Lég LL;
@@ -43,6 +43,9 @@ public final class Kender {
     private float cukor;
     float fény=0;
     public volatile String causeofdeath="";
+    private String föld="0";
+    private int levonasElottiMagSzam;
+    private String strFajta;
 
     private Kender() {
 
@@ -55,7 +58,7 @@ public final class Kender {
         this.szint=1;
         this.LL = new Lég();
         this.VV = new Víz();
-        this.CC = new Cserép(1.5f,3,"coco");
+        CC = new Cserép(1.5f,3,"coco");
 
 
         nutes = new Nutes();
@@ -82,8 +85,9 @@ public final class Kender {
 
 
     public void update(int ism){
-        System.out.println("Szint: "+szint);
-        calvinKör();
+
+        //if(cukor<100000)
+            calvinKör();
         rostbanCukorTárolás();
         switch (fajta) {
             case 1:
@@ -107,11 +111,15 @@ public final class Kender {
                 if (ism == 325) flowering = true;
                 break;
         }
-        if(cukor<=0&&rost>=1){
-            cukor++;
-            rost--;
-        }else if(cukor<=0&&rost<=0) {
+
+        if(cukor<=0&&rost<=0) {
             cukor = 0;}
+
+        if(cukor<rost&&rost>0){
+            cukor+=rost/3;
+            rost-=rost/3;
+
+        }
 
          if(halottRészek>2)
              halott_e=true;
@@ -129,9 +137,16 @@ public final class Kender {
         return instance;
     }
 
-    public void fajta(int fajta){
+    public void fajta(int fajta, String strFajta, int levonasElottiMagSzam ){
         this.fajta=fajta;
+        this.strFajta=strFajta;
+        this.levonasElottiMagSzam=levonasElottiMagSzam;
         verem = new Verem(fajta);
+    }
+
+    public void setFöld(String föld){
+        this.föld=föld;
+
     }
 
     public int getFajta(){
@@ -140,13 +155,13 @@ public final class Kender {
 
     private void calvinKör(){
 
-        if(co2>0&&h2o>1&&h2o<200&&fény>0&&FF.beKapcs) {
-            int nutri=(nutes.N+ nutes.P+ nutes.K)/3;
-            cukor +=  nutri+fény+co2;
+        if(co2>0&&h2o>6&&fény>0&&FF.beKapcs) {
+            int nutri=(nutes.N+ nutes.P+ nutes.K)*100;
+            cukor +=  (fény+co2+h2o+nutri)*szint;
 
-                if(nutes.N>0) nutes.N=0;
-                if(nutes.P>0) nutes.P=0;
-                if(nutes.K>0) nutes.K=0;
+                if(nutes.N>0) nutes.N--;
+                if(nutes.P>0) nutes.P--;
+                if(nutes.K>0) nutes.K--;
 
             co2--;
             h2o=0;
@@ -160,13 +175,12 @@ public final class Kender {
     }
 
     private void rostbanCukorTárolás(){
-        if(cukor>1000){
-            rost+=10;
-            cukor-=10;
+        if(cukor>(szint*10*(nutes.N++)*6)){
+            rost+=cukrozó(szint*10*(nutes.N++));
         }
     }
 
-    float cukrozó(int levonás){
+    float cukrozó(float levonás){
 
         if(cukor<levonás)
             return 0;
@@ -193,7 +207,8 @@ public final class Kender {
         szint++;
     }
     public int Szintet(){return szint;}
-    public void levonas(int szint){ rost-=szint; }
+    public void levonas(int szint){ if (rost>szint)rost-=szint; }
+    void levonas(float fszint){ if(cukor>fszint)cukor-=fszint; }
     public void metrix(float metrix){
         this.metrix=metrix;
     }
@@ -201,9 +216,12 @@ public final class Kender {
         return rost;
     }
     public void initRost(){this.rost=100;}
-    void levonH2o(int i){if(h2o>0) h2o-=i;}
+    void levonH2o(){if(h2o>0) h2o-= 1;}
     public int getBox(){return box;}
     public void setBox(int i){box=i;}
+    public String getFöld(){return föld;}
+    public String getStrFajta(){return strFajta;}
+    public int getLevonasElottiMagSzam(){return levonasElottiMagSzam;}
 
 
 

@@ -10,6 +10,7 @@ import java.util.Locale;
 
 import blacklinden.com.cannabisgrowthsimulator.R;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
+import blacklinden.com.cannabisgrowthsimulator.pojo.Acc;
 
 public class PotHolder extends RecyclerView.ViewHolder {
     private TextView txtName, txtDistance, txtGravity, txtDiameter;
@@ -31,15 +32,17 @@ public class PotHolder extends RecyclerView.ViewHolder {
         txtGravity.setText(String.format(Locale.US, "Drain : %s", planet.getDrain()));
         txtDiameter.setText(String.format(Locale.US, "Class: %s", planet.getRarity()));
         final Elem elem = planet;
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(elem.getVolume()>6)
-                Mentés.getInstance().put(Mentés.Key.SAMPLE_POT,elem.getName());
-                else
-                Mentés.getInstance().put(Mentés.Key.SAMPLE_CAN,elem.getName());
+        itemView.setOnClickListener(view -> {
+            if(elem.getVolume()>600) {
+                String s = Mentés.getInstance().gsonra(new Acc(elem.getName() ,elem.getVolume(),elem.getDrain(),elem.getRarity(),elem.getAnimDrawCode()));
+                Mentés.getInstance().put(Mentés.Key.SAMPLE_POT, s);
+                Toast.makeText(itemView.getContext(),"Selected: "+elem.getName(),Toast.LENGTH_SHORT).show();
+            }else {
+                String s = Mentés.getInstance().gsonra(new Acc(elem.getName() ,elem.getVolume(),elem.getDrain(),elem.getRarity(),elem.getAnimDrawCode()));
+                Mentés.getInstance().put(Mentés.Key.SAMPLE_CAN, s);
                 Toast.makeText(itemView.getContext(),"Selected: "+elem.getName(),Toast.LENGTH_SHORT).show();
             }
+
         });
     }
 }

@@ -2,6 +2,7 @@ package blacklinden.com.cannabisgrowthsimulator;
 
 
 import android.app.Dialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ComponentName;
@@ -13,12 +14,9 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -42,9 +40,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,25 +51,26 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import blacklinden.com.cannabisgrowthsimulator.canvas.CanvasView;
-import blacklinden.com.cannabisgrowthsimulator.eszk.AlsFiok;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
 import blacklinden.com.cannabisgrowthsimulator.eszk.ScreenShot;
-import blacklinden.com.cannabisgrowthsimulator.eszk.StarchView;
 import blacklinden.com.cannabisgrowthsimulator.eszk.ThermoView;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Ventil;
 import blacklinden.com.cannabisgrowthsimulator.nov.Kender;
+import blacklinden.com.cannabisgrowthsimulator.pojo.NutriEntity;
 import blacklinden.com.cannabisgrowthsimulator.pojo.Termény;
 import blacklinden.com.cannabisgrowthsimulator.serv.LService;
+import blacklinden.com.cannabisgrowthsimulator.sql.MagVM;
+import blacklinden.com.cannabisgrowthsimulator.sql.NutriVM;
 import blacklinden.com.cannabisgrowthsimulator.ui.kolibri.Kolibri;
 
 
@@ -102,10 +99,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private ImageView ivLC;
     private LayoutInflater inflater;
     private View customView;
+    private Gson gson;
+    private Handler fieldHandler = new Handler();
+    private NutriVM nutriVM;
+    private HashMap<String,Integer> nutriMennyi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        gson = new GsonBuilder().create();
         switch (Kender.getInstance().getBox()) {
             case 1:
             setContentView(R.layout.activity_main);
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         tapeta = findViewById(R.id.httr_tapeta);
 
-        final ImageView kolibriTV = findViewById(R.id.kolibri);
+        ImageView kolibriTV = findViewById(R.id.kolibri);
         kolibriTV.setBackgroundResource(R.drawable.kolibri_anim);
         kolibriTV.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
         final AnimationDrawable kolibri = (AnimationDrawable) kolibriTV.getBackground();
@@ -135,8 +137,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         getWindowManager().getDefaultDisplay().getSize(point);
         final float w = point.x;
         kolibriAnimator = new Kolibri(w, kolibriTV);
-        if(Mentés.getInstance().getString(Mentés.Key.BELEP,"0").equals("0"))
-            kolibriAnimator.setTutorial_e(true);
+        kolibriAnimator.setState("repdes");
+
+        //if(Mentés.getInstance().getString(Mentés.Key.BELEP,"0").equals("0")) kolibriAnimator.setTutorial_e(true);
         kolibriAnimator.run();
 
         nutriGoo = MediaPlayer.create(this, R.raw.nutri);
@@ -144,52 +147,49 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         gong = MediaPlayer.create(this, R.raw.gong);
         final NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        // set item as selected to persist highlight
-                        menuItem.setChecked(false);
-                        // close drawer when item is tapped
-                        drawerLayout.closeDrawers();
+                menuItem -> {
+                    // set item as selected to persist highlight
+                    menuItem.setChecked(false);
+                    // close drawer when item is tapped
+                    drawerLayout.closeDrawers();
 
-                        switch (menuItem.getItemId()) {
-                            case R.id.killit:
-                                lService.stopForeground(true);
-                                lService.stopSelf();
-                                    finish();
-                                Kender.getInstance().clear();
-                                break;
+                    switch (menuItem.getItemId()) {
+                        case R.id.killit:
+                            lService.stopForeground(true);
+                            lService.stopSelf();
+                                finish();
+                            Kender.getInstance().clear();
+                            break;
 
-                            case R.id.back:
-                                if (isTaskRoot())
-                                    startActivity(intent);
+                        case R.id.back:
+                            if (isTaskRoot())
+                                startActivity(intent);
 
-                                else
-                                    finish();
+                            else
+                                finish();
 
-                                break;
+                            break;
 
-                            case R.id.inventory:
-                                Intent i = new Intent(MainActivity.this, InventoryActivity.class);
-                                startActivity(i);
+                        case R.id.inventory:
+                            Intent i = new Intent(MainActivity.this, InventoryActivity.class);
+                            startActivity(i);
 
-                                break;
+                            break;
 
-                            case R.id.colibri:
-                                kolibriAnimator.run();
-                                kolibriTV.setVisibility(View.VISIBLE);
-                                break;
+                        case R.id.colibri:
+                            kolibriAnimator.run();
+                            kolibriTV.setVisibility(View.VISIBLE);
+                            break;
 
-                            case R.id.snap:
-                                drawerLayout.closeDrawer(Gravity.NO_GRAVITY);
-                                Bitmap bitmap=ScreenShot.takescreenshotOfRootView(canvasView);
-                                //storeScreenshot(bitmap);
-                                break;
+                        case R.id.snap:
+                            drawerLayout.closeDrawer(Gravity.NO_GRAVITY);
+                            Bitmap bitmap=ScreenShot.takescreenshotOfRootView(canvasView);
+                            //storeScreenshot(bitmap);
+                            break;
 
-                        }
-
-                        return true;
                     }
+
+                    return true;
                 });
 
         DisplayMetrics dm = new DisplayMetrics();
@@ -249,11 +249,22 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         dialog.setContentView(R.layout.dialog);
         dialog.setCanceledOnTouchOutside(false);
         Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
-        dialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+        dialogButton.setOnClickListener(v -> {
+            v.setVisibility(View.GONE);
+            dialog.findViewById(R.id.pb).setVisibility(View.VISIBLE);
+
+            if(saveWeed()){
+
+                fieldHandler.postDelayed(ii,2000);
+            }else{
+                v.setClickable(false);
+                v.setVisibility(View.VISIBLE);
+                ((Button)v).setText("UNSAVED");
+                fieldHandler.postDelayed(ii,2000);
+
+
             }
+
         });
 
 
@@ -269,17 +280,49 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         clearCanvas();
 
+        nutriMennyi = new HashMap<>();
 
+
+        nutriVM = ViewModelProviders.of(this).get(NutriVM.class);
+        nutriVM.getAll().observe(this,nutriEntities -> {
+            if (nutriEntities != null) {
+                Toast.makeText(this,"QQQnutri_main",Toast.LENGTH_SHORT).show();
+                for(NutriEntity n:nutriEntities) {
+                    if (n.getFajta().equals(Kender.getInstance().nutes.nuteName)) {
+
+                         if (nutriMennyi.containsKey(n.getFajta()))
+                            nutriMennyi.replace(n.getFajta(), n.getMennyi());
+                         else
+                             nutriMennyi.put(n.getFajta(), n.getMennyi());
+                    }
+                }
+
+            }else
+                nutriMennyi.put("BioGrow",0);
+        });
 
     }
+
+
+    Runnable ii = new Runnable() {
+        @Override
+        public void run() {
+            if (isTaskRoot())
+                startActivity(intent);
+            else
+                finish();
+        }
+    };
 
     @Override
     protected void onPause() {
         super.onPause();
 
         thermoView.handler.removeCallbacks(thermoView.oo);
-
+        kolibriAnimator.dispose();
     }
+
+
 
     @Override
     protected void onResume() {
@@ -307,30 +350,16 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     public void cserépGomb(View v) {
         if (quickAction == null) {
-            // Initialize a new instance of LayoutInflater service
 
             if(inflater==null)
                 inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
 
-            // Inflate the custom layout/view
+
             assert inflater != null;
             customView = inflater.inflate(R.layout.quick_action
                     , null);
 
-                /*
-                    public PopupWindow (View contentView, int width, int height)
-                        Create a new non focusable popup window which can display the contentView.
-                        The dimension of the window must be passed to this constructor.
 
-                        The popup does not provide any background. This should be handled by
-                        the content view.
-
-                    Parameters
-                        contentView : the popup's content
-                        width : the popup's width
-                        height : the popup's height
-                */
-            // Initialize a new instance of popup window
             quickAction = new PopupWindow(
                     customView,
                     RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -393,7 +422,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             kolibriAnimator.flyTo(kanna);
         } else if (fátyol.getVisibility() == View.VISIBLE && !vectorDrawable.isRunning()) {
             fátyol.setVisibility(View.GONE);
-            vectorDrawable.stop();
+            vectorDrawable.setCurrentPlayTime(0);
             tapeta.getBackground().setColorFilter(this.getColor(R.color.cardview_dark_background),PorterDuff.Mode.MULTIPLY);
             tapeta.getDrawable().setColorFilter(this.getColor(R.color.cardview_dark_background),PorterDuff.Mode.MULTIPLY);
             bulb.setBackgroundResource(outValue.resourceId);
@@ -419,6 +448,18 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     @Override
+    public void onBackPressed() {
+
+            if(!isTaskRoot())
+                super.onBackPressed();
+            else{
+                Intent i = new Intent(this,Main2Activity.class);
+                startActivity(i);
+                finish();
+            }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         thermoView.handler.removeCallbacks(thermoView.oo);
@@ -431,10 +472,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         }
 
         kolibriAnimator.dispose();
-
-
-
-
+        if(quickAction!=null)quickAction.dismiss();
     }
 
     private ServiceConnection kapcsolat = new ServiceConnection() {
@@ -462,7 +500,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         public void run() {
 
 
-
+                if(ventilBE)Kender.getInstance().FF.setHő();
 
                     canvasView.told(lService.al, lService.ism);
 
@@ -508,7 +546,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                         //lService.saveWeed();
 
-                    } else h.postDelayed(this, 1800);
+                    } else h.postDelayed(this, 600);
 
 
         }
@@ -542,11 +580,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 break;
 
             case R.id.tap1:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    view.startDragAndDrop(data, mShadow, null, 0);
-                } else {
-                    view.startDrag(data, mShadow, null, 0);
-                }
+
+                        view.startDragAndDrop(data, mShadow, null, 0);
+                //else
+
+
                 break;
         }
 
@@ -600,16 +638,26 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 if(clipData.equals("Plant the seed")) {
                     lService.startThread();
                     gong.start();
-                    int i = Mentés.getInstance().getInt(Mentés.Key.valueOf(Main2Activity.sss[Kender.getInstance().getFajta()-1]))-1;
-                    Mentés.getInstance().put(Mentés.Key.valueOf(Main2Activity.sss[Kender.getInstance().getFajta()-1]),i);
-                }
-                else if(clipData.equals("tap1")){
-                    nutriGoo.start();
-                    Kender.getInstance().CC.föld.Nátrium+=Kender.getInstance().nutes.iN;
-                    Kender.getInstance().CC.föld.Foszfor+=Kender.getInstance().nutes.iP;
-                    Kender.getInstance().CC.föld.Kálium+=Kender.getInstance().nutes.iK;
-                }
+                    MagVM magVM = ViewModelProviders.of(this).get(MagVM.class);
+                    magVM.update(Kender.getInstance().getStrFajta(),Kender.getInstance().getLevonasElottiMagSzam()-1);
 
+                    /*int i = Mentés.getInstance().getInt(Mentés.Key.valueOf(Main2Activity.sss[Kender.getInstance().getFajta()-1]))-1;
+                    Mentés.getInstance().put(Mentés.Key.valueOf(Main2Activity.sss[Kender.getInstance().getFajta()-1]),i);*/
+                }
+                else if(clipData.equals("tap1")) {
+                    String name = Kender.getInstance().nutes.nuteName;
+                    if (nutriMennyi.get(name) != null) {
+                        if (nutriMennyi.get(name) >= 1) {
+                            nutriGoo.start();
+                            Kender.getInstance().CC.föld.Nátrium += Kender.getInstance().nutes.iN;
+                            Kender.getInstance().CC.föld.Foszfor += Kender.getInstance().nutes.iP;
+                            Kender.getInstance().CC.föld.Kálium += Kender.getInstance().nutes.iK;
+                            nutriVM.update(name, nutriMennyi.get(name) - 1);
+                            if(nutriMennyi.get(name)==1) nutriMennyi.clear();
+                        }
+                    }else
+                        Toast.makeText(this,"EMPTY",Toast.LENGTH_SHORT).show();
+                }
                 v.invalidate();
                 return true;
 
@@ -620,7 +668,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 if (event.getResult()) {
                     if(!LService.IS_SERVICE_RUNNING) seed.setVisibility(View.VISIBLE);
                     kanna.setVisibility(View.VISIBLE);
-                    Toast.makeText(MainActivity.this, "Awesome!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this, "Awesome!", Toast.LENGTH_SHORT).show();
 
                 } else {
                     if(!LService.IS_SERVICE_RUNNING)
@@ -641,13 +689,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         lService.harvest();
     }
 
-    public void saveWeed(View v){
-        Gson gson = new GsonBuilder().create();
+    public boolean saveWeed(){
+
         Type tList = new TypeToken<ArrayList<Termény>>(){}.getType();
         List<Termény> termenyList = gson.fromJson(Mentés.getInstance().getString(Mentés.Key.TRMS_LST),tList);
-        if(termenyList.size()<3)
-        lService.saveWeed();
-        else v.setBackgroundColor(Color.RED);
+        if(termenyList.size()<3) {
+            lService.saveWeed();
+            return true;
+        }
+        else return false;
     }
 
     public void nyissMenut(View v){

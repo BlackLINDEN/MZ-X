@@ -1,5 +1,6 @@
 package blacklinden.com.cannabisgrowthsimulator.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -7,21 +8,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import blacklinden.com.cannabisgrowthsimulator.R;
+import blacklinden.com.cannabisgrowthsimulator.pojo.AccessoryEntity;
+import blacklinden.com.cannabisgrowthsimulator.sql.AccVM;
 import blacklinden.com.cannabisgrowthsimulator.ui.medium.Elem;
-import blacklinden.com.cannabisgrowthsimulator.ui.medium.ElemAdapter;
 import blacklinden.com.cannabisgrowthsimulator.ui.medium.PotAdapter;
 
 public class Accessories extends Fragment {
 
     private RecyclerView recyclerView;
     private PotAdapter adapter;
-    private ArrayList<Elem> planetArrayList;
+    private ArrayList<Elem> arrayList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,67 +33,102 @@ public class Accessories extends Fragment {
         recyclerView = root.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(root.getContext(),1));
 
-        planetArrayList = new ArrayList<>();
-        adapter = new PotAdapter(root.getContext(), planetArrayList);
+        arrayList = new ArrayList<>();
+        adapter = new PotAdapter(root.getContext(), arrayList);
         recyclerView.setAdapter(adapter);
+        AccVM accVM = ViewModelProviders.of(this).get(AccVM.class);
+        accVM.getAll().observe(this,this::createLiveData);
 
-        createListData();
 
 
         return root;
     }
 
-    private void createListData() {
+    private void createLiveData(List<AccessoryEntity> list){
+        for(AccessoryEntity l:list){
+
+            switch (l.getFajta()){
+                case "a":
+                    arrayList.add(new Elem(l.getFajta(), 800,"Slow","Specialized",R.drawable.black_pot,
+                            Objects.requireNonNull(getContext()).getDrawable(R.drawable.cserep10)));
+                    break;
+
+                case "b":
+                    arrayList.add(new Elem(l.getFajta(), 800,"Slow","Specialized",R.drawable.cserep10,
+                            Objects.requireNonNull(getContext()).getDrawable(R.drawable.cserep10)));
+                    break;
+
+                case "c":
+                    arrayList.add(new Elem(l.getFajta(), 600,"Fast","Rare",R.drawable.kanna5,
+                            Objects.requireNonNull(getContext()).getDrawable(R.drawable.kanna3)));
+                    break;
+
+                case "d":
+                    arrayList.add(new Elem(l.getFajta(), 600,"Fast","Rare",R.drawable.kanna5,
+                            Objects.requireNonNull(getContext()).getDrawable(R.drawable.kanna2)));
+                    break;
+
+                case "e":
+                    arrayList.add(new Elem(l.getFajta(), 600,"Fast","Rare",R.drawable.kanna5,
+                            Objects.requireNonNull(getContext()).getDrawable(R.drawable.kanna5)));
+
+                    break;
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    /*private void createListData() {
         Elem planet = new Elem("Stiegl", 8,"Slow","Specialized", getResources().getDrawable(R.drawable.cserep10));
-        planetArrayList.add(planet);
+        arrayList.add(planet);
 
         planet = new Elem("Quadra Pot", 11.2f,"Fast","Common", getResources().getDrawable(R.drawable.black_pot));
-        planetArrayList.add(planet);
+        arrayList.add(planet);
 
         planet = new Elem("Molded Rolled Rim Pot", 10,"Steady","Unique", getResources().getDrawable(R.drawable.molded_rolled_rim_pot));
-        planetArrayList.add(planet);
+        arrayList.add(planet);
 
         planet = new Elem("Plain Ceramic Pot", 12,"Steady","Common", getResources().getDrawable(R.drawable.plain_ceramic_pot));
-        planetArrayList.add(planet);
+        arrayList.add(planet);
 
         planet = new Elem("Air Pot", 7.5f,"Very Fast","Specialized", getResources().getDrawable(R.drawable.air_pot));
-        planetArrayList.add(planet);
+        arrayList.add(planet);
 
         planet = new Elem("Dodeca Pot", 10f,"Slow","Unique", getResources().getDrawable(R.drawable.dodeca_pot));
-        planetArrayList.add(planet);
+        arrayList.add(planet);
 
         planet = new Elem("Cast Bronze Pot", 12f,"Steady","Rare", getResources().getDrawable(R.drawable.cserep6));
-        planetArrayList.add(planet);
+        arrayList.add(planet);
 
         planet = new Elem("Blumentopf", 7f,"Steady","Common", getResources().getDrawable(R.drawable.cserep8));
-        planetArrayList.add(planet);
+        arrayList.add(planet);
 
         planet = new Elem("Seghettata", 12f,"Steady","Common", getResources().getDrawable(R.drawable.cserep9));
-        planetArrayList.add(planet);
+        arrayList.add(planet);
 
         planet = new Elem("Concentric Geranium", 12f,"Fast","Common", getResources().getDrawable(R.drawable.cserep7));
-        planetArrayList.add(planet);
+        arrayList.add(planet);
 
         //kanna
         planet = new Elem("Hipster Pipe", 4f,"Steady","Specialized", getResources().getDrawable(R.drawable.kanna1));
-        planetArrayList.add(planet);
+        arrayList.add(planet);
 
         planet = new Elem("Army Can", 6f,"Fast","Common", getResources().getDrawable(R.drawable.kanna2));
-        planetArrayList.add(planet);
+        arrayList.add(planet);
 
         planet = new Elem("Classic Green", 6f,"Fast","Vintage", getResources().getDrawable(R.drawable.kanna3));
-        planetArrayList.add(planet);
+        arrayList.add(planet);
 
         planet = new Elem("Tinman", 5,"Fast","Unique", getResources().getDrawable(R.drawable.kanna4));
-        planetArrayList.add(planet);
+        arrayList.add(planet);
 
         planet = new Elem("FineCan", 6,"Fast","Rare", getResources().getDrawable(R.drawable.kanna5));
-        planetArrayList.add(planet);
+        arrayList.add(planet);
 
         planet = new Elem("Mini", 0.8f,"Fast","Common", getResources().getDrawable(R.drawable.kanna6));
-        planetArrayList.add(planet);
+        arrayList.add(planet);
         adapter.notifyDataSetChanged();
-    }
+    }*/
 
 
     @Override

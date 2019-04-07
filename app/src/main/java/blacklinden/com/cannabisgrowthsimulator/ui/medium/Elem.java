@@ -27,12 +27,13 @@ public class Elem {
         this.lumen = lumen;
     }
 
-    public Elem(String name, float volume, String drain, String rarity,Drawable drawable) {
+    public Elem(String name, float volume, String drain, String rarity,int animDrawCode,Drawable drawable) {
         this.drawable = drawable;
         this.name = name;
         this.volume = volume;
         this.drain = drain;
         this.rarity = rarity;
+        this.animDrawCode=animDrawCode;
     }
 
     public String getName() {

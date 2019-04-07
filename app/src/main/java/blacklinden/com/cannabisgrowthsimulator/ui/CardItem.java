@@ -7,9 +7,11 @@ public class CardItem {
     private String strainType,gender;
     private int mTitleResource;
     private int mPic;
+    private int db;
 
-    public CardItem(int title, String thc, String yield, String flower, String strainType, String gender, int pic) {
+    public CardItem(int title, int db, String thc, String yield, String flower, String strainType, String gender, int pic) {
         mTitleResource = title;
+        this.db=db;
         this.thc = thc;
         this.yield = yield;
         this.flower = flower;
@@ -35,4 +37,6 @@ public class CardItem {
     }
 
     public int getPic() { return mPic; }
+
+    public int getDb(){return db;}
 }

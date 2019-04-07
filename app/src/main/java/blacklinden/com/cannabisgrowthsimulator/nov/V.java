@@ -12,26 +12,32 @@ public class V extends Növény {
     private float szög;
     private float x;
     private int fajta;
+
     public V(int fajta) {
         super("V");
         p=Color.WHITE;
         this.fajta=fajta;
         vízigény();
         x=1f;
+
+        Random rndm = new Random();
+        szög=rndm.nextInt(20-(-20))+(-20);
     }
 
 
     @Override
     public void élet() {
-        ép+=Kender.getInstance().cukrozó(500);
+        ép+=Kender.getInstance().cukrozó(1);
         szög();
         szín();
         xVast();
+        ép+=tápigény();
+        ép+=fényigény();
+        ép+=hőigény();
     }
 
     private void xVast(){
-        if(x<5)
-        x+=ép/1000+Kender.getInstance().nutes.P/10;
+        x++;
 
     }
 
@@ -48,24 +54,18 @@ public class V extends Növény {
 
     @Override
     public float szög() {
-        Random rndm = new Random();
-        szög=rndm.nextInt(20-(-20))+(-20);
+
 
         return szög;
     }
 
     @Override
     public int szín() {
-        switch (Kender.getInstance().getFajta()) {
-            case 1:
+
             if (ép > 1500)
                 p = Color.rgb(205, 133, 63);
-            break;
-            case 2:
-                if (ép > 3000)
-                    p = Color.rgb(205, 133, 63);
-            break;
-        }
+
+
         return p;
     }
 
@@ -81,21 +81,31 @@ public class V extends Növény {
 
     @Override
     public float fényigény() {
-        return 0;
+        if(Kender.getInstance().FF.getKelvin()<3000)
+        return Kender.getInstance().FF.getLux()/100;
+        else
+        return 1.5f;
     }
 
     @Override
     public float hőigény() {
+        float temp=Kender.getInstance().FF.hőmérséklet();
+        if(temp>28)
+            return(temp-28);
+        else
         return 0;
     }
 
     @Override
     public float tápigény() {
-        return 0;
+        if(Kender.getInstance().nutes.P>0) Kender.getInstance().nutes.P--;
+        if(Kender.getInstance().nutes.K>0) Kender.getInstance().nutes.K--;
+        return (Kender.getInstance().nutes.P+Kender.getInstance().nutes.K);
     }
 
     @Override
     public float légz() {
+
         return 0;
     }
 

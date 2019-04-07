@@ -83,7 +83,7 @@
                 app:indeterminateMinimumAngle="45"
                 app:indeterminateRotationAnimationDuration="1200"
                 app:indeterminateSweepAnimationDuration="600"
-                app:maximum="100000"
+                app:maximum="50000"
                 app:progress="5"
                 app:progressAnimationDuration="100"
                 app:startAngle="100" />

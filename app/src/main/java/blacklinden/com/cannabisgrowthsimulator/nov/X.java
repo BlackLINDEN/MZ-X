@@ -70,9 +70,8 @@ public class X extends Növény {
 
     @Override
     public void élet() {
-        ép+=Kender.getInstance().cukrozó(1);
-        if(Kender.getInstance().getRost()<=0)
-            ép--;
+        if(ép<40)ép+=Kender.getInstance().cukrozó(1);
+
         xHossz();
         //szög();
         //hőigény();

@@ -15,6 +15,7 @@ public class L extends Növény {
     private String halál;
 
 
+
     public L(int fajta) {
         super("L");
         x = 5f;
@@ -46,8 +47,7 @@ public class L extends Növény {
         }
 
         p = Color.rgb(34,139,34);
-        vízigény();
-        //v = x/vastszab;
+
     }
 
     public L init(boolean balra, int szint){
@@ -71,7 +71,7 @@ public class L extends Növény {
     public void élet() {
 
 
-        ép += Kender.getInstance().cukrozó(1);
+        if(ép<10)ép += Kender.getInstance().cukrozó(0.5f);
 
 
         if (Kender.getInstance().getRost() <= 0 ){
@@ -85,27 +85,27 @@ public class L extends Növény {
 
         }
 
-        if(Kender.getInstance().nutes.N > Kender.getInstance().nutes.P){
-            halál = "NATRIUM BURN";
+        if(Kender.getInstance().nutes.N > 18){
+            halál += "\nNITROGEN BURN";
             p=(Color.argb(255,200,100,40));
             ép--;
         }
 
         if(Kender.getInstance().nutes.K > 9 ){
-            halál = "POTASSIUM BURN";
+            halál += "\nPOTASSIUM BURN";
             p=(Color.argb(255,100,105,40));
             ép--;
         }
 
         if (Kender.getInstance().nutes.P > 20){
-            halál = "PHOSPHORUS BURN";
+            halál += "\nPHOSPHORUS BURN";
             p=(Color.argb(255,20,200,40));
             ép--;
         }
 
-        if(sötétIdő>9){
-            halál ="LIGHT DEPRIVATION";
-            ép=0;
+        if(sötétIdő>18){
+            halál +="\nLIGHT DEPRIVATION";
+            ép-=100;
         }
         if(ép<=0) {
             if(halál!=null&&!Kender.getInstance().causeofdeath.contains(halál))
@@ -113,11 +113,13 @@ public class L extends Növény {
                 Kender.getInstance().halottRészek++;
         }
         szín();
-        //szög();
+        vízigény();
         xHossz();
         légz();
         fényFelvétel();
-        //vízigény();
+        //fényigény();
+        tápigény();
+        hőigény();
     }
 
 
@@ -148,8 +150,8 @@ public class L extends Növény {
 
         if(p== Color.YELLOW&&hjl<90)
             hjl+=10;
-        else if(!Kender.getInstance().FF.beKapcs)
-            hjl=68;
+        else if(!Kender.getInstance().FF.beKapcs&&hjl>68)
+            hjl-=10;
         else if(hjl<61)
             hjl++;
         if(balra)
@@ -159,20 +161,18 @@ public class L extends Növény {
 
     @Override
     public int szín() {
+        if(Kender.getInstance().Szintet()-szint<ép/100)
+        p=Color.YELLOW;
         return p;
     }
 
     private boolean fényFelvétel(){
         if(Kender.getInstance().FF.beKapcs&&p==Color.rgb(34,139,34)) {
-            if(Kender.getInstance().FF.getKelvin()>4500&&!Kender.getInstance().flowering)
-            Kender.getInstance().fény+=Kender.getInstance().FF.getLux()/(1000*(Kender.getInstance().Szintet()-szint));
+            if(Kender.getInstance().flowering)
+                Kender.getInstance().fény+=((Kender.getInstance().FF.getLux()-Kender.getInstance().FF.getKelvin())/1000)*szint;
             else
-            Kender.getInstance().fény+=(Kender.getInstance().Szintet()-szint)/10;
-            if(Kender.getInstance().FF.getKelvin()<4000&&Kender.getInstance().flowering)
-            Kender.getInstance().fény+=Kender.getInstance().FF.getLux()/(1000*(Kender.getInstance().Szintet()-szint));
-            else
-            Kender.getInstance().fény+=(Kender.getInstance().Szintet()-szint)/10;
-                return true;
+                Kender.getInstance().fény+=((Kender.getInstance().FF.getLux()+Kender.getInstance().FF.getKelvin())/1000);//*szint;
+            return true;
         }else {
             sötétIdő++;
             return false;
@@ -186,24 +186,40 @@ public class L extends Növény {
 
     @Override
     public float vízigény() {
-        //Kender.getInstance().levonH2o(1);
+        Kender.getInstance().levonH2o();
         return 0;
     }
 
     @Override
     public float fényigény() {
+        if(Kender.getInstance().FF.beKapcs) {
+            if (Kender.getInstance().flowering && Kender.getInstance().FF.getKelvin() > 3000 ||
+                    !Kender.getInstance().flowering && Kender.getInstance().FF.getKelvin() < 3000)
+
+                Kender.getInstance().levonas((float) szint);
+        }
+
+
         return 0;
     }
 
     @Override
     public float hőigény() {
+
+        if(Kender.getInstance().FF.hőmérséklet()>30||Kender.getInstance().FF.hőmérséklet()<23)
+            Kender.getInstance().levonas(szint);
         return 0;
     }
 
     @Override
     public float tápigény() {
-
+        if(Kender.getInstance().nutes.N>easeInOutSin(ép,1,1,100))
+        Kender.getInstance().nutes.N-=easeInOutSin(ép,1,1,100);
         return 0;
+    }
+
+    private float  easeInOutSin(float t,float b , float c, float d) {
+        return -c/2 * ((float)Math.cos(Math.PI*t/d) - 1) + b;
     }
 
     @Override

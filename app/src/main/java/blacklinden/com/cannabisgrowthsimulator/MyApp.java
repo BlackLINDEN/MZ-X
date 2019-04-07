@@ -3,16 +3,20 @@ package blacklinden.com.cannabisgrowthsimulator;
 import android.app.Application;
 import android.content.Context;
 
+import blacklinden.com.cannabisgrowthsimulator.ui.typef.TypefaceUtil;
+
 public class MyApp extends Application {
 
-    private static Context context;
+    private static Application app;
 
     public void onCreate() {
         super.onCreate();
-        MyApp.context = getApplicationContext();
+        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "font/angelive.ttf");
+        MyApp.app = this;
+
     }
 
-    public static Context getAppContext() {
-        return MyApp.context;
+    public static Application getAppContext() {
+        return MyApp.app;
     }
 }

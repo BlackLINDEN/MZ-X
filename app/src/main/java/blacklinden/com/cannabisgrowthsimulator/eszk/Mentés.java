@@ -1,5 +1,6 @@
 package blacklinden.com.cannabisgrowthsimulator.eszk;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.Context;
@@ -63,13 +64,9 @@ public class Mentés {
             return sSharedPrefs;
         }
 
-        //Option 1:
-        //throw new IllegalArgumentException("Should use getInstance(Context) at least once before using this method.");
-        else return getInstance(MyApp.getAppContext());
-        //Option 2:
-        // Alternatively, you can create a new instance here
-        // with something like this:
-        // getInstance(MyCustomApplication.getAppContext());
+
+        else return getInstance(MyApp.getAppContext().getApplicationContext());
+
     }
 
     public void put(Key key, String val) {
@@ -155,7 +152,7 @@ public class Mentés {
         return getDouble(key, 0);
     }
 
-    public double getDouble(Key key, double defaultValue) {
+    private double getDouble(Key key, double defaultValue) {
         try {
             return Double.valueOf(mPref.getString(key.name(), String.valueOf(defaultValue)));
         } catch (NumberFormatException nfe) {
@@ -193,6 +190,7 @@ public class Mentés {
         doCommit();
     }
 
+    @SuppressLint("CommitPrefEdits")
     public void edit() {
         mBulkUpdate = true;
         mEditor = mPref.edit();
@@ -204,6 +202,7 @@ public class Mentés {
         mEditor = null;
     }
 
+    @SuppressLint("CommitPrefEdits")
     private void doEdit() {
         if (!mBulkUpdate && mEditor == null) {
             mEditor = mPref.edit();
