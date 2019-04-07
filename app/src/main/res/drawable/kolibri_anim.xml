@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+
+
+    <item android:drawable="@drawable/kk1" android:duration="40" />
+    <item android:drawable="@drawable/kk2" android:duration="40" />
+
+    <item android:drawable="@drawable/kk5" android:duration="40" />
+    <item android:drawable="@drawable/kk1" android:duration="40" />
+    <item android:drawable="@drawable/kk2" android:duration="40" />
+
+    <item android:drawable="@drawable/kk5" android:duration="40" />
+    <item android:drawable="@drawable/kk1" android:duration="40" />
+    <item android:drawable="@drawable/kk2" android:duration="40" />
+
+    <item android:drawable="@drawable/kk5" android:duration="40" />
+    <item android:drawable="@drawable/kk1" android:duration="40" />
+    <item android:drawable="@drawable/kk2" android:duration="40" />
+
+    <item android:drawable="@drawable/kk5" android:duration="40" />
+    <item android:drawable="@drawable/kk1" android:duration="40" />
+    <item android:drawable="@drawable/kk2" android:duration="40" />
+
+    <item android:drawable="@drawable/kk5" android:duration="40" />
+    <item android:drawable="@drawable/kk1" android:duration="40" />
+    <item android:drawable="@drawable/kk2" android:duration="40" />
+
+    <item android:drawable="@drawable/kk5" android:duration="40" />
+    <item android:drawable="@drawable/kk1" android:duration="40" />
+    <item android:drawable="@drawable/kk2" android:duration="40" />
+
+    <item android:drawable="@drawable/kk5" android:duration="40" />
+    <item android:drawable="@drawable/kk1" android:duration="40" />
+    <item android:drawable="@drawable/kk2" android:duration="40" />
+
+    <item android:drawable="@drawable/kk5" android:duration="40" />
+
+
+    <item android:drawable="@drawable/kka" android:duration="40" />
+    <item android:drawable="@drawable/kkb" android:duration="40" />
+
+    <item android:drawable="@drawable/kke" android:duration="55" />
+    <item android:drawable="@drawable/kka" android:duration="40" />
+    <item android:drawable="@drawable/kkb" android:duration="40" />
+
+    <item android:drawable="@drawable/kke" android:duration="55" />
+    <item android:drawable="@drawable/kka" android:duration="40" />
+    <item android:drawable="@drawable/kkb" android:duration="40" />
+
+    <item android:drawable="@drawable/kke" android:duration="55" />
+    <item android:drawable="@drawable/kka" android:duration="40" />
+    <item android:drawable="@drawable/kkb" android:duration="40" />
+
+    <item android:drawable="@drawable/kke" android:duration="55" />
+    <item android:drawable="@drawable/kka" android:duration="40" />
+    <item android:drawable="@drawable/kkb" android:duration="40" />
+
+    <item android:drawable="@drawable/kke" android:duration="55" />
+    <item android:drawable="@drawable/kka" android:duration="40" />
+    <item android:drawable="@drawable/kkb" android:duration="40" />
+
+    <item android:drawable="@drawable/kke" android:duration="40" />
+    <item android:drawable="@drawable/kka" android:duration="40" />
+    <item android:drawable="@drawable/kkb" android:duration="40" />
+
+    <item android:drawable="@drawable/kke" android:duration="55" />
+    <item android:drawable="@drawable/kka" android:duration="40" />
+    <item android:drawable="@drawable/kkb" android:duration="40" />
+
+    <item android:drawable="@drawable/kke" android:duration="55" />
+    <item android:drawable="@drawable/kka" android:duration="40" />
+    <item android:drawable="@drawable/kkb" android:duration="40" />
+
+    <item android:drawable="@drawable/kke" android:duration="40" />
+
+
+
+
+
+</animation-list>
