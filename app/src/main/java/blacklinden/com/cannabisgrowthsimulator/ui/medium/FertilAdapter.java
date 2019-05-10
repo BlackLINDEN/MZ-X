@@ -15,16 +15,19 @@ public class FertilAdapter extends RecyclerView.Adapter<FertilHolder>{
 
     private Context context;
     private ArrayList<Fertilizer> elemek;
-    public FertilAdapter(Context context, ArrayList<Fertilizer> elemek) {
+    private ItemClickListener listener;
+
+    public FertilAdapter(Context context, ArrayList<Fertilizer> elemek, ItemClickListener listener) {
         this.context = context;
         this.elemek = elemek;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public FertilHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.nut_row,parent, false);
-        return new FertilHolder(view);
+        return new FertilHolder(view, listener);
     }
 
 
@@ -34,11 +37,6 @@ public class FertilAdapter extends RecyclerView.Adapter<FertilHolder>{
         holder.setDetails(fertil);
     }
 
-    /**
-     * Returns the total number of items in the data set held by the adapter.
-     *
-     * @return The total number of items in this adapter.
-     */
     @Override
     public int getItemCount() {
         return elemek.size();

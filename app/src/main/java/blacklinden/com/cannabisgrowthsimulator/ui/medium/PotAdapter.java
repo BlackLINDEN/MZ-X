@@ -15,16 +15,19 @@ public class PotAdapter extends RecyclerView.Adapter<PotHolder>{
 
     private Context context;
     private ArrayList<Elem> elemek;
-    public PotAdapter(Context context, ArrayList<Elem> elemek) {
+    private ItemClickListener listener;
+
+    public PotAdapter(Context context, ArrayList<Elem> elemek, ItemClickListener listener) {
         this.context = context;
         this.elemek = elemek;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public PotHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_row,parent, false);
-        return new PotHolder(view);
+        return new PotHolder(view,listener);
     }
 
 
@@ -34,11 +37,6 @@ public class PotAdapter extends RecyclerView.Adapter<PotHolder>{
         holder.setDetails(planet);
     }
 
-    /**
-     * Returns the total number of items in the data set held by the adapter.
-     *
-     * @return The total number of items in this adapter.
-     */
     @Override
     public int getItemCount() {
         return elemek.size();

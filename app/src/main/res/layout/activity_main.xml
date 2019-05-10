@@ -14,18 +14,20 @@
     android:layout_height="wrap_content"
 
     android:orientation="vertical"
-    tools:layout_editor_absoluteY="81dp">
+   >
 
     <ImageView
         android:id="@+id/httr_tapeta"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/wooden_tiler"
         android:background="@drawable/wooden_tiler"
+        android:src="@drawable/wooden_tiler"
         app:layout_constraintBottom_toBottomOf="@+id/cserep"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/felso"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
         android:id="@+id/hamburger"
@@ -41,7 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/felso"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
@@ -54,54 +56,53 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/gmb"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <blacklinden.com.cannabisgrowthsimulator.canvas.CanvasView
         android:id="@+id/canvas"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:textColor="#FFFFFF"
+        android:layout_marginTop="64dp"
         android:tag="Turn on the Lights"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/cserep"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gmb"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/bura" />
 
     <ImageButton
         android:id="@+id/gmb"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_gravity="top|center"
-        android:layout_marginEnd="8dp"
+        android:layout_height="wrap_content"
+
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+
+        android:layout_marginEnd="8dp"
         android:background="?android:selectableItemBackgroundBorderless"
         android:onClick="cl"
-        android:tag="Turn on the lights"
         android:rotation="180"
+        android:tag="Turn on the lights"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/felso"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/bura"
         android:layout_width="77dp"
-        android:layout_height="143dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="147dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_weight="1"
         android:src="@drawable/bura02"
-        app:layout_constraintBottom_toBottomOf="@+id/gmb"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/httr_tapeta"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="@+id/felso"
         app:layout_constraintVertical_bias="0.0" />
 
     <blacklinden.com.cannabisgrowthsimulator.eszk.AlsFiok
@@ -117,9 +118,9 @@
         app:layout_constraintVertical_bias="1.0"/>
 
     <blacklinden.com.cannabisgrowthsimulator.eszk.FelsFiok
-        android:id="@+id/imageView2"
+        android:id="@+id/felso"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:elevation="25dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -129,17 +130,32 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <blacklinden.com.cannabisgrowthsimulator.eszk.LifeCycler
+        android:id="@+id/lifeCycler2"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="10dp"
         android:elevation="30dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintBottom_toBottomOf="@+id/felso"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/seedNameIndicator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        android:textColor="#fff"
+        android:padding="5dp"
+        android:elevation="47dp"
+        app:layout_constraintBottom_toTopOf="@+id/gmb"
+        app:layout_constraintEnd_toEndOf="@+id/bura"
+        app:layout_constraintStart_toStartOf="@+id/bura"
+        app:layout_constraintTop_toTopOf="@+id/felso" />
 
 
     <ImageView
@@ -215,7 +231,7 @@
         android:layout_marginTop="8dp"
         android:elevation="30dp"
         android:background="?android:selectableItemBackgroundBorderless"
-        android:src="@drawable/kanna1"
+        android:src="@drawable/kanna2"
         android:tag="Give some water"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -233,7 +249,7 @@
         android:layout_marginStart="8dp"
         android:onClick="cserépGomb"
         android:background="@drawable/uveg_ripple"
-        android:src="@drawable/rsz_cserep_old2"
+        android:src="@drawable/black_pot"
         app:layout_constraintBottom_toTopOf="@+id/also"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -293,7 +309,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/thermo" />
 
-    <ImageView
+    <TextView
         android:id="@+id/kolibri"
         android:layout_width="50dp"
         android:layout_height="38dp"
@@ -302,9 +318,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:elevation="50dp"
-
+        android:drawableBottom="@drawable/kolibri_anim"
         android:tag="Wanna roll a joint?"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintBottom_toBottomOf="@+id/felso"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/bura"

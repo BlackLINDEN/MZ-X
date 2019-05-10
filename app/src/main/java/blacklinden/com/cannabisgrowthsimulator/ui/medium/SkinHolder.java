@@ -7,41 +7,44 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.Locale;
-
 import blacklinden.com.cannabisgrowthsimulator.R;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
-import blacklinden.com.cannabisgrowthsimulator.pojo.Nutri;
 
-public class FertilHolder extends RecyclerView.ViewHolder {
-    private TextView txtName, txtDistance, txtGravity, txtDiameter;
-    private ImageView imageView;
+class SkinHolder extends RecyclerView.ViewHolder {
+    private TextView txtName;
+    private ImageView mid;
     private ItemClickListener listener;
 
-    public FertilHolder(View itemView, ItemClickListener listener) {
+    SkinHolder(View itemView, ItemClickListener listener) {
         super(itemView);
-        imageView = itemView.findViewById(R.id.cardImage);
         txtName = itemView.findViewById(R.id.txtName);
-        txtDistance = itemView.findViewById(R.id.txtDistance);
-        txtGravity = itemView.findViewById(R.id.txtGravity);
-        txtDiameter = itemView.findViewById(R.id.txtDiameter);
         this.listener = listener;
+        mid = itemView.findViewById(R.id.mid);
     }
 
-    public void setDetails(Fertilizer fertil) {
-        imageView.setImageDrawable(fertil.getDrawable());
-        txtName.setText(fertil.getName());
-        txtDistance.setText(String.format(Locale.US, "Natrium : %d", fertil.getN()));
-        txtGravity.setText(String.format(Locale.US, "Phosphorus : %d", fertil.getP()));
-        txtDiameter.setText(String.format(Locale.US, "Potassium : %d", fertil.getK()));
-        final Fertilizer elem = fertil;
+    void setDetails(Skin skin) {
+
+        mid.setImageResource(skin.getMiddleCode());
+    switch(skin.getName()){
+        case "a":
+            txtName.setText("Marleys");
+            break;
+        case "b":
+            txtName.setText("Goa");
+            break;
+        case "c":
+            txtName.setText("Hermit");
+            break;
+        case "d":
+            txtName.setText("HiTech");
+            break;
+    }
+
+
+        final Skin skn = skin;
         itemView.setOnClickListener(view -> {
 
-            String s = Mentés.getInstance().gsonra(new Nutri(elem.getName() ,elem.getDrawCode(),elem.getN(),elem.getP(),elem.getK()));
-
-            Mentés.getInstance().put(Mentés.Key.SAMPLE_NUT,s);
-
+            Mentés.getInstance().put(Mentés.Key.SKN,skn.getName());
 
             view.animate()
                     .translationX(100)
@@ -74,7 +77,6 @@ public class FertilHolder extends RecyclerView.ViewHolder {
                     }).start();
 
             listener.onItemClick();
-
         });
     }
 }

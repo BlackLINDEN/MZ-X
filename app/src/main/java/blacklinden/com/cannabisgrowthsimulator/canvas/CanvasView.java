@@ -159,9 +159,11 @@ public class CanvasView extends View {
 
 
                     case "V":
+
                         t.mentés(c, (int)t.x,(int)t.y,(int)delta_theta);
                         t.virágzás(ch.vastagság()*(metrix/59),c,ch.szín());
                         t.betöltés(c);
+
                         break;
 
                     case "AV":

@@ -19,23 +19,60 @@ public class Termény {
         this.fajta=fajta;
         switch (fajta) {
             case 1:
-            this.fajtaString ="weed1";
-            break;
+                this.fajtaString ="Skunk";
+                break;
             case 2:
-            this.fajtaString="weed2";
-            break;
+                this.fajtaString="Haze";
+                break;
             case 3:
-            this.fajtaString="weed3";
-            break;
+                this.fajtaString="Balkan Rose";
+                break;
             case 4:
-            this.fajtaString="weed4";
-            break;
+                this.fajtaString="BlueBerry";
+                break;
             case 5:
-            this.fajtaString="weed5";
-            break;
+                this.fajtaString="Northern Light";
+                break;
             case 6:
-            this.fajtaString="weed6";
-            break;
+                this.fajtaString="Grape Ape";
+                break;
+            case 7:
+                this.fajtaString ="AK47";
+                break;
+            case 8:
+                this.fajtaString="Cheese";
+                break;
+            case 9:
+                this.fajtaString="Amnesia";
+                break;
+            case 10:
+                this.fajtaString="S.Lemon Haze";
+                break;
+            case 11:
+                this.fajtaString="White Widow";
+                break;
+            case 12:
+                this.fajtaString="Gelato";
+                break;
+            case 13:
+                this.fajtaString ="Ghost OG";
+                break;
+            case 14:
+                this.fajtaString="Cherry Diesel";
+                break;
+            case 15:
+                this.fajtaString="Permafrost";
+                break;
+            case 16:
+                this.fajtaString="Pink Mango";
+                break;
+            case 17:
+                this.fajtaString="Pineapple";
+                break;
+            case 18:
+                this.fajtaString="G.White Shark";
+                break;
+
         }
         this.cbd=cbd;
         this.thc=thc;

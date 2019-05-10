@@ -46,6 +46,7 @@ public final class Kender {
     private String föld="0";
     private int levonasElottiMagSzam;
     private String strFajta;
+    public int fajtaDrawCode;
 
     private Kender() {
 
@@ -58,7 +59,7 @@ public final class Kender {
         this.szint=1;
         this.LL = new Lég();
         this.VV = new Víz();
-        CC = new Cserép(1.5f,3,"coco");
+        CC = new Cserép();
 
 
         nutes = new Nutes();
@@ -91,23 +92,33 @@ public final class Kender {
         rostbanCukorTárolás();
         switch (fajta) {
             case 1:
+            case 7:
+            case 18:
                 if (ism == 400) flowering = true;
                 break;
             case 2:
+            case 8:
+            case 17:
                 if (ism == 380) flowering = true;
                 break;
-
+            case 9:
             case 3:
+            case 16:
                 if (ism == 380) flowering = true;
                 break;
-
+            case 10:
             case 4:
+            case 13:
                 if (ism == 380) flowering = true;
                 break;
+            case 11:
             case 5:
+            case 14:
                 if (ism == 300) flowering = true;
                 break;
+            case 12:
             case 6:
+            case 15:
                 if (ism == 325) flowering = true;
                 break;
         }
@@ -137,17 +148,92 @@ public final class Kender {
         return instance;
     }
 
-    public void fajta(int fajta, String strFajta, int levonasElottiMagSzam ){
-        this.fajta=fajta;
-        this.strFajta=strFajta;
+    public void fajta( String strFajta, int levonasElottiMagSzam ){
+
+        switch (strFajta) {
+            case "a":
+                fajta=1;
+                this.strFajta="Skunk";
+                break;
+            case "b":
+                fajta=2;
+                this.strFajta="Afghani";
+                break;
+            case "c":
+              fajta=3;
+              this.strFajta="Balkan Rose";
+                break;
+            case "d":
+                fajta=4;
+                this.strFajta="BlueBerry";
+                break;
+            case "e":
+                fajta=5;
+                this.strFajta="Northern Light";
+                break;
+            case "f":
+                fajta=6;
+                this.strFajta="Grape Ape";
+                break;
+            case "g":
+                fajta=7;
+                this.strFajta="AK 47";
+                break;
+            case "h":
+                fajta=8;
+                this.strFajta="Cheese";
+                break;
+            case "i":
+                fajta=9;
+                this.strFajta="Amnesia";
+                break;
+            case "j":
+                fajta=10;
+                this.strFajta="Super Lemon Haze";
+                break;
+            case "k":
+                fajta=11;
+                this.strFajta="White Widow";
+                break;
+            case "l":
+                fajta=12;
+                this.strFajta="Gelato";
+                break;
+            case "m":
+                fajta=13;
+                this.strFajta="Ghost OG";
+                break;
+            case "n":
+                fajta=14;
+                this.strFajta="Cherry Diesel";
+                break;
+            case "o":
+                fajta=15;
+                this.strFajta="Permafrost";
+                break;
+            case "p":
+                fajta=16;
+                this.strFajta="Pink Mango";
+                break;
+            case "q":
+                fajta=17;
+                this.strFajta="Pineapple";
+                break;
+            case "r":
+                fajta=18;
+                this.strFajta="Great White Shark";
+                break;
+        }
+
         this.levonasElottiMagSzam=levonasElottiMagSzam;
         verem = new Verem(fajta);
     }
 
     public void setFöld(String föld){
-        this.föld=föld;
+        CC.setFöld(föld);
 
     }
+
 
     public int getFajta(){
         return fajta;
@@ -217,8 +303,6 @@ public final class Kender {
     }
     public void initRost(){this.rost=100;}
     void levonH2o(){if(h2o>0) h2o-= 1;}
-    public int getBox(){return box;}
-    public void setBox(int i){box=i;}
     public String getFöld(){return föld;}
     public String getStrFajta(){return strFajta;}
     public int getLevonasElottiMagSzam(){return levonasElottiMagSzam;}

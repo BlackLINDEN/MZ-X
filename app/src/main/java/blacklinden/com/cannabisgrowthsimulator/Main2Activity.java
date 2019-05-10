@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
@@ -59,6 +60,7 @@ import blacklinden.com.cannabisgrowthsimulator.serv.LService;
 import blacklinden.com.cannabisgrowthsimulator.sql.LampaVM;
 import blacklinden.com.cannabisgrowthsimulator.sql.MagVM;
 import blacklinden.com.cannabisgrowthsimulator.sql.ScoreVM;
+import blacklinden.com.cannabisgrowthsimulator.sql.SoilVM;
 import blacklinden.com.cannabisgrowthsimulator.sql.VegtermekViewModel;
 import blacklinden.com.cannabisgrowthsimulator.ui.CardItem;
 import blacklinden.com.cannabisgrowthsimulator.ui.CardItem2;
@@ -84,23 +86,24 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     private CardPagerAdapter2 mCardAdapter2;
     private ShadowTransformer mCardShadowTransformer;
     private Kolibri kolibriAnimator;
-    public static final String[] sss = {"B1","B2","B3","B4","B5","B6"};
     private boolean pakkokNyitva=false;
     private CardView score;
-    private TextView achievTv,stashedTv,rackTV,jarTv,buy;
+    private TextView achievTv,stashedTv,rackTV,jarTv,kolibriTV;
     private RecyclerView recyclerView;
     private SelectableAdapter adapter;
     private VegtermekViewModel viewModel;
     private Gson gson;
     private GrinderTartalomCV grinderTartalomCV;
-    private ImageView grinder,logo,kolibriTV;
+    private ImageView grinder,logo;
     private Bong bong;
     private RelativeLayout fiok;
     private Button grindIt;
-    private FloatingActionButton fab;
+    private Button fab;
     private int currentXp;
+    private View[] tutorialTmb=null;
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,7 +131,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         }
 
        if(Mentés.getInstance().getString(Mentés.Key.TESZT_OBJ,"o").equals("o")){
-            Lamps lamps = new Lamps("HPS Grow","HALOGEN",600,2500,10200,
+            Lamps lamps = new Lamps("HPS Grow","HPS",600,2500,10200,
                     R.drawable.avd_anim,R.drawable.narancs_csova);
 
             String lampsString = Mentés.getInstance().gsonra(lamps);
@@ -148,20 +151,20 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
 
         kolibriTV = findViewById(R.id.kolibri);
-        kolibriTV.setBackgroundResource(R.drawable.kolibri_anim);
-        AnimationDrawable kolibri = (AnimationDrawable) kolibriTV.getBackground();
+        //kolibriTV.setBackgroundResource(R.drawable.kolibri_anim);
+        AnimationDrawable kolibri = (AnimationDrawable) kolibriTV.getCompoundDrawables()[3];
         kolibri.start();
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
         final float w = point.x;
         kolibriAnimator = new Kolibri(w, kolibriTV);
         //if(Mentés.getInstance().getString(Mentés.Key.BELEP,"0").equals("0")) kolibriAnimator.setTutorial_e(true);
-        kolibriAnimator.setState("repdes");
+        kolibriAnimator.setState("repdes",null);
         kolibriAnimator.run();
 
         mViewPager = findViewById(R.id.viewPager);
-        buy = findViewById(R.id.buyme);
-        ((CheckBox) findViewById(R.id.checkBox)).setOnCheckedChangeListener(this);
+
+
 
 
 
@@ -171,14 +174,17 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         magVM.getAll().observe(this, magEntities -> {
             mCardAdapter.addLiveData(magEntities);
             mCardAdapter.notifyDataSetChanged();
-            Toast.makeText(this,"magVM_observe",Toast.LENGTH_SHORT).show();
         });
 
 
 
         mCardAdapter2 = new CardPagerAdapter2();
-        mCardAdapter2.addCardItem(new CardItem2(R.string.boxtitle,"textile",R.drawable.old_box));
-        mCardAdapter2.addCardItem(new CardItem2(R.string.boxtitle_1,"textile",R.drawable.old_box));
+
+        SoilVM soilVM = ViewModelProviders.of(this).get(SoilVM.class);
+        soilVM.getAll().observe(this,soilEntities -> {
+            mCardAdapter2.addLiveData(soilEntities);
+            mCardAdapter2.notifyDataSetChanged();
+        });
 
         mCardShadowTransformer = new ShadowTransformer(mViewPager, mCardAdapter);
 
@@ -194,23 +200,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         mViewPager.setCurrentItem(3);
 
 
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if(buy.getVisibility()==View.VISIBLE)
-                buy.setText(Integer.toString((position+1)*10));
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
 
         logo = findViewById(R.id.imageView);
         ViewTreeObserver vto = logo.getViewTreeObserver();
@@ -227,10 +217,9 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             }
         });
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(
-                this, 3, GridLayoutManager.HORIZONTAL, false);
+        GridLayoutManager layoutManager = new GridLayoutManager(this,1,GridLayoutManager.HORIZONTAL,false);
         recyclerView = findViewById(R.id.selection_list);
-        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setLayoutManager(layoutManager);
 
 
         TextView xp = findViewById(R.id.xp);
@@ -243,15 +232,8 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
             if (scoreEntity != null) {
                 currentXp = scoreEntity.getXp();
-            }
-            if (scoreEntity != null) {
                 xp.setText(Integer.toString(scoreEntity.getXp()));
-            }
-
-            if (scoreEntity != null) {
                 coins.setText(Integer.toString(scoreEntity.getScore()));
-            }
-            if (scoreEntity != null) {
                 achievTv.setText(scoreEntity.getRank());
             }
 
@@ -273,8 +255,9 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         bong.setListener(new Bong.BongListener() {
             @Override
             public void inhale() {
-
-                kolibriAnimator.flyTo(bong);
+                //kolibriAnimator.setState("smoke", bong);
+                //kolibriAnimator.flyTo(bong);
+                Toast.makeText(getApplicationContext(),"bong.end",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -287,9 +270,24 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                         .setSpeedModuleAndAngleRange(0.01f,0.05f,10,80)
                         .emitWithGravity(kolibriTV,Gravity.CENTER_VERTICAL,counter,1000);
 
-                scoreVM.updateXP(currentXp+100);
+                scoreVM.updateXP(currentXp+=600);
 
 
+            }
+
+            @Override
+            public void end(int i) {
+                kolibriAnimator.setState("repdes",null);
+                scoreVM.updateXP(currentXp+=i);
+                new ParticleSystem(Main2Activity.this,20,R.drawable.xp_particle,4500L)
+                        .setFadeOut(4500)
+                        .setRotationSpeed(50)
+                        .setScaleRange(1,1.2f)
+                        .setSpeedModuleAndAngleRange(0.01f,0.02f,140,15)
+                        .emitWithGravity(kolibriTV,Gravity.CENTER_VERTICAL,i,5000);
+
+
+                bong.animate().rotation(0).start();
             }
 
         });
@@ -337,15 +335,15 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             public void onFilled() {
                 if(grindIt.getVisibility()==View.GONE)
                  grindIt.setVisibility(View.VISIBLE);
-                Toast.makeText(getBaseContext(),"onFill",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onGrinded() {
-                if(grindIt.getVisibility()==View.VISIBLE)
+                if(grindIt.getVisibility()==View.VISIBLE) {
+                    Toast.makeText(getApplicationContext(),"onGrind",Toast.LENGTH_SHORT).show();
                     grindIt.setVisibility(View.GONE);
-                kolibriAnimator.setState("tutorial");
-                Toast.makeText(getBaseContext(),"onGrind",Toast.LENGTH_SHORT).show();
+                    kolibriAnimator.setState("smoke",bong);
+                }
             }
         });
         
@@ -358,12 +356,16 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
         viewModel.getAll().observe(this, vegtermekek -> {
             // Update the cached copy of the words in the adapter.
-            adapter.setLiveValues(vegtermekek);
-            stashedTv.setText(Float.toString(vegtermekek.size()));
+
+            if (vegtermekek != null) {
+                adapter.setLiveValues(vegtermekek);
+                stashedTv.setText(Float.toString(vegtermekek.size()));
+            }
         });
 
         service = new Intent(Main2Activity.this, LService.class);
 
+        tutorialTmb = new View[]{findViewById(R.id.cardTypeBtn),findViewById(R.id.shop),findViewById(R.id.dryer),fab,findViewById(R.id.box),findViewById(R.id.start)};
 
     }
 
@@ -372,7 +374,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         super.onResume();
         insert();
         updateStaticTV();
-        kolibriAnimator.setState("repdes");
+        kolibriAnimator.setState("repdes",null);
 
     }
 
@@ -467,8 +469,8 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
 
     public void tutorialEvent(View v){
-        kolibriAnimator.setTutorial_e(true);
-        kolibriAnimator.flyTo(findViewById(R.id.start));
+        kolibriAnimator.setTutorial_e(tutorialTmb);
+        //kolibriAnimator.flyTo(findViewById(R.id.start));
 
     }
 
@@ -488,13 +490,11 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             mViewPager.setVisibility(View.VISIBLE);
             magv.setVisibility(View.GONE);
             findViewById(R.id.box).setVisibility(View.GONE);
-            buy.setVisibility(View.VISIBLE);
-            buy.setText(Integer.toString((mViewPager.getCurrentItem()+1)*10));
             kolibriAnimator.flyTo(mViewPager);
 
         }
         else {
-            Toast.makeText(this,"Operation In-Progress",Toast.LENGTH_SHORT).show();
+
             kolibriAnimator.flyTo(magv);
         }
     }
@@ -505,8 +505,11 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         magv.setVisibility(View.VISIBLE);
         findViewById(R.id.box).setVisibility(View.VISIBLE);
         findViewById(R.id.start).setVisibility(View.VISIBLE);
-        buy.setVisibility(View.GONE);
         mViewPager.setAdapter(null);
+        if(Kender.getInstance().getFajta()>0)
+            kolibriAnimator.flyTo( findViewById(R.id.start));
+        else
+            kolibriAnimator.flyTo(magv);
     }
 
 
@@ -549,8 +552,8 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
         if(i>0){
         Kender.getInstance();
-        Kender.getInstance().fajta(mViewPager.getCurrentItem() + 1,numberToCharacter(mViewPager.getCurrentItem()),i);
-        Toast.makeText(this, i+" " + (mViewPager.getCurrentItem() + 1), Toast.LENGTH_SHORT).show();
+        Kender.getInstance().fajta(mCardAdapter.getCardViewAt(mViewPager.getCurrentItem()).findViewById(R.id.flower).getTag().toString(),i);
+        Kender.getInstance().fajtaDrawCode=mCardAdapter.getDrawCode(mViewPager.getCurrentItem());
         kolibriAnimator.flyTo(findViewById(R.id.shop));
 
             mViewPager.setVisibility(View.GONE);
@@ -558,7 +561,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             magv.setVisibility(View.VISIBLE);
             findViewById(R.id.box).setVisibility(View.VISIBLE);
             findViewById(R.id.start).setVisibility(View.VISIBLE);
-            buy.setVisibility(View.GONE);
             mViewPager.setAdapter(null);
 
         }else kolibriAnimator.flyTo(findViewById(R.id.seedsLeft));
@@ -571,10 +573,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    public String numberToCharacter(int i) {
-        String[] stmb = {"a","b","c","d","e","f"};
-       return String.valueOf(stmb[i]);
-    }
 
     @Override
     public void onClick(View view) {
@@ -615,17 +613,20 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     }
 
     public void setBox(View v){
+        int i = ((int) mCardAdapter2.getCardViewAt(mViewPager.getCurrentItem()).findViewById(R.id.typeTV).getTag());
+        String fld = mCardAdapter2.getCardViewAt(mViewPager.getCurrentItem()).findViewById(R.id.titleTextView).getTag().toString();
+        if(i>0&&!fld.equals("dirt")) {
+            Kender.getInstance().setFöld(fld);
+            mViewPager.setAdapter(null);
+            mViewPager.setVisibility(View.GONE);
+            score.setVisibility(View.VISIBLE);
+            magv.setVisibility(View.VISIBLE);
+            findViewById(R.id.box).setVisibility(View.VISIBLE);
+            findViewById(R.id.start).setVisibility(View.VISIBLE);
+            kolibriAnimator.flyTo(findViewById(R.id.shop));
+        }
 
-        Kender.getInstance().setBox(mViewPager.getCurrentItem()+1);
 
-        mViewPager.setAdapter(null);
-        mViewPager.setVisibility(View.GONE);
-        score.setVisibility(View.VISIBLE);
-        magv.setVisibility(View.VISIBLE);
-        findViewById(R.id.box).setVisibility(View.VISIBLE);
-        findViewById(R.id.start).setVisibility(View.VISIBLE);
-        kolibriAnimator.flyTo(findViewById(R.id.shop));
-        buy.setVisibility(View.GONE);
 
     }
 
@@ -644,12 +645,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         logoGrinderOpener(pakkokNyitva);
     }
 
-    public void buy(View view) {
-      /*  if(mViewPager.getAdapter() instanceof CardPagerAdapter){
 
-        }
-*/
-    }
 
 
     @Override
@@ -667,7 +663,12 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
             findViewById(R.id.frameGrinder).setVisibility(View.VISIBLE);
             grinderTartalomCV.fillUp(Teknős.flowerStrain(
-                    this, selectableItem.getFajta()), updateStashConsumption((int)selectableItem.getMennyi()),selectableItem.getId()
+                    this, selectableItem.getFajta()), updateStashConsumption((int)selectableItem.getMennyi()),
+                    selectableItem.getId(),
+                    selectableItem.getFajta(),
+                    selectableItem.getMinőség(),
+                    selectableItem.getThc(),
+                    selectableItem.getCbd()
             );
 
 
@@ -812,10 +813,9 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
                         viewModel.update(grinderTartalomCV.getStashID(),grinderTartalomCV.getLevonando());
+                        bong.fillUp(grinderTartalomCV.getFajta(),grinderTartalomCV.getThc(),grinderTartalomCV.getCbd(),grinderTartalomCV.getMnsg());
                         grinderTartalomCV.dispose();
                         grinderTartalomCV.invalidate();
-                        bong.fillUp();
-
                         }
 
                 }).start();

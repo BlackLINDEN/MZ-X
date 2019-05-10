@@ -27,6 +27,8 @@ public class GrinderTartalomCV extends View {
     private int db;
     private int levonando;
     private int stashID;
+    private String fajta,mnsg;
+    private float thc,cbd;
     private GrinderListener listener;
 
 
@@ -79,13 +81,17 @@ public class GrinderTartalomCV extends View {
         //listener=null;
     }
 
-    public void fillUp(Bitmap bitmap,int[] db,int stashID){
+    public void fillUp(Bitmap bitmap,int[] db,int stashID,String fajta, String mnsg, float thc, float cbd){
         isEmpty=false;
         bitmapWeakReference = new WeakReference<>(bitmap);
         this.db=db[1];
         levonando=db[0];
         shaderPaint.setShader(new BitmapShader(bitmap,Shader.TileMode.REPEAT,Shader.TileMode.REPEAT));
         this.stashID=stashID;
+        this.fajta=fajta;
+        this.mnsg=mnsg;
+        this.thc=thc;
+        this.cbd=cbd;
         invalidate();
     }
 
@@ -165,6 +171,14 @@ public class GrinderTartalomCV extends View {
     public int getStashID(){return stashID;}
 
     public float getDB(){return db;}
+
+    public float getThc(){return thc;}
+
+    public float getCbd(){return cbd;}
+
+    public String getFajta(){return fajta;}
+
+    public String getMnsg(){return mnsg;}
 
     public int getLevonando(){return levonando;}
 

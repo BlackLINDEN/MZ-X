@@ -26,31 +26,43 @@ public class X extends Növény {
         szög=0;
         switch(fajta){
             case 1 :
+            case 16:
                 hosszszab=15;
                 vastszab=0.04f;
                 szögszab=50;
                 break;
             case 2:
+            case 11:
+            case 15:
                 hosszszab=25;
                 vastszab=0.07f;
                 szögszab=60;
                 break;
             case 3:
+            case 10:
+            case 17:
                 hosszszab=12;
                 vastszab=0.05f;
                 szögszab=20;
                 break;
             case 4:
+            case 9:
+            case 18:
                 hosszszab=10;
                 vastszab=0.06f;
                 szögszab=55;
                 break;
             case 5:
+            case 8:
+            case 13:
                 hosszszab=13;
                 vastszab=0.05f;
                 szögszab=61;
                 break;
             case 6:
+            case 7:
+            case 12:
+            case 14:
                 hosszszab=9;
                 vastszab=0.08f;
                 szögszab=47;

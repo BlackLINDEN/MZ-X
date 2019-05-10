@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0ae9cf"
+    android:background="@drawable/ic_haromszogesdi"
     tools:context=".ShopActivity">
 
     <TextView
@@ -43,11 +43,73 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/coins" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@color/kozepNari"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/vp1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="vpScroll"
+            android:padding="5dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_magok"
+            android:tag="0" />
+
+        <ImageView
+            android:id="@+id/vp2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="vpScroll"
+            android:padding="5dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_tapszer"
+            android:tag="1" />
+
+        <ImageView
+            android:id="@+id/vp3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="vpScroll"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_lampa"
+            android:padding="5dp"
+            android:tag="2" />
+
+        <ImageView
+            android:id="@+id/vp4"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="vpScroll"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_cserep"
+            android:padding="5dp"
+            android:tag="3" />
+
+        <ImageView
+            android:id="@+id/vp5"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="vpScroll"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_background"
+            android:padding="5dp"
+            android:tag="4" />
+    </LinearLayout>
 
 
 

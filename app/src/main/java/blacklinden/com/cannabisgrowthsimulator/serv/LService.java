@@ -190,18 +190,11 @@ public class LService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         handler.removeCallbacks(oo);
         ism=6;
-
         al.clear();
         Kender.getInstance().clear();
         IS_SERVICE_RUNNING=false;
-
-
-        Toast.makeText(this,"IM DEAD =(",Toast.LENGTH_SHORT).show();
-
-
     }
 
 
@@ -209,16 +202,9 @@ public class LService extends Service {
     public Runnable oo = new Runnable() {
         @Override
         public void run() {
-            //figyi.H2O(Kender.getInstance().getH2o());
-            //figyi.NAP(ism);
-
-
                 ism();
-                System.out.println("ISM " + ism);
-
                 A();
-
-                handler.postDelayed(oo, 600);
+                handler.postDelayed(oo, 2000);
         }
     };
 
@@ -355,9 +341,6 @@ public class LService extends Service {
 
         public void vége(){
             handler.removeCallbacks(oo);
-
-
-            System.out.println("<<<<<<||::.VÉGE.::||>>>>>>");
 
             halott=Kender.getInstance().halott_e;
 

@@ -45,6 +45,7 @@ public class Tutorial implements KolibriState{
     @Override
     public void flyTo(View v) {
         if(kolibri!=null) {
+            kolibri.setText("");
             int[] hely = new int[2];
             int[] helyv = new int[2];
             kolibri.getKolibri().getLocationOnScreen(hely);
@@ -55,10 +56,8 @@ public class Tutorial implements KolibriState{
             int x0 = helyv[0];
             int y0 = helyv[1];
 
-
             float X = (x0 + x1) / 3;
             float Y = (y0 + y1) / 3;
-
 
             path.moveTo(x1, y1);
             path.quadTo(X, Y, x0, y0);
@@ -66,11 +65,10 @@ public class Tutorial implements KolibriState{
             animator.setDuration(2000);
             animator.setInterpolator(tul);
             animator.start();
-            if (x0 < kolibri.getScreenWidth() / 2)
-                kolibri.getKolibri().setScaleX(-1f);
-            else kolibri.getKolibri().setScaleX(1f);
 
             path.reset();
+            if (kolibri.getKolibri().getScaleX()==-1f)
+                kolibri.getKolibri().setScaleX(1f);
 
             final View cv = v;
 
@@ -101,21 +99,11 @@ public class Tutorial implements KolibriState{
     @Override
     public void csirip(View view) {
 
-        int[] hely = new int[2];
-        int[] helyv = new int[2];
         if(kolibri!=null) {
-            kolibri.getKolibri().getLocationOnScreen(hely);
-            view.getLocationOnScreen(helyv);
-            kolibri.getBubbleLayout().setArrowDirection(ArrowDirection.LEFT);
-            TextView tv = kolibri.getBubbleLayout().findViewById(R.id.vmiTV);
-            tv.setText(view.getTag().toString());
-
-            kolibri.getPopupWindow()
-                    .showAtLocation(
-                            kolibri.getKolibri(),
-                            Gravity.NO_GRAVITY, hely[0],
-                            hely[1] - kolibri.getKolibri().getHeight() / 2
-                    );
+            if(view.getTag()!=null)
+         kolibri.setText(view.getTag().toString());
+            else
+         kolibri.setText("tag is null ma niga");
         }
     }
 

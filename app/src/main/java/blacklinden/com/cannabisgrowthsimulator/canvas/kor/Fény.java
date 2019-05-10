@@ -29,7 +29,7 @@ public class Fény {
 
 
      this.irány=0;
-        defT =new Lamps("HPS Grow","HALOGEN",600,2500,10200, R.drawable.avd_anim,R.drawable.narancs_csova);
+        defT =new Lamps("HPS Grow","HPS",600,2500,10200, R.drawable.avd_anim,R.drawable.narancs_csova);
      setDrawCode("");
 
 
@@ -52,7 +52,7 @@ public class Fény {
         }else{
 
             Mentés.getInstance().put(Mentés.Key.TESZT_OBJ,Mentés.getInstance().gsonra(
-                    new Lamps("HPS Grow","HALOGEN",600,2500,10200,
+                    new Lamps("HPS Grow","HPS",600,2500,10200,
                     R.drawable.avd_anim,R.drawable.narancs_csova
                     )
             ));

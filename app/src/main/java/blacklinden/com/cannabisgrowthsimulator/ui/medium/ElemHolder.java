@@ -1,13 +1,12 @@
 package blacklinden.com.cannabisgrowthsimulator.ui.medium;
 
+import android.animation.Animator;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.Locale;
-
 import blacklinden.com.cannabisgrowthsimulator.R;
 import blacklinden.com.cannabisgrowthsimulator.eszk.Mentés;
 import blacklinden.com.cannabisgrowthsimulator.pojo.Lamps;
@@ -15,8 +14,11 @@ import blacklinden.com.cannabisgrowthsimulator.pojo.Lamps;
 public class ElemHolder extends RecyclerView.ViewHolder {
     private TextView txtName, txtDistance, txtGravity, txtDiameter;
     private ImageView imageView;
-    public ElemHolder(View itemView) {
+    private ItemClickListener listener;
+
+    public ElemHolder(View itemView, ItemClickListener listener) {
         super(itemView);
+        this.listener=listener;
         imageView = itemView.findViewById(R.id.cardImage);
         txtName = itemView.findViewById(R.id.txtName);
         txtDistance = itemView.findViewById(R.id.txtDistance);
@@ -39,8 +41,38 @@ public class ElemHolder extends RecyclerView.ViewHolder {
             String s = Mentés.getInstance().gsonra(lamps);
 
             Mentés.getInstance().put(Mentés.Key.TESZT_OBJ,s);
+            view.animate()
+                    .translationX(100)
+                    .setDuration(200)
+                    .setInterpolator(new LinearInterpolator())
+                    .setListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animator) {
 
-Toast.makeText(itemView.getContext(),"ITEM"+elem.getName(),Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animator) {
+                            view.animate()
+                                    .translationX(0)
+                                    .setDuration(200)
+                                    .setInterpolator(new LinearInterpolator())
+                                    .start();
+
+                        }
+                        @Override
+                        public void onAnimationCancel(Animator animator) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animator) {
+
+                        }
+                    }).start();
+
+            listener.onItemClick();
         });
     }
+
 }

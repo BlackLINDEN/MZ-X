@@ -13,8 +13,7 @@
         android:id="@+id/imageView5"
         android:layout_width="0dp"
         android:layout_height="0dp"
-
-        android:layout_marginBottom="32dp"
+        android:background="@drawable/tin_tileable"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -22,25 +21,41 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="0dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:elevation="45dp"
+        android:background="@drawable/ic_polc_main"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.0" />
+
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/scoreGomb"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="center"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        android:backgroundTint="#5e1e02"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#68594f"
         android:elevation="0dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toTopOf="@+id/start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintTop_toBottomOf="@+id/video">
 
 
         <FrameLayout
@@ -51,11 +66,11 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/selection_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/ic_shiny_shelves"
-                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center|start"
+                android:layout_margin="9dp"
+                android:background="@drawable/ic_recybox"
                 android:visibility="gone" />
 
 
@@ -68,64 +83,12 @@
                 android:elevation="25dp"
                 android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/achiev"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/stashedLL"
-
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="36dp"
-                    android:elevation="30dp"
-                    android:padding="5dp"
-                    android:text="NOVICE"
-                    android:textAlignment="center"
-                    android:textSize="36sp" />
-
-                <TextView
-                    android:id="@+id/coins"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_toStartOf="@+id/achiev"
-                    android:drawableTop="@drawable/ic_coin"
-                    android:elevation="30dp"
-                    android:padding="5dp"
-                    android:textAlignment="center"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/xp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_toStartOf="@+id/achiev"
-                    android:layout_toEndOf="@+id/achiev"
-                    android:drawableTop="@drawable/ic_coin"
-                    android:elevation="30dp"
-                    android:padding="5dp"
-                    android:textAlignment="center"
-                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:id="@+id/stashedLL"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
+                    android:layout_centerInParent="true"
                     android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
@@ -171,109 +134,156 @@
 
         </FrameLayout>
 
-        <android.support.design.widget.FloatingActionButton
+        <Button
             android:id="@+id/fab"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="end|center_vertical"
-            android:onClick="fiokajtoNyitas" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:backgroundTint="@color/black"
+            android:elevation="25dp"
+            android:onClick="fiokajtoNyitas"
+            android:text="Stash"
+            android:textAlignment="center"
+            android:textColor="#fff" />
+
     </android.support.v7.widget.CardView>
+
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="137dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/kenderfelsocimke"
-        android:gravity="center"
 
-        android:orientation="horizontal"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-        <Button
-            android:id="@+id/cardTypeBtn"
+        <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@drawable/httr_gomb"
-            android:elevation="10dp"
-            android:onClick="menuActivity"
-            android:tag="Inventory"
-            android:text="INVENTORY" />
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/tuto"
+            <TextView
+                android:id="@+id/coins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:drawableTop="@drawable/ic_kenderkoin"
+                android:elevation="46dp"
+                android:padding="5dp"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/achiev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:elevation="46dp"
+                android:padding="5dp"
+                android:text="VVVVVVVVV"
+                android:textAlignment="center"
+                android:textSize="36sp" />
+
+            <TextView
+                android:id="@+id/xp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="7dp"
+                android:drawableTop="@drawable/ic_coin"
+                android:elevation="46dp"
+                android:padding="5dp"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@drawable/httr_gomb"
-            android:elevation="10dp"
-            android:onClick="tutorialEvent"
-            android:tag="Tutorial"
-            android:text="TUTORIAL" />
+            android:layout_height="wrap_content">
 
-        <Button
+            <ImageButton
+                android:id="@+id/tutor"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="15dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp"
+                android:background="@drawable/httr_gomb"
+                android:elevation="10dp"
+                android:onClick="tutorialEvent"
+                android:tag="Tutorial"
+                android:text="TUTORIAL" />
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@drawable/httr_gomb"
-            android:elevation="10dp"
-            android:onClick="szarito"
-            android:tag="Most akkor drájer vagy sztes?"
-            android:text="Drier" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/shop"
-            android:layout_margin="5dp"
-            android:background="@drawable/httr_gomb"
-            android:elevation="10dp"
-            android:tag="vége"
-            android:onClick="openShop"
-            android:text="Shop" />
+            <ImageButton
+                android:id="@+id/cardTypeBtn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="15dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp"
+                android:background="@drawable/httr_gomb"
+                android:elevation="10dp"
+                android:onClick="menuActivity"
+                android:src="@drawable/ic_inventory"
+                android:tag="Inventory"
+                android:text="INVENTORY" />
 
 
+            <ImageButton
+                android:id="@+id/dryer"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="15dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp"
+                android:background="@drawable/httr_gomb"
+                android:elevation="10dp"
+                android:onClick="szarito"
+                android:src="@drawable/ic_dryer"
+                android:tag="Most akkor drájer vagy sztes?"
+                android:text="Dryer" />
+
+            <ImageButton
+                android:id="@+id/shop"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="15dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp"
+                android:layout_marginStart="0dp"
+                android:background="@drawable/httr_gomb"
+                android:elevation="10dp"
+                android:onClick="openShop"
+                android:src="@drawable/ic_shop"
+                android:tag="vége"
+                android:text="Shop" />
+
+        </TableRow>
     </LinearLayout>
 
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="match_parent"
-        android:layout_height="77dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/alscimke"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_szegely"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_bias="1.0" />
-
-
-    <TextView
-        android:id="@+id/buyme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:textAlignment="center"
-        android:visibility="gone"
-        android:onClick="buy"
-        app:layout_constraintBottom_toTopOf="@+id/checkBox"
-        app:layout_constraintEnd_toEndOf="@+id/imageView4"
-        app:layout_constraintStart_toStartOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="@+id/imageView4" />
-
-
-
-
-
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
@@ -289,7 +299,7 @@
         android:padding="5dp"
         android:paddingBottom="30dp"
         android:tag="Pick your strain"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -308,8 +318,8 @@
         android:layout_height="100dp"
         android:layout_gravity="start"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:src="@drawable/logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -321,17 +331,20 @@
         android:id="@+id/grindIt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/grindit_httr"
-        android:elevation="50dp"
+        android:elevation="60dp"
         android:onClick="grindIt"
         android:text="@string/grind_it"
         android:textColor="#f5f5f5"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <FrameLayout
         android:id="@+id/frameGrinder"
@@ -381,14 +394,14 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/httr_start"
         android:elevation="10dp"
         android:onClick="startSim"
         android:src="@drawable/lillogo"
         android:tag="Enter the Grow Room"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/checkBox"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
@@ -411,7 +424,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/start"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
@@ -430,62 +443,46 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/start"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_bias="1.0" />
-
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Magnify"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="29dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:onClick="deleteSQL"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <blacklinden.com.cannabisgrowthsimulator.ui.grind.Bong
         android:id="@+id/bong"
         android:layout_width="50dp"
         android:layout_height="88dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:src="@drawable/ic_bong_001"
         android:tag="smoke weed"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
         app:layout_constraintEnd_toStartOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
 
-    <ImageView
+    <ImageButton
+        android:id="@+id/video"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/bong"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
         android:id="@+id/kolibri"
-        android:tag="Wanna roll a joint?"
-        android:layout_width="50dp"
-        android:layout_height="38dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:elevation="50dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:drawableBottom="@drawable/kolibri_anim"
+        android:tag="Wanna roll a joint?"
+        app:layout_constraintBottom_toTopOf="@+id/scoreGomb"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"

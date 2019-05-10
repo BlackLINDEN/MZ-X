@@ -21,7 +21,7 @@ public class F extends Növény {
         super("F");
         this.fajta=fajta;
         switch (fajta){
-            case 1:
+            case 1: case 7: case 18:
                 if(oldHajt)
                     hosszSzabályzó=15;
                 else
@@ -30,7 +30,7 @@ public class F extends Növény {
                 vastszab=0.08f;
             break;
 
-            case 2:
+            case 2: case 8: case 17:
                 if(oldHajt)
                     hosszSzabályzó=10;
                 else
@@ -38,7 +38,7 @@ public class F extends Növény {
                 vastszab=0.1f;
             break;
 
-            case 3:
+            case 3: case 9: case 16:
                 if(oldHajt)
                     hosszSzabályzó=6;
                 else
@@ -46,7 +46,7 @@ public class F extends Növény {
                 vastszab=0.09f;
             break;
 
-            case 4:
+            case 4: case 10: case 13:
                 if(oldHajt)
                     hosszSzabályzó=8;
                 else
@@ -54,14 +54,14 @@ public class F extends Növény {
                 vastszab=0.075f;
             break;
 
-            case 5:
+            case 5: case 11: case 14:
                 if(oldHajt)
                     hosszSzabályzó=12;
                 else
                     hosszSzabályzó=22;
                 vastszab=0.078f;
             break;
-            case 6:
+            case 6: case 12: case 15:
                 if(oldHajt)
                     hosszSzabályzó=12;
                 else
@@ -80,22 +80,22 @@ public class F extends Növény {
         //this.szg=szg>Kender.getInstance().FF.irány?szg-1:szg+1;
         if(szg!=Kender.getInstance().FF.irány){
             switch (fajta) {
-                case 1:
+                case 1: case 7: case 13:
                     this.szg = szg / 2;
                 break;
-                case 2:
+                case 2: case 8: case 14:
                     this.szg = szg/4;
                 break;
-                case 3:
+                case 3: case 9: case 15:
                     this.szg = szg/3.4f;
                     break;
-                case 4:
+                case 4: case 10: case 16:
                     this.szg = szg/1.2f;
                     break;
-                case 5:
+                case 5: case 11: case 17:
                     this.szg =szg*1.2f;
                     break;
-                case 6:
+                case 6: case 12: case 18:
                     this.szg = szg/2.7f;
                     break;
             }

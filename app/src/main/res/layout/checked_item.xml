@@ -2,7 +2,7 @@
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/checked_text_item"
     android:layout_width="100dp"
-    android:layout_height="wrap_content"
+    android:layout_height="100dp"
     android:paddingStart="8dp"
     android:gravity="center_vertical"
     android:textStyle="bold"

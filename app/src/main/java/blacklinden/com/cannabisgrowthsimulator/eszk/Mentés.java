@@ -32,6 +32,7 @@ public class Mentés {
         TESZT_OBJ,
         SAMPLE_SZINT,
         SAMPLE_ZSETON,
+        SKN,
         B1,
         B2,
         B3,

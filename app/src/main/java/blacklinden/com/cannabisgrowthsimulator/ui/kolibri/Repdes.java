@@ -38,8 +38,8 @@ public class Repdes implements KolibriState {
 
     @Override
     public void flyTo(View view) {
-        //if(view==null){
-
+        if(view==null){
+            csirip(null);
             int[] hely = new int[2];
             kolibri.getKolibri().getLocationOnScreen(hely);
 
@@ -61,12 +61,14 @@ public class Repdes implements KolibriState {
             if (x0 < kolibri.getScreenWidth() / 2)
                 kolibri.getKolibri().setScaleX(-1f);
             else kolibri.getKolibri().setScaleX(1f);
-        //}else if(view.getId()==R.id.bong) kolibri.setState("tutorial");
+        }else
+            kolibri.setState("tutorial",view);
     }
 
     @Override
     public void csirip(View view) {
-
+        //if(kolibri.getKolibri()!=null)
+            kolibri.setText("");
     }
 
     @Override

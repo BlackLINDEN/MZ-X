@@ -18,22 +18,44 @@
         it’s the perfect all-natural mix for container grown plants!</string>
 
     <string name="kill">Kill Plant</string>
-
     <string name="back">Main Menu</string>
     <string name="title_activity_menu">MenuActivity</string>
     <string name="inventory">Inventory</string>
     <string name="colibri">Hummingbird</string>
-    <string name="shit">YugoSkunk</string>
+    <string name="shit">Balkan Rose</string>
     <string name="blueb">BlueBerry</string>
     <string name="boxtitle_1">Secret Jardín</string>
     <string name="boxtitle">Grandma\'s Cupboard</string>
     <string name="snap">Snapshot</string>
     <string name="title_northernlight">Northern Light</string>
     <string name="grapeape">Grape Ape</string>
+    <string name="cheese">Cheese</string>
+    <string name="amnesia">Amnesia</string>
+    <string name="lemon">Super Lemon Haze</string>
+    <string name="ak">AK 47</string>
+    <string name="widow">White Widow</string>
+    <string name="gelato">Gelato</string>
+    <string name="ghost">Ghost OG</string>
+    <string name="cdiesel">Cherry Diesel</string>
     <string name="grind_it">Grind It</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dirt_soil">Dirt from Outside</string>
+    <string name="locked">Locked</string>
+    <string name="permfrst">Permafrost</string>
+    <string name="pinkmng">Pink Mango</string>
+    <string name="pineapple">Pineapple</string>
+    <string name="gws">Great White Shark</string>
+    <string name="afgan">Afghani</string>
+
+    <string name="a"><![CDATA[<h1>Feith_Electric</h1> <p>Our reliable friend. An absolutely amazing solution for the ones who need no compromise. </p>]]></string>
+    <string name="b"><![CDATA[<h1>Pro_Star_Dual</h1> <p>The future is here. Very low consumption, strong buff. </p><p> But don’t stare in it. It might leave a black spot in your eyesight for a while. </p>]]></string>
+    <string name="d"><![CDATA[<p>CFL_Grow</p> <p>Our spiral-shape friend. Buying one is expensive, </p><p> but lasts long and won’t heat up our plants surrounding. </p>]]></string>
+    <string name="c"><![CDATA[<p>HPS_Grow</p> <p>The well-known all-rounder. A basic component of </p><p> all semi-illegal garden. Eats a lot of watts while keeps </p><p> your tent warm. Times changing tough. Time to switch to LED. </p>]]></string>
+    <string name="e"><![CDATA[<p>Desk_Bulb</p> <p>Every beginning is difficult. Low consumption pairs with low efficiency. </p><p> It’s good for a night-time read. </p>]]></string>
+    <string name="f"><![CDATA[<p>Sodium_1000</p> <p>The good old lamp known from the PE classes. </p><p> Takes forever to fully heat it up, but once it’s on, it’s a beast. </p><p> Must be careful around them young plants. </p><p> Always have some ventilation on. </p>]]></string>
+    <string name="g"><![CDATA[<p>Volatile HPS</p> <p>Heats up its environment but gives a heavy boost to the </p><p> plant beneath. Halts progress of younger plants. </p>]]></string>
+    <string name="h"><![CDATA[<p>Metal_Halide_Bulb</p> <p>This bulb’s always a good choice, but there’s a </p><p> small chance of explosion. </p><p> Be care my friend. Always wear goggles. </p>]]></string>
 
 
 </resources>

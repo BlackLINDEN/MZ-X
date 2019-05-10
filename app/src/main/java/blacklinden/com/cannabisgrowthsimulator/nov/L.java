@@ -21,26 +21,38 @@ public class L extends Növény {
         x = 5f;
         switch (fajta){
             case 1:
+            case 7:
+            case 15:
                 hosszszab=30;
                 vastszab=6;
             break;
             case 2:
+            case 8:
+            case 16:
                 hosszszab=40;
                 vastszab=5.6f;
                 break;
             case 3:
+            case 9:
+            case 17:
                 hosszszab=28;
                 vastszab=6.8f;
                 break;
             case 4:
+            case 10:
+            case 13:
+            case 14:
                 hosszszab=35;
                 vastszab=5f;
                 break;
             case 5:
+            case 11:
+            case 18:
                 hosszszab=38;
                 vastszab=6.2f;
                 break;
             case 6:
+            case 12:
                 hosszszab=38;
                 vastszab=6.2f;
                 break;

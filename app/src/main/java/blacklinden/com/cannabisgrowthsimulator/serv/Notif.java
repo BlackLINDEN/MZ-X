@@ -12,7 +12,7 @@ import android.support.annotation.RequiresApi;
 public class Notif extends ContextWrapper {
 
     private NotificationManager mManager;
-    public static final String ANDROID_CHANNEL_ID = "com.chikeandroid.tutsplustalerts.ANDROID";
+    public static final String ANDROID_CHANNEL_ID = "com.blcklndn";
 
     public static final String ANDROID_CHANNEL_NAME = "ANDROID CHANNEL";
 

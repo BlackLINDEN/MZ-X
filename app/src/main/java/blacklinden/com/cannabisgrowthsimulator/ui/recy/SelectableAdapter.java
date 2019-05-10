@@ -27,8 +27,6 @@ public SelectableAdapter(SelectableViewHolder.OnItemSelectedListener listener, b
         this.listener = listener;
         this.isMultiSelectionEnabled = isMultiSelectionEnabled;
 
-        //mValues = new ArrayList<>();
-
         }
 
  public void setLiveValues(List<Vegtermek> vegtermekek){

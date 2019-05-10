@@ -16,30 +16,27 @@ public class ElemAdapter extends RecyclerView.Adapter<ElemHolder>{
 
     private Context context;
     private ArrayList<Elem> elemek;
-    public ElemAdapter(Context context, ArrayList<Elem> elemek) {
+    private ItemClickListener listener;
+
+    public ElemAdapter(Context context, ArrayList<Elem> elemek, ItemClickListener listener) {
         this.context = context;
         this.elemek = elemek;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public ElemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_row,parent, false);
-        return new ElemHolder(view);
+        return new ElemHolder(view, listener);
     }
 
-
     @Override
-public void onBindViewHolder(@NonNull ElemHolder holder, int position) {
-    Elem planet = elemek.get(position);
-    holder.setDetails(planet);
-}
+    public void onBindViewHolder(@NonNull ElemHolder holder, int position) {
+        Elem planet = elemek.get(position);
+        holder.setDetails(planet);
+    }
 
-    /**
-     * Returns the total number of items in the data set held by the adapter.
-     *
-     * @return The total number of items in this adapter.
-     */
     @Override
     public int getItemCount() {
         return elemek.size();
